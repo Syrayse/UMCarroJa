@@ -1,41 +1,45 @@
 public class Localizacao {
 
-    private float x;
-    private float y;
+    private double x;
+    private double y;
 
 
-
-    public float getX() {
-        return x;
+    public Localizacao(){
+        this.x = 0;
+        this.y = 0;
     }
 
-    public void setX(float x) {
+    public Localizacao(double x, double y) {
         this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
         this.y = y;
     }
 
-    public Localizacao(){
-        this.x=0;
-        this.y=0;
-    }
-
-    public Localizacao(float x , float y){
-        this.x=x;
-        this.y=y;
-    }
-
     public Localizacao(Localizacao outraLoc){
-        this.x=outraLoc.getX();
-        this.y=outraLoc.getY();
+        this.x = outraLoc.getX();
+        this.y = outraLoc.getY();
     }
 
+    public double getX() {
+        return this.x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getDistance(Localizacao outraLoc) {
+        return Math.sqrt(Math.pow(this.x - outraLoc.getX(), 2) + Math.pow(this.y - outraLoc.getY(), 2));
+    }
+
+    @Override
     public boolean equals(Object o){
         if (o==this) return true;
         if(o.getClass()!=this.getClass() || o==null) return false;
@@ -43,13 +47,13 @@ public class Localizacao {
         return (k.getX()==this.x && k.getY()==this.y);
     }
 
+    @Override
     public String toString(){
         return ("X = " + this.getX() + " Y = " + this.getY() +"\n" );
     }
 
     public Localizacao clone(){
-        Localizacao k = new Localizacao(this);
-        return k;
+        return new Localizacao(this);
     }
 
 

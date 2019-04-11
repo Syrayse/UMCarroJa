@@ -33,7 +33,7 @@ public class Pessoa {
     }
 
     public String getMail() {
-        return mail;
+        return this.mail;
     }
 
     public void setMail(String mail) {
@@ -41,7 +41,7 @@ public class Pessoa {
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public void setNome(String nome) {
@@ -49,7 +49,7 @@ public class Pessoa {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -57,7 +57,7 @@ public class Pessoa {
     }
 
     public String getMorada() {
-        return morada;
+        return this.morada;
     }
 
     public void setMorada(String morada) {
@@ -65,7 +65,7 @@ public class Pessoa {
     }
 
     public Date getDataNascimento() {
-        return dataNascimento;
+        return this.dataNascimento;
     }
 
     public void setDataNascimento(Date dataNascimento) {

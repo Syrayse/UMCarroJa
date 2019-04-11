@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Veiculo {
@@ -36,7 +35,7 @@ public class Veiculo {
     }
 
     public Localizacao getPosicao() {
-        return posicao;
+        return this.posicao;
     }
 
     public void setPosicao(Localizacao posicao) {
@@ -44,7 +43,7 @@ public class Veiculo {
     }
 
     public double getVelocidade() {
-        return velocidade;
+        return this.velocidade;
     }
 
     public void setVelocidade(double velocidade) {
@@ -52,7 +51,7 @@ public class Veiculo {
     }
 
     public double getPricePorKM() {
-        return pricePorKM;
+        return this.pricePorKM;
     }
 
     public void setPricePorKM(double pricePorKM) {
@@ -60,7 +59,7 @@ public class Veiculo {
     }
 
     public double getClassificacao() {
-        return classificacao;
+        return this.classificacao;
     }
 
     public void setClassificacao(double classificacao) {
@@ -106,8 +105,4 @@ public class Veiculo {
                 this.historico.equals(veiculo.getHistorico());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(proprietario, posicao, velocidade, pricePorKM, classificacao, historico);
-    }
 }
