@@ -1,92 +1,98 @@
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Aluguer implements Comparable<Aluguer> {
 
-    private String clienteEmail;
-    private String proprietarioEmail;
-    private int distanciaPercorrida;
-    private LocalDateTime data;
-    private double totalPago;
+    private long idCliente;
+    private long idProprietario;
     private long idVeiculo;
+    private double distanciaPercorrida;
+    private double totalPago;
+    private LocalDateTime data;
 
     public Aluguer() {
-        this.clienteEmail = "";
-        this.proprietarioEmail = "";
-        this.distanciaPercorrida = 0;
-        this.data = LocalDateTime.now();
-        this.totalPago = 0.0;
-        this.idVeiculo = -1;
+        idCliente = -1;
+        idProprietario = -1;
+        idVeiculo = -1;
+        distanciaPercorrida = 0.0;
+        totalPago = 0.0;
+        data = LocalDateTime.now();
     }
 
     public Aluguer(LocalDateTime data) {
-        this.clienteEmail = "";
-        this.proprietarioEmail = "";
-        this.distanciaPercorrida = 0;
+        idCliente = -1;
+        idProprietario = -1;
+        idVeiculo = -1;
+        distanciaPercorrida = 0.0;
+        totalPago = 0.0;
         this.data = data;
-        this.totalPago = 0.0;
-        this.idVeiculo = -1;
     }
 
-
-    public Aluguer(String clienteEmail, String proprietarioEmail, int distanciaPercorrida, LocalDateTime data, double totalPago, long idVeiculo) {
-        this.clienteEmail = clienteEmail;
-        this.proprietarioEmail = proprietarioEmail;
-        this.distanciaPercorrida = distanciaPercorrida;
-        this.data = data;
-        this.totalPago = totalPago;
+    public Aluguer(long idCliente, long idProprietario, long idVeiculo, double distanciaPercorrida, double totalPago, LocalDateTime data) {
+        this.idCliente = idCliente;
+        this.idProprietario = idProprietario;
         this.idVeiculo = idVeiculo;
+        this.distanciaPercorrida = distanciaPercorrida;
+        this.totalPago = totalPago;
+        this.data = data;
     }
 
-    public Aluguer(Aluguer aluguer) {
-        this.clienteEmail = aluguer.getClienteEmail();
-        this.proprietarioEmail = aluguer.getProprietarioEmail();
-        this.distanciaPercorrida = aluguer.getDistanciaPercorrida();
-        this.data = aluguer.getData();
-        this.totalPago = aluguer.getTotalPago();
-        this.idVeiculo = aluguer.getIdVeiculo();
+    public long getIdCliente() {
+        return idCliente;
     }
 
-    public String getClienteEmail() {
-        return clienteEmail;
-    }
-
-    public String getProprietarioEmail() {
-        return proprietarioEmail;
-    }
-
-    public int getDistanciaPercorrida() {
-        return distanciaPercorrida;
-    }
-
-    public LocalDateTime getData() {
-        return data;
-    }
-
-    public double getTotalPago() {
-        return totalPago;
+    public long getIdProprietario() {
+        return idProprietario;
     }
 
     public long getIdVeiculo() {
         return idVeiculo;
     }
 
-    public Aluguer clone() {
-        return new Aluguer(this);
+    public double getDistanciaPercorrida() {
+        return distanciaPercorrida;
+    }
+
+    public double getTotalPago() {
+        return totalPago;
+    }
+
+    public LocalDateTime getData() {
+        return data;
     }
 
     public String toString() {
         final StringBuffer sb = new StringBuffer("Aluguer{");
-        sb.append("clienteEmail='").append(clienteEmail).append('\'');
-        sb.append(", proprietarioEmail='").append(proprietarioEmail).append('\'');
-        sb.append(", distanciaPercorrida=").append(distanciaPercorrida);
-        sb.append(", data=").append(data.toString());
-        sb.append(", totalPago=").append(totalPago);
+        sb.append("idCliente='").append(idCliente).append('\'');
+        sb.append(", idProprietario='").append(idProprietario).append('\'');
         sb.append(", idVeiculo=").append(idVeiculo);
+        sb.append(", distanciaPercorrida=").append(distanciaPercorrida);
+        sb.append(", totalPago=").append(totalPago);
+        sb.append(", data=").append(data.toString());
         sb.append('}');
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aluguer aluguer = (Aluguer) o;
+        return this.idCliente == aluguer.getIdCliente() &&
+                this.idProprietario == aluguer.getIdProprietario() &&
+                this.idVeiculo == aluguer.getIdVeiculo() &&
+                Double.compare(aluguer.getDistanciaPercorrida(), this.distanciaPercorrida) == 0 &&
+                Double.compare(aluguer.getTotalPago(), this.totalPago) == 0 &&
+                this.data.equals(aluguer.getData());
+    }
+
     public int compareTo(Aluguer outroAluguer) {
-        return this.data.compareTo(outroAluguer.getData());
+        int result = this.data.compareTo(outroAluguer.getData());
+
+        if(result == 0)
+            result = this.equals(outroAluguer) ? 0 : 1;
+
+        return result;
+
     }
 }
