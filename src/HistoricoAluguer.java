@@ -17,10 +17,10 @@ public class HistoricoAluguer {
     }
 
     public HistoricoAluguer(HistoricoAluguer historico) {
-        this.historico = historico.getSet();
+        this.historico = historico.getHistorico();
     }
 
-    public Set<Aluguer> getSet() {
+    public Set<Aluguer> getHistorico() {
         return new TreeSet<>(this.historico);
     }
 
@@ -34,7 +34,6 @@ public class HistoricoAluguer {
         this.historico.add(aluguer);
     }
 
-
     public HistoricoAluguer clone() {
         return new HistoricoAluguer(this);
     }
@@ -43,7 +42,7 @@ public class HistoricoAluguer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         HistoricoAluguer that = (HistoricoAluguer) o;
-        return this.historico.equals(that.getSet());
+        return this.historico.equals(that.getHistorico());
     }
 
     @Override

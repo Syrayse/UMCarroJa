@@ -2,6 +2,7 @@ import java.time.LocalDateTime;
 
 public class Pessoa {
 
+    private long id;
     private String mail;
     private String nome;
     private String password;
@@ -10,6 +11,7 @@ public class Pessoa {
     private HistoricoAluguer historicoAluguer;
 
     public Pessoa() {
+        id = -1;
         mail = "";
         nome = "";
         password = "";
@@ -18,7 +20,8 @@ public class Pessoa {
         historicoAluguer = new HistoricoAluguer();
     }
 
-    public Pessoa(String mail, String nome, String password, String morada, LocalDateTime dataNascimento) {
+    public Pessoa(long id, String mail, String nome, String password, String morada, LocalDateTime dataNascimento) {
+        this.id = id;
         this.mail = mail;
         this.nome = nome;
         this.password = password;
@@ -27,22 +30,18 @@ public class Pessoa {
         this.historicoAluguer = new HistoricoAluguer();
     }
 
-    public Pessoa(String mail, String nome, String password, String morada, LocalDateTime dataNascimento, HistoricoAluguer historicoAluguer) {
-        this.mail = mail;
-        this.nome = nome;
-        this.password = password;
-        this.morada = morada;
-        this.dataNascimento = dataNascimento;
-        this.historicoAluguer = historicoAluguer.clone();
-    }
-
     public Pessoa(Pessoa pessoa) {
+        this.id = pessoa.getId();
         this.mail = pessoa.getMail();
         this.nome = pessoa.getNome();
         this.password = pessoa.getPassword();
         this.morada = pessoa.getMorada();
         this.dataNascimento = pessoa.getDataNascimento();
         this.historicoAluguer = pessoa.getHistoricoAluguer();
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getMail() {
@@ -69,6 +68,10 @@ public class Pessoa {
         return historicoAluguer.clone();
     }
 
+    public void addAluguer(Aluguer aluguer) {
+        this.historicoAluguer.addAluguer(aluguer);
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -83,6 +86,7 @@ public class Pessoa {
 
     public String toString() {
         final StringBuffer sb = new StringBuffer("Pessoa{");
+        sb.append("id='").append(id).append('\'');
         sb.append("mail='").append(mail).append('\'');
         sb.append(", nome='").append(nome).append('\'');
         sb.append(", password='").append(password).append('\'');

@@ -7,14 +7,8 @@ public class Cliente extends Pessoa {
     private double destreza;
     private double numeroTotalKmPercorridos;
 
-    public Cliente(Localizacao localizacao, int destreza, int numeroTotalKmPercorridos) {
-        this.localizacao = localizacao;
-        this.destreza = destreza;
-        this.numeroTotalKmPercorridos = numeroTotalKmPercorridos;
-    }
-
-    public Cliente(String mail, String nome, String password, String morada, LocalDateTime dataNascimento, Localizacao localizacao) {
-        super(mail, nome, password, morada, dataNascimento);
+    public Cliente(long id, String mail, String nome, String password, String morada, LocalDateTime dataNascimento, Localizacao localizacao) {
+        super(id, mail, nome, password, morada, dataNascimento);
         this.localizacao = localizacao;
         this.destreza = 100.0;
         this.numeroTotalKmPercorridos = 0.0;
@@ -35,7 +29,6 @@ public class Cliente extends Pessoa {
         return destreza;
     }
 
-
     public double getNumeroTotalKmPercorridos() {
         return numeroTotalKmPercorridos;
     }
@@ -43,7 +36,7 @@ public class Cliente extends Pessoa {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Cliente{");
-        sb.append("info=").append(super.equals())
+        sb.append("info=").append(super.toString());
         sb.append(", localizacao=").append(localizacao.toString());
         sb.append(", destreza=").append(destreza);
         sb.append(", numeroTotalKmPercorridos=").append(numeroTotalKmPercorridos);

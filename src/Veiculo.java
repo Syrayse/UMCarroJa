@@ -1,17 +1,28 @@
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 public class Veiculo {
 
-    private Proprietario proprietario;
+    private long idVeiculo;
+    private long idProprietario;
     private Localizacao posicao;
     private double velocidade;
     private double pricePorKM;
     private double classificacao;
-    private List<Aluguer> historico;
+    private HistoricoAluguer historico;
 
-    public Veiculo(Proprietario proprietario, Localizacao posicao, double velocidade, double pricePorKM, double classificacao) {
-        this.proprietario = proprietario.clone();
+    public Veiculo() {
+        idVeiculo = -1;
+        idProprietario = -1;
+        posicao = new Localizacao();
+        velocidade = -1.0;
+        pricePorKM = -1.0;
+        classificacao = -1.0;
+        historico = new HistoricoAluguer();
+    }
+
+    public Veiculo(long idVeiculo, long idProprietario, Localizacao posicao, double velocidade, double pricePorKM, double classificacao) {
+        this.idVeiculo = idVeiculo;
+        this.idProprietario = idProprietario;
         this.posicao = posicao.clone();
         this.velocidade = velocidade;
         this.pricePorKM = pricePorKM;
@@ -19,19 +30,28 @@ public class Veiculo {
     }
 
     public Veiculo(Veiculo veiculo) {
-        this.proprietario = veiculo.getProprietario();
+        this.idVeiculo = veiculo.getIdVeiculo();
+        this.idProprietario = veiculo.getIdProprietario();
         this.posicao = veiculo.getPosicao();
         this.velocidade = veiculo.getVelocidade();
         this.pricePorKM = veiculo.getPricePorKM();
         this.classificacao = veiculo.getClassificacao();
     }
 
-    public Proprietario getProprietario() {
-        return proprietario;
+    public long getIdVeiculo() {
+        return idVeiculo;
     }
 
-    public void setProprietario(Proprietario proprietario) {
-        this.proprietario = proprietario.clone();
+    public void setIdVeiculo(long idVeiculo) {
+        this.idVeiculo = idVeiculo;
+    }
+
+    public long getIdProprietario() {
+        return idProprietario;
+    }
+
+    public void setIdProprietario(long idProprietario) {
+        this.idProprietario = idProprietario;
     }
 
     public Localizacao getPosicao() {
@@ -66,18 +86,15 @@ public class Veiculo {
         this.classificacao = classificacao;
     }
 
-    public List<Aluguer> getHistorico() {
-        return this.historico.stream().map(Aluguer::clone).collect(Collectors.toList());
-    }
-
-    public void setHistorico(List<Aluguer> historico) {
-        this.historico = historico.stream().map(Aluguer::clone).collect(Collectors.toList());
+    public Set<Aluguer> getHistorico() {
+        return this.historico.getHistorico();
     }
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Veiculo{");
-        sb.append("proprietario=").append(proprietario.toString());
+        sb.append("idVeiculo=").append(idVeiculo);
+        sb.append("idProprietario=").append(idProprietario);
         sb.append(", posicao=").append(posicao.toString());
         sb.append(", velocidade=").append(velocidade);
         sb.append(", pricePorKM=").append(pricePorKM);
@@ -100,7 +117,8 @@ public class Veiculo {
         return Double.compare(veiculo.velocidade, velocidade) == 0 &&
                 Double.compare(veiculo.pricePorKM, pricePorKM) == 0 &&
                 Double.compare(veiculo.classificacao, classificacao) == 0 &&
-                this.proprietario.equals(veiculo.getProprietario()) &&
+                this.idVeiculo == veiculo.getIdVeiculo() &&
+                this.idProprietario == veiculo.getIdProprietario() &&
                 this.posicao.equals(veiculo.getPosicao()) &&
                 this.historico.equals(veiculo.getHistorico());
     }
