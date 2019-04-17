@@ -28,7 +28,8 @@ public class Aluguer implements Comparable<Aluguer> {
         this.data = data;
     }
 
-    public Aluguer(long idCliente, long idProprietario, long idVeiculo, double distanciaPercorrida, double totalPago, LocalDateTime data) {
+    public Aluguer(long idCliente, long idProprietario, long idVeiculo,
+                double distanciaPercorrida, double totalPago, LocalDateTime data) {
         this.idCliente = idCliente;
         this.idProprietario = idProprietario;
         this.idVeiculo = idVeiculo;
