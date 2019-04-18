@@ -1,3 +1,5 @@
+package UMCarroJa.PublicInfo;
+
 import java.time.LocalDate;
 
 public class InfoPublicaCliente extends InfoPublicaPessoa

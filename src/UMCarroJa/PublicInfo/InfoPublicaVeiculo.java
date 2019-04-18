@@ -1,3 +1,5 @@
+package UMCarroJa.PublicInfo;
+
 public class InfoPublicaVeiculo extends InfoPublica
 {    
     private long idProprietario;

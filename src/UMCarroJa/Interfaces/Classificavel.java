@@ -1,3 +1,5 @@
+package UMCarroJa.Interfaces;
+
 @FunctionalInterface
 public interface Classificavel
 {

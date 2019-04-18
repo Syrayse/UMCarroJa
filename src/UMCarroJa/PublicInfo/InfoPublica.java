@@ -1,3 +1,5 @@
+package UMCarroJa.PublicInfo;
+
 public abstract class InfoPublica
 {
     private long id;

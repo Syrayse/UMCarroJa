@@ -1,3 +1,5 @@
+package UMCarroJa.lib;
+
 public class Localizacao {
 
     private double x;
