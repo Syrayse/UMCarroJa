@@ -3,7 +3,7 @@ package UMCarroJa.PublicInfo;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public abstract class InfoPublicaPessoa extends InfoPublica
+public class InfoPublicaPessoa extends InfoPublica
 {
     private String email;
     private String nome;
@@ -21,6 +21,13 @@ public abstract class InfoPublicaPessoa extends InfoPublica
         this.email = email;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
+    }
+
+    public InfoPublicaPessoa(InfoPublicaPessoa info) {
+        super(info);
+        email = info.getEmail();
+        nome = info.getNome();
+        dataNascimento = info.getDataNascimento();
     }
 
     public String getEmail() {
@@ -53,5 +60,9 @@ public abstract class InfoPublicaPessoa extends InfoPublica
             .append(this.dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         return sb.toString();
     }
-    
+
+    public InfoPublicaPessoa clone() {
+        return new InfoPublicaPessoa(this);
+    }
+
 }
