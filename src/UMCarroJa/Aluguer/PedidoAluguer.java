@@ -3,8 +3,6 @@ package UMCarroJa.Aluguer;
 import UMCarroJa.PublicInfo.InfoPublicaPessoa;
 import UMCarroJa.lib.Localizacao;
 
-import java.util.Objects;
-
 public class PedidoAluguer
 {
     private InfoPublicaPessoa informacaoCliente;
