@@ -36,6 +36,10 @@ public class HistoricoAluguer {
         this.historico.add(aluguer);
     }
 
+    public int size() {
+        return historico.size();
+    }
+
     public HistoricoAluguer clone() {
         return new HistoricoAluguer(this);
     }
