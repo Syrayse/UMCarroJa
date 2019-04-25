@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public abstract class Veiculo implements Classificavel
 {
 
-    InfoPublicaVeiculo info;
+    private InfoPublicaVeiculo info;
     private long nClassificacoes;
     private double precoPorKM;
     private double fiabilidade;
