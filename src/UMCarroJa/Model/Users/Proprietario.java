@@ -1,6 +1,8 @@
 package UMCarroJa.Users;
 
 import UMCarroJa.Interfaces.Classificavel;
+import java.util.Set
+import java.util.HashSet
 
 import java.time.LocalDate;
 
@@ -8,6 +10,7 @@ public class Proprietario extends Pessoa implements Classificavel {
 
     private long nClassificacao;
     private double classificacao;
+    private Set<Integer> veiculos;
 
     public Proprietario(){
         super();
@@ -33,6 +36,10 @@ public class Proprietario extends Pessoa implements Classificavel {
 
     public long getnClassifiacacao(){
         return this.nClassificacao;
+    }
+
+    public Set<Integer> getVeiculos() {
+    	return new HashSet(veiculos);
     }
 
 
