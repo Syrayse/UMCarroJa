@@ -1,7 +1,8 @@
-package UMCarroJa.PublicInfo;
+package UMCarroJa.Model.PublicInfo;
 
-public class InfoPublicaVeiculo extends InfoPublica
-{
+import java.io.Serializable;
+
+public class InfoPublicaVeiculo extends InfoPublica implements Serializable {
     private long idProprietario;
     private double velocidadePorKM;
     private String matricula;

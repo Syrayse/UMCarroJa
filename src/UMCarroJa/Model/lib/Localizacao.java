@@ -1,6 +1,8 @@
-package UMCarroJa.lib;
+package UMCarroJa.Model.lib;
 
-public class Localizacao {
+import java.io.Serializable;
+
+public class Localizacao implements Serializable {
 
     private double x;
     private double y;

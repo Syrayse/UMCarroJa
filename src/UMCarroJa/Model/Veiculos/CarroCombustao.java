@@ -1,8 +1,10 @@
-package UMCarroJa.Veiculos;
+package UMCarroJa.Model.Veiculos;
 
-import UMCarroJa.lib.Localizacao;
+import UMCarroJa.Model.lib.Localizacao;
 
-public class CarroCombustao extends Carro {
+import java.io.Serializable;
+
+public class CarroCombustao extends Carro implements Serializable {
 
     private int qtdActual;
     private int qtdMax;
@@ -15,7 +17,7 @@ public class CarroCombustao extends Carro {
 
     public CarroCombustao (long idVeiculo, long idProprietario, double velocidadePorKM,
                            String matricula, String marca, String modelo, double precoPorKM,
-                   Localizacao localizacao, boolean temEspera, String fazmovvv,int qtdActual,int qtdMax){
+                           Localizacao localizacao, boolean temEspera, String fazmovvv, int qtdActual, int qtdMax) {
 
         super(idVeiculo,idProprietario, velocidadePorKM,
         matricula,  marca, modelo,precoPorKM,

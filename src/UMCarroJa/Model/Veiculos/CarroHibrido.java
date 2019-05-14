@@ -1,10 +1,10 @@
-package UMCarroJa.Veiculos;
+package UMCarroJa.Model.Veiculos;
 
 import UMCarroJa.lib.Localizacao;
 
-import java.security.PublicKey;
+import java.io.Serializable;
 
-public class CarroHibrido extends Carro {
+public class CarroHibrido extends Carro implements Serializable {
 
     private int qtdActualgas;
     private int qtdMaxgas;

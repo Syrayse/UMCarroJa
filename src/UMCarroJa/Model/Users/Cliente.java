@@ -1,10 +1,11 @@
-package UMCarroJa.Users;
+package UMCarroJa.Model.Users;
 
-import UMCarroJa.lib.Localizacao;
+import UMCarroJa.Model.lib.Localizacao;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Cliente extends Pessoa {
+public class Cliente extends Pessoa implements Serializable {
 
     private Localizacao localizacao;
     private int destreza;
