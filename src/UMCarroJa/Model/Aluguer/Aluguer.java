@@ -1,7 +1,6 @@
-package UMCarroJa.Aluguer;
+package UMCarroJa.Model.Aluguer;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class Aluguer implements Comparable<Aluguer> {
 

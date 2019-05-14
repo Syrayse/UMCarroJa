@@ -1,19 +1,15 @@
-package UMCarroJa.Veiculos;
+package UMCarroJa.Model.Veiculos;
 
-import UMCarroJa.Aluguer.Aluguer;
-import UMCarroJa.Aluguer.PedidoAluguer;
-import UMCarroJa.lib.Localizacao;
-import UMCarroJa.PublicInfo.InfoPublicaVeiculo;
-import UMCarroJa.Interfaces.Classificavel;
-import UMCarroJa.Aluguer.HistoricoAluguer;
+import UMCarroJa.Model.Aluguer.Aluguer;
+import UMCarroJa.Model.Aluguer.HistoricoAluguer;
+import UMCarroJa.Model.Aluguer.PedidoAluguer;
+import UMCarroJa.Model.Interfaces.Classificavel;
+import UMCarroJa.Model.PublicInfo.InfoPublicaVeiculo;
+import UMCarroJa.Model.lib.Localizacao;
 
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.stream.Collectors;
+import java.io.Serializable;
 
-public abstract class Veiculo implements Classificavel
-{
+public abstract class Veiculo implements Serializable, Classificavel {
 
     private InfoPublicaVeiculo info;
     private long nClassificacoes;
@@ -23,8 +19,6 @@ public abstract class Veiculo implements Classificavel
     private boolean ocupacao;
     private Localizacao localizao;
     private HistoricoAluguer historico;
-    private boolean temEspera;
-    private Queue<PedidoAluguer> filaEspera;
 
     public Veiculo() {
         info = new InfoPublicaVeiculo();
@@ -35,7 +29,6 @@ public abstract class Veiculo implements Classificavel
         ocupacao = false;
         localizao = new Localizacao();
         historico = new HistoricoAluguer();
-        filaEspera = new LinkedList<>();
     }
 
     public Veiculo(long idVeiculo, long idProprietario, double velocidadePorKM,
@@ -49,8 +42,6 @@ public abstract class Veiculo implements Classificavel
         this.ocupacao = false;
         this.localizao = localizacao.clone();
         this.historico = new HistoricoAluguer();
-        this.temEspera = temEspera;
-        this.filaEspera = (temEspera) ? new LinkedList<>() : null;
     }
 
     private Veiculo(Veiculo veiculo) {
@@ -60,8 +51,6 @@ public abstract class Veiculo implements Classificavel
         ocupacao = veiculo.isOcupado();
         localizao = veiculo.getLocalizao();
         historico = veiculo.getHistorico();
-        temEspera = veiculo.isTemEspera();
-        filaEspera = veiculo.getFilaEspera();
     }
 
     public InfoPublicaVeiculo getInfo() {
@@ -96,16 +85,6 @@ public abstract class Veiculo implements Classificavel
         return historico.clone();
     }
 
-    public boolean isTemEspera() {
-        return temEspera;
-    }
-
-    private Queue<PedidoAluguer> getFilaEspera() {
-        Queue<PedidoAluguer> q =  (temEspera) ? new LinkedList<>() : null;
-        if(q != null)
-            filaEspera.stream().map(q::add);
-        return q;
-    }
 
     public void classifica(double classificacao) {
         long nAtual = this.nClassificacoes;
@@ -130,9 +109,7 @@ public abstract class Veiculo implements Classificavel
                 this.classificacao == veiculo.getClassificacao() &&
                 this.ocupacao == veiculo.isOcupado() &&
                 this.localizao.equals(veiculo.getLocalizao()) &&
-                this.historico.equals(veiculo.getHistorico()) &&
-                this.temEspera == veiculo.isTemEspera() &&
-                (this.temEspera && this.filaEspera.equals(veiculo.getFilaEspera()));
+                this.historico.equals(veiculo.getHistorico()) &&;
     }
 
 }

@@ -1,10 +1,13 @@
-package UMCarroJa.Users;
+package UMCarroJa.Model.Users;
 
+import UMCarroJa.Model.Aluguer.Aluguer;
+import UMCarroJa.Model.Aluguer.HistoricoAluguer;
+import UMCarroJa.Model.PublicInfo.InfoPublicaPessoa;
+
+import java.io.Serializable;
 import java.time.LocalDate;
-import UMCarroJa.Aluguer.*;
-import UMCarroJa.PublicInfo.InfoPublicaPessoa;
 
-public abstract class Pessoa {
+public abstract class Pessoa implements Serializable {
 
     private long id;
     private double lucro;

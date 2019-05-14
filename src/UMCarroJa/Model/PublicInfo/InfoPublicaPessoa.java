@@ -1,10 +1,10 @@
-package UMCarroJa.PublicInfo;
+package UMCarroJa.Model.PublicInfo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class InfoPublicaPessoa extends InfoPublica
-{
+public class InfoPublicaPessoa extends InfoPublica implements Serializable {
     private String email;
     private String nome;
     private LocalDate dataNascimento;

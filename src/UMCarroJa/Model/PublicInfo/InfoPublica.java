@@ -1,6 +1,8 @@
-package UMCarroJa.PublicInfo;
+package UMCarroJa.Model.PublicInfo;
 
-public abstract class InfoPublica
+import java.io.Serializable;
+
+public abstract class InfoPublica implements Serializable
 {
     private long id;
     

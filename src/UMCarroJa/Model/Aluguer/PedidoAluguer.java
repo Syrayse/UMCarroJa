@@ -1,10 +1,11 @@
-package UMCarroJa.Aluguer;
+package UMCarroJa.Model.Aluguer;
 
+import UMCarroJa.Model.lib.Localizacao;
 import UMCarroJa.PublicInfo.InfoPublicaPessoa;
-import UMCarroJa.lib.Localizacao;
 
-public class PedidoAluguer
-{
+import java.io.Serializable;
+
+public class PedidoAluguer implements Serializable {
     private InfoPublicaPessoa informacaoCliente;
     private long idVeiculo;
     private Localizacao origem;

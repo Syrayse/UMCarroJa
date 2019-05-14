@@ -1,4 +1,4 @@
-package UMCarroJa.Interfaces;
+package UMCarroJa.Model.Interfaces;
 
 @FunctionalInterface
 public interface Abastecivel {

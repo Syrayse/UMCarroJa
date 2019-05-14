@@ -1,8 +1,10 @@
 package UMCarroJa.Exceptions;
 
-public class PessoaNaoExistenteException extends Exception {
+import java.io.Serializable;
 
-    public PessoaNaoExistenteException(String message){
+public class PessoaInexistenteException extends Exception implements Serializable {
+
+    public PessoaInexistenteException(String message) {
         super(message);
     }
 

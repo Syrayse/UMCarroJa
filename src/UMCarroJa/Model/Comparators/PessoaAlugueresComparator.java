@@ -1,10 +1,11 @@
-package UMCarroJa.Comparators;
+package UMCarroJa.Model.Comparators;
 
-import UMCarroJa.Users.Pessoa;
+import UMCarroJa.Model.Users.Pessoa;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class PessoaAlugueresComparator implements Comparator<Pessoa> {
+public class PessoaAlugueresComparator implements Serializable, Comparator<Pessoa> {
 
     @Override
     public int compare(Pessoa p1, Pessoa p2) {

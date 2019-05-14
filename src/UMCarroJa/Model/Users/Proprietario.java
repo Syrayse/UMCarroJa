@@ -1,12 +1,13 @@
-package UMCarroJa.Users;
+package UMCarroJa.Model.Users;
 
-import UMCarroJa.Interfaces.Classificavel;
-import java.util.Set
-import java.util.HashSet
+import UMCarroJa.Model.Interfaces.Classificavel;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Proprietario extends Pessoa implements Classificavel {
+public class Proprietario extends Pessoa implements Serializable, Classificavel {
 
     private long nClassificacao;
     private double classificacao;

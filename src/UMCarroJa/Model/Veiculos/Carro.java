@@ -1,9 +1,11 @@
-package UMCarroJa.Veiculos;
+package UMCarroJa.Model.Veiculos;
 
-import UMCarroJa.Interfaces.Abastecivel;
-import UMCarroJa.lib.Localizacao;
+import UMCarroJa.Model.Interfaces.Abastecivel;
+import UMCarroJa.Model.lib.Localizacao;
 
-public abstract class Carro extends Veiculo implements Abastecivel {
+import java.io.Serializable;
+
+public abstract class Carro extends Veiculo implements Serializable, Abastecivel {
 
     private String fazMOVER;
 
@@ -13,8 +15,8 @@ public abstract class Carro extends Veiculo implements Abastecivel {
     }
 
     public Carro(long idVeiculo, long idProprietario, double velocidadePorKM,
-    String matricula, String marca, String modelo, double precoPorKM,
-    Localizacao localizacao, boolean temEspera,String fazmovvv){
+                 String matricula, String marca, String modelo, double precoPorKM,
+                 Localizacao localizacao, boolean temEspera, String fazmovvv) {
         super(idVeiculo, idProprietario, velocidadePorKM,
         matricula,marca,modelo, precoPorKM, localizacao, temEspera);
         this.fazMOVER=fazmovvv;

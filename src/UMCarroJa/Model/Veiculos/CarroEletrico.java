@@ -1,8 +1,10 @@
-package UMCarroJa.Veiculos;
+package UMCarroJa.Model.Veiculos;
 
-import UMCarroJa.lib.Localizacao;
+import UMCarroJa.Model.lib.Localizacao;
 
-public class CarroEletrico extends Carro {
+import java.io.Serializable;
+
+public class CarroEletrico extends Carro implements Serializable {
 
     private int qtdActual;
     private int qtdMax;
