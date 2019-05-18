@@ -1,6 +1,6 @@
 package UMCarroJa.Model.Veiculos;
 
-import UMCarroJa.lib.Localizacao;
+import UMCarroJa.Model.lib.Localizacao;
 
 import java.io.Serializable;
 
@@ -48,11 +48,15 @@ public class CarroHibrido extends Carro implements Serializable {
     public int getQtdActualElec(){ return this.qtdActualElec; }
     public int getQtdMaxElec(){ return this.qtdMaxElec;}
 
-    public void setQtdActualgas(int x){ this,qtdActualgas=x;}
+    public void setQtdActualgas(int x){ this.qtdActualgas=x;}
     public void setQtdMaxgas(int x){ this.qtdMaxgas=x;}
 
-    public void setQtdActualElec(int x){ this,qtdActualElec=x;}
+    public void setQtdActualElec(int x){ this.qtdActualElec=x;}
     public void setQtdMaxElec(int x){ this.qtdMaxElec=x;}
+
+    public void abastecer() {
+
+    }
 
 
     public  String toString(){
@@ -73,7 +77,7 @@ public class CarroHibrido extends Carro implements Serializable {
 
         CarroHibrido k = (CarroHibrido) o;
         return super.equals(k) && this.qtdActualgas==k.getQtdActualgas() && this.qtdMaxgas==k.getQtdMaxgas()
-                && this.qtdActualElec==k.getQtdActualElec() && this.qtdMaxElec=k.getQtdMaxElec();
+                && this.qtdActualElec==k.getQtdActualElec() && this.qtdMaxElec==k.getQtdMaxElec();
     }
 
     public CarroHibrido clone(){

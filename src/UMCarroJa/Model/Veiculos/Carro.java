@@ -51,7 +51,7 @@ public abstract class Carro extends Veiculo implements Serializable, Abastecivel
         if(this==o) return true;
         if(this.getClass()!=o.getClass() || o==null) return false;
 
-        Carro k = (Carro) o
+        Carro k = (Carro) o;
         return this.fazMOVER.equals(k.getFazMOVER()) && super.equals(k);
 
     }

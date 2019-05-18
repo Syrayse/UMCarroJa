@@ -109,7 +109,7 @@ public abstract class Veiculo implements Serializable, Classificavel {
                 this.classificacao == veiculo.getClassificacao() &&
                 this.ocupacao == veiculo.isOcupado() &&
                 this.localizao.equals(veiculo.getLocalizao()) &&
-                this.historico.equals(veiculo.getHistorico()) &&;
+                this.historico.equals(veiculo.getHistorico());
     }
 
 }

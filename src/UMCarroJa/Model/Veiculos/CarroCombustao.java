@@ -37,7 +37,7 @@ public class CarroCombustao extends Carro implements Serializable {
     public int getQtdActual(){ return this.qtdActual; }
     public int getQtdMax(){ return this.qtdMax;}
 
-    public void setQtdActual(int x){ this,qtdActual=x;}
+    public void setQtdActual(int x){ this.qtdActual=x;}
     public void setQtdMax(int x){ this.qtdMax=x;}
 
     public String toString(){

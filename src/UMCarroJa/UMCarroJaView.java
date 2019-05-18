@@ -80,7 +80,7 @@ public class UMCarroJaView implements Serializable {
 
     public static void printHeader(String text, String color) {
         int i, len1 = (LEN_SEP - text.length()) / 2;
-        int len2 = LEN_SEP - len1 - text.length()
+        int len2 = LEN_SEP - len1 - text.length();
         StringBuilder sb = new StringBuilder();
 
         sb.append(repeat(SEPARATOR, len1 >= 0 ? len1 : 0));

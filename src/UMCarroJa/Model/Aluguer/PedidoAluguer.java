@@ -1,7 +1,7 @@
 package UMCarroJa.Model.Aluguer;
 
 import UMCarroJa.Model.lib.Localizacao;
-import UMCarroJa.PublicInfo.InfoPublicaPessoa;
+import UMCarroJa.Model.PublicInfo.InfoPublicaPessoa;
 
 import java.io.Serializable;
 
