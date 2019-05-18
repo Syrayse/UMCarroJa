@@ -1,90 +1,110 @@
 package UMCarroJa.Model.Veiculos;
 
-import UMCarroJa.Model.Aluguer.Aluguer;
 import UMCarroJa.Model.Aluguer.HistoricoAluguer;
-import UMCarroJa.Model.Aluguer.PedidoAluguer;
 import UMCarroJa.Model.Interfaces.Classificavel;
-import UMCarroJa.Model.PublicInfo.InfoPublicaVeiculo;
 import UMCarroJa.Model.lib.Localizacao;
 
 import java.io.Serializable;
 
-public abstract class Veiculo implements Serializable, Classificavel {
+public abstract class Veiculo implements Classificavel, Serializable {
 
-    private InfoPublicaVeiculo info;
+    private String tipo;
+    private String marca;
+    private String matricula;
+    private double velocidadeAv;
+    private double precoPorKm;
+    private double consumoPorKm;
+    private double autonomia;
     private long nClassificacoes;
-    private double precoPorKM;
-    private double fiabilidade;
     private double classificacao;
-    private boolean ocupacao;
     private Localizacao localizao;
     private HistoricoAluguer historico;
 
     public Veiculo() {
-        info = new InfoPublicaVeiculo();
-        nClassificacoes = 0;
-        precoPorKM = -1.0;
-        fiabilidade = -1.0;
+        tipo = "";
+        marca = "";
+        matricula = "";
+        velocidadeAv = -1.0;
+        precoPorKm = -1.0;
+        consumoPorKm = -1.0;
+        autonomia = -1.0;
+        nClassificacoes = -1;
         classificacao = -1.0;
-        ocupacao = false;
         localizao = new Localizacao();
         historico = new HistoricoAluguer();
     }
 
-    public Veiculo(long idVeiculo, long idProprietario, double velocidadePorKM,
-                   String matricula, String marca, String modelo, double precoPorKM,
-                   Localizacao localizacao, boolean temEspera) {
-        this.info = new InfoPublicaVeiculo(idVeiculo,idProprietario,velocidadePorKM,matricula,marca,modelo);
-        this.nClassificacoes = 0;
-        this.precoPorKM = precoPorKM;
-        this.fiabilidade = 100;
-        this.classificacao = 100;
-        this.ocupacao = false;
-        this.localizao = localizacao.clone();
-        this.historico = new HistoricoAluguer();
+    public Veiculo(String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double consumoPorKm, double autonomia, double x, double y) {
+        this.tipo = tipo;
+        this.marca = marca;
+        this.matricula = matricula;
+        this.velocidadeAv = velocidadeAv;
+        this.precoPorKm = precoPorKm;
+        this.consumoPorKm = consumoPorKm;
+        this.autonomia = autonomia;
+        nClassificacoes = 0;
+        classificacao = 100;
+        localizao = new Localizacao(x, y);
+        historico = new HistoricoAluguer();
     }
 
-    private Veiculo(Veiculo veiculo) {
-        info = veiculo.getInfo();
+    public Veiculo(Veiculo veiculo) {
+        tipo = veiculo.getTipo();
+        marca = veiculo.getMarca();
+        matricula = veiculo.getMatricula();
+        velocidadeAv = veiculo.getVelocidadeAv();
+        precoPorKm = veiculo.getPrecoPorKm();
+        consumoPorKm = veiculo.getPrecoPorKm();
+        autonomia = veiculo.getAutonomia();
         nClassificacoes = veiculo.getnClassificacoes();
-        precoPorKM = veiculo.getPrecoPorKM();
-        ocupacao = veiculo.isOcupado();
+        classificacao = veiculo.getClassificacao();
         localizao = veiculo.getLocalizao();
         historico = veiculo.getHistorico();
     }
 
-    public InfoPublicaVeiculo getInfo() {
-        return info;
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public double getVelocidadeAv() {
+        return velocidadeAv;
+    }
+
+    public double getPrecoPorKm() {
+        return precoPorKm;
+    }
+
+    public double getConsumoPorKm() {
+        return consumoPorKm;
+    }
+
+    public double getAutonomia() {
+        return autonomia;
     }
 
     public long getnClassificacoes() {
         return nClassificacoes;
     }
 
-    public double getPrecoPorKM() {
-        return precoPorKM;
-    }
-
-    public double getFiabilidade() {
-        return fiabilidade;
-    }
-
     public double getClassificacao() {
         return classificacao;
-    }
-
-    public boolean isOcupado() {
-        return ocupacao;
     }
 
     public Localizacao getLocalizao() {
         return localizao.clone();
     }
 
-    private HistoricoAluguer getHistorico() {
+    public HistoricoAluguer getHistorico() {
         return historico.clone();
     }
-
 
     public void classifica(double classificacao) {
         long nAtual = this.nClassificacoes;
@@ -93,23 +113,44 @@ public abstract class Veiculo implements Serializable, Classificavel {
         this.nClassificacoes++;
     }
 
-    public Aluguer aluga(PedidoAluguer pd) {
-        return null;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Veiculo veiculo = (Veiculo) o;
-        return this.info.equals(veiculo.getInfo()) &&
-                this.nClassificacoes == veiculo.getnClassificacoes() &&
-                this.precoPorKM == veiculo.getPrecoPorKM() &&
-                this.fiabilidade == veiculo.getFiabilidade() &&
-                this.classificacao == veiculo.getClassificacao() &&
-                this.ocupacao == veiculo.isOcupado() &&
-                this.localizao.equals(veiculo.getLocalizao()) &&
-                this.historico.equals(veiculo.getHistorico()) &&;
+        return tipo.equals(veiculo.getTipo()) &&
+                marca.equals(veiculo.getMarca()) &&
+                matricula.equals(veiculo.getMatricula()) &&
+                Double.compare(velocidadeAv, veiculo.getVelocidadeAv()) == 0 &&
+                Double.compare(precoPorKm, veiculo.getPrecoPorKm()) == 0 &&
+                Double.compare(consumoPorKm, veiculo.getConsumoPorKm()) == 0 &&
+                Double.compare(autonomia, veiculo.getAutonomia()) == 0 &&
+                nClassificacoes == veiculo.getnClassificacoes() &&
+                Double.compare(classificacao, veiculo.getClassificacao()) == 0 &&
+                localizao.equals(veiculo.getLocalizao()) &&
+                historico.equals(veiculo.getHistorico());
     }
 
+    @Override
+    public int hashCode() {
+        return matricula.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Veiculo{");
+        sb.append("tipo=").append(tipo);
+        sb.append(", marca=").append(marca);
+        sb.append(", matricula=").append(matricula);
+        sb.append(", velocidadeAv=").append(velocidadeAv);
+        sb.append(", precoPorKm=").append(precoPorKm);
+        sb.append(", consumoPorKm=").append(consumoPorKm);
+        sb.append(", autonomia=").append(autonomia);
+        sb.append(", nClassificacoes=").append(nClassificacoes);
+        sb.append(", classificacao=").append(classificacao);
+        sb.append(", ").append(localizao.toString());
+        sb.append(", ").append(historico.toString());
+        sb.append('}');
+        return sb.toString();
+    }
 }

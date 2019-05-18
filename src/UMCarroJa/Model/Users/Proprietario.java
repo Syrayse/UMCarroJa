@@ -1,63 +1,40 @@
 package UMCarroJa.Model.Users;
 
-import UMCarroJa.Model.Interfaces.Classificavel;
-
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Proprietario extends Pessoa implements Serializable, Classificavel {
+public class Proprietario extends Pessoa implements Serializable {
 
-    private long nClassificacao;
-    private double classificacao;
-    private Set<Integer> veiculos;
+    private Set<String> veiculos;
 
     public Proprietario(){
         super();
-        this.nClassificacao=0;
-        this.classificacao=0;
+        veiculos = new HashSet<>();
     }
 
-    public Proprietario(long id, String email, String nome, String password, String morada, LocalDate dataNascimento){
-        super(id, email, nome, password, morada, dataNascimento);
-        this.nClassificacao= 0;
-        this.classificacao= 100;
+    public Proprietario(long nif, String email, String nome, String password, String morada){
+        super(nif, email, nome, password, morada);
+        veiculos = new HashSet<>();
     }
 
     public Proprietario(Proprietario proprietario){
         super(proprietario);
-        this.nClassificacao=proprietario.getnClassifiacacao();
-        this.classificacao=proprietario.getClassificacao();
+        veiculos = proprietario.getVeiculos();
     }
 
-    public double getClassificacao() {
-        return this.classificacao;
-    }
-
-    public long getnClassifiacacao(){
-        return this.nClassificacao;
-    }
-
-    public Set<Integer> getVeiculos() {
+    public Set<String> getVeiculos() {
     	return new HashSet(veiculos);
     }
 
 
-    @Override
-    public void classifica(double classificacao) {
-        long nAtual = this.nClassificacao;
-        double clAtual = this.classificacao;
-        this.classificacao = ((nAtual*clAtual + classificacao) / (nAtual + 1));
-        this.nClassificacao++;
-    }
-
     public String toString(){
         StringBuilder sb = new StringBuilder();
+        sb.append("Proprietario{");
         sb.append(super.toString());
-        sb.append("Classificação: ").append(this.classificacao);
-        sb.append("Nº de classificações: ").append(this.nClassificacao);
-        return (sb.toString());
+        sb.append(veiculos.toString());
+        sb.append("}");
+        return sb.toString();
     }
 
     @Override
@@ -66,8 +43,7 @@ public class Proprietario extends Pessoa implements Serializable, Classificavel 
         if (o == null || getClass() != o.getClass()) return false;
         Proprietario proprietario = (Proprietario) o;
         return super.equals(proprietario) &&
-                classificacao==proprietario.getClassificacao() &&
-                nClassificacao==proprietario.getnClassifiacacao();
+                veiculos.equals(proprietario.getVeiculos());
     }
 
     public Proprietario clone(){

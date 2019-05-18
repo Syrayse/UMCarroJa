@@ -1,8 +1,8 @@
 package UMCarroJa.Model;
 
-import UMCarroJa.Users.Cliente;
-import UMCarroJa.Users.Proprietario;
-import UMCarroJa.Veiculos.Veiculo;
+import UMCarroJa.Model.Users.Cliente;
+import UMCarroJa.Model.Users.Proprietario;
+import UMCarroJa.Model.Veiculos.Veiculo;
 
 import java.io.Serializable;
 import java.util.Map;

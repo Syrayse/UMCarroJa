@@ -1,27 +1,26 @@
 package UMCarroJa.Model.Aluguer;
 
 import UMCarroJa.Model.lib.Localizacao;
-import UMCarroJa.PublicInfo.InfoPublicaPessoa;
 
 import java.io.Serializable;
 
 public class PedidoAluguer implements Serializable {
-    private InfoPublicaPessoa informacaoCliente;
+    private long nifCliente;
     private long idVeiculo;
     private Localizacao origem;
     private Localizacao destino;
     private Localizacao localizaoCliente;
 
     public PedidoAluguer() {
-        informacaoCliente = new InfoPublicaPessoa();
+        nifCliente = -1;
         idVeiculo = -1;
         origem = new Localizacao();
         destino = new Localizacao();
         localizaoCliente = new Localizacao();
     }
 
-    public PedidoAluguer(InfoPublicaPessoa informacaoCliente, long idVeiculo, Localizacao origem, Localizacao destino, Localizacao localizaoCliente) {
-        this.informacaoCliente = informacaoCliente.clone();
+    public PedidoAluguer(long nifCliente, long idVeiculo, Localizacao origem, Localizacao destino, Localizacao localizaoCliente) {
+        this.nifCliente = nifCliente;
         this.idVeiculo = idVeiculo;
         this.origem = origem.clone();
         this.destino = destino.clone();
@@ -29,15 +28,15 @@ public class PedidoAluguer implements Serializable {
     }
 
     public PedidoAluguer(PedidoAluguer pedido) {
-        informacaoCliente = pedido.getInformacaoCliente();
+        nifCliente = pedido.getNifCliente();
         idVeiculo = pedido.getIdVeiculo();
         origem = pedido.getOrigem();
         destino = pedido.getDestino();
         localizaoCliente = pedido.getLocalizaoCliente();
     }
 
-    public InfoPublicaPessoa getInformacaoCliente() {
-        return informacaoCliente.clone();
+    public long getNifCliente() {
+        return nifCliente;
     }
 
     public long getIdVeiculo() {
@@ -58,7 +57,7 @@ public class PedidoAluguer implements Serializable {
 
     public String toString() {
         final StringBuffer sb = new StringBuffer("PedidoAluguer{");
-        sb.append("informacaoCliente=").append(informacaoCliente.toString());
+        sb.append("nifCliente=").append(nifCliente);
         sb.append(", idVeiculo=").append(idVeiculo);
         sb.append(", origem=").append(origem.toString());
         sb.append(", destino=").append(destino.toString());
@@ -76,7 +75,7 @@ public class PedidoAluguer implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         PedidoAluguer that = (PedidoAluguer) o;
         return idVeiculo == that.getIdVeiculo() &&
-                informacaoCliente.equals(that.getInformacaoCliente()) &&
+                nifCliente == that.getNifCliente() &&
                 origem.equals(that.getOrigem()) &&
                 destino.equals(that.getDestino()) &&
                 localizaoCliente.equals(that.getLocalizaoCliente());
