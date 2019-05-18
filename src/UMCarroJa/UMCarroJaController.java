@@ -9,9 +9,13 @@ public class UMCarroJaController implements Serializable {
     private UMCarroJaView view;
     private UMCarroJaModel model;
 
+    public UMCarroJaController() {
+        // Faz nada
+    }
+
     public void startController() {
         while (true) {
-            // Fazer merdas
+            view.menuPrincipal();
         }
     }
 

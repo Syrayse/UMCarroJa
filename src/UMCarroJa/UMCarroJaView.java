@@ -1,5 +1,7 @@
 package UMCarroJa;
 
+import UMCarroJa.Model.UMCarroJaModel;
+
 import java.io.Serializable;
 
 import static java.lang.System.out;
@@ -22,6 +24,10 @@ public class UMCarroJaView implements Serializable {
     // Reset color
     private static final String RESET = "\033[0m";
 
+    public UMCarroJaView() {
+        // Faz nada
+    }
+
     public static void menuPrincipal() {
         printHeader("UMCarroJa");
         imprimeLinha("1: Carregar ficheiro em formato binário");
@@ -40,6 +46,8 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("1: Solicitar aluguer");
         imprimeLinha("2: Verificar histórico de alugueres");
         imprimeLinha("3: Verificar estatísticas");
+        imprimeLinha("4: Alterar password");
+        imprimeLinha("5: Alterar morada");
         imprimeLinha("0: Logout");
         printFooter();
     }
@@ -54,6 +62,8 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("6: Remover veículo");
         imprimeLinha("7: Verificar histórico de alugueres");
         imprimeLinha("8: Verificar estatísticas");
+        imprimeLinha("9: Alterar password");
+        imprimeLinha("10: Alterar morada");
         imprimeLinha("0: Logout");
         printFooter();
     }

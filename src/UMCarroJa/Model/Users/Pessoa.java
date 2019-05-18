@@ -2,66 +2,70 @@ package UMCarroJa.Model.Users;
 
 import UMCarroJa.Model.Aluguer.Aluguer;
 import UMCarroJa.Model.Aluguer.HistoricoAluguer;
-import UMCarroJa.Model.PublicInfo.InfoPublicaPessoa;
+import UMCarroJa.Model.Interfaces.Classificavel;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
-public abstract class Pessoa implements Serializable {
+public abstract class Pessoa implements Classificavel, Serializable {
 
-    private long id;
-    private double lucro;
-    private InfoPublicaPessoa infoPublic;
+    private long nif;
+    private String email;
+    private String nome;
     private String password;
     private String morada;
     private HistoricoAluguer historico;
+    private long nClassificacoes;
+    private double classificacao;
 
     public Pessoa() {
-        id = -1;
-        this.lucro = 0.0;
-        infoPublic = new InfoPublicaPessoa();
+        nif = -1;
+        email = "";
+        nome = "";
         password = "";
         morada = "";
         historico = new HistoricoAluguer();
+        nClassificacoes = -1;
+        classificacao = -1;
     }
 
-    public Pessoa(long id, String email, String nome, String password, String morada, LocalDate dataNascimento){
-        this.id = id;
-        this.lucro = 0.0;
-        this.infoPublic = new InfoPublicaPessoa(id,email,nome,dataNascimento);
+    public Pessoa(long nif, String email, String nome, String password, String morada) {
+        this.nif = nif;
+        this.email = email;
+        this.nome = nome;
         this.password = password;
         this.morada = morada;
-        this.historico = new HistoricoAluguer();
+        historico = new HistoricoAluguer();
+        nClassificacoes = 0;
+        classificacao = 100;
     }
 
-    public Pessoa(Pessoa pessoa) {
-        InfoPublicaPessoa info = this.infoPublic;
-        id = pessoa.getId();
-        lucro = pessoa.getLucro();
-        infoPublic = new InfoPublicaPessoa(info.getId(),info.getEmail(),info.getNome(),info.getDataNascimento());
-        password = pessoa.getPassword();
-        morada = pessoa.getMorada();
-        historico = pessoa.getHistorico();
+    public Pessoa(Pessoa p){
+        nif = p.getNif();
+        email = p.getEmail();
+        nome = p.getNome();
+        password = p.getPassword();
+        morada = p.getMorada();
+        historico = p.getHistorico();
     }
 
-    public long getId() {
-        return id;
+    public long getNif() {
+        return nif;
     }
 
-    public double getLucro() {
-        return lucro;
+    public String getEmail() {
+        return email;
     }
 
-    public int getNAlugueres() {
-        return historico.size();
-    }
-
-    public InfoPublicaPessoa getInfoPublic() {
-        return this.infoPublic;
+    public String getNome() {
+        return nome;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getMorada() {
@@ -70,6 +74,14 @@ public abstract class Pessoa implements Serializable {
 
     public void setMorada(String morada) {
         this.morada = morada;
+    }
+
+    public long getnClassificacoes() {
+        return nClassificacoes;
+    }
+
+    public double getClassificacao() {
+        return classificacao;
     }
 
     public HistoricoAluguer getHistorico() {
@@ -84,27 +96,36 @@ public abstract class Pessoa implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pessoa pessoa = (Pessoa) o;
-        return id == pessoa.getId() &&
-                Double.compare(lucro,pessoa.getLucro()) == 0 &&
-                infoPublic.equals(pessoa.getInfoPublic()) &&
+        return nif == pessoa.getNif() &&
+                email.equals(pessoa.getNif()) &&
                 password.equals(pessoa.getPassword()) &&
                 morada.equals(pessoa.getMorada()) &&
                 historico.equals(pessoa.getHistorico());
     }
 
     public int hashCode() {
-        return infoPublic.getEmail().hashCode();
+        return Long.valueOf(nif).hashCode();
+    }
+
+    public final void classifica(double classificacao) {
+        long nAtual = this.nClassificacoes;
+        double clAtual = this.classificacao;
+        this.classificacao = ((nAtual*clAtual + classificacao) / (nAtual + 1));
+        this.nClassificacoes++;
     }
 
     public String toString() {
         final StringBuffer sb = new StringBuffer("Pessoa{");
-        sb.append("id=").append(id);
-        sb.append(", lucro=").append(lucro);
-        sb.append(", infoPublic=").append(infoPublic.toString());
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", morada='").append(morada).append('\'');
+        sb.append("nif=").append(nif);
+        sb.append(", email=").append(email);
+        sb.append(", password=").append(password);
+        sb.append(", morada=").append(morada);
         sb.append(", historico=").append(historico.toString());
+        sb.append(", nClassificacoes=").append(nClassificacoes);
+        sb.append(", classificao=").append(classificacao);
         sb.append('}');
         return sb.toString();
     }
+
+    public abstract Pessoa clone();
 }

@@ -39,6 +39,11 @@ public class Localizacao implements Serializable {
         this.y = y;
     }
 
+    public void move(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public double getDistance(Localizacao outraLoc) {
         return Math.sqrt(Math.pow(this.x - outraLoc.getX(), 2) + Math.pow(this.y - outraLoc.getY(), 2));
     }
@@ -53,7 +58,12 @@ public class Localizacao implements Serializable {
 
     @Override
     public String toString(){
-        return ("X = " + this.getX() + " Y = " + this.getY() +"\n" );
+        StringBuilder sb = new StringBuilder();
+        sb.append("localizacao{");
+        sb.append("x=").append(this.x);
+        sb.append(",y=").append(this.y);
+        sb.append("}");
+        return sb.toString();
     }
 
     public Localizacao clone(){

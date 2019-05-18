@@ -54,7 +54,7 @@ public class HistoricoAluguer {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("HistoricoAluguer{");
-        sb.append("historico=").append(historico.toString());
+        sb.append(historico.toString());
         sb.append('}');
         return sb.toString();
     }
