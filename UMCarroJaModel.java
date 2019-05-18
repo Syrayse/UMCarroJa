@@ -3,12 +3,23 @@ import java.util.Map;
 
 public class UMCarroJaModel implements Serializable {
 
-    private Map<String, Cliente> clientes;
-    private Map<String, Proprietario> proprietarios;
+    private Map<Long, Cliente> clientes;
+    private Map<Long, Proprietario> proprietarios;
     private Map<Integer, Veiculo> veiculos;
-
 
     public UMCarroJaModel createData() {
         return null;
+    }
+    
+    public void loginProprietario(String username, String password) throws PessoaInvalidException {
+    
+    }
+
+    public void loginCliente(String username, String password) throws PessoaInvalidException {
+    
+    }
+    
+    public void logoff() {
+    
     }
 }

@@ -24,6 +24,11 @@ public class UMCarroJaView implements Serializable {
         // Faz nada
     }
 
+    public static void clearScreen() {
+        out.print("\033[H\033[2J");  
+        out.flush();  
+    }
+    
     public static void menuPrincipal() {
         printHeader("UMCarroJa");
         imprimeLinha("1: Carregar ficheiro em formato binário");
