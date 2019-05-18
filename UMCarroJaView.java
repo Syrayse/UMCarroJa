@@ -1,7 +1,3 @@
-package UMCarroJa;
-
-import UMCarroJa.Model.UMCarroJaModel;
-
 import java.io.Serializable;
 
 import static java.lang.System.out;

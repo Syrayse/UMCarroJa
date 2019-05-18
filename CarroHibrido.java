@@ -1,8 +1,6 @@
-package UMCarroJa.Model.Veiculos;
-
 import java.io.Serializable;
 
-public class CarroCombustao extends Carro implements Serializable {
+public class CarroHibrido extends Carro implements Serializable {
 
     public void abastecer() {
 

@@ -1,9 +1,3 @@
-package UMCarroJa.Model.Users;
-
-import UMCarroJa.Model.Aluguer.Aluguer;
-import UMCarroJa.Model.Aluguer.HistoricoAluguer;
-import UMCarroJa.Model.Interfaces.Classificavel;
-
 import java.io.Serializable;
 
 public abstract class Pessoa implements Classificavel, Serializable {

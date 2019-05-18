@@ -1,5 +1,3 @@
-package UMCarroJa.Model.lib;
-
 import java.io.Serializable;
 
 public class Localizacao implements Serializable {

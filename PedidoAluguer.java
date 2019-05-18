@@ -1,7 +1,3 @@
-package UMCarroJa.Model.Aluguer;
-
-import UMCarroJa.Model.lib.Localizacao;
-
 import java.io.Serializable;
 
 public class PedidoAluguer implements Serializable {

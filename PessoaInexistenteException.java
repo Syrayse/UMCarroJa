@@ -1,5 +1,3 @@
-package UMCarroJa.Exceptions;
-
 import java.io.Serializable;
 
 public class PessoaInexistenteException extends Exception implements Serializable {

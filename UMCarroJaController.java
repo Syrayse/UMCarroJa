@@ -1,7 +1,3 @@
-package UMCarroJa;
-
-import UMCarroJa.Model.UMCarroJaModel;
-
 import java.io.Serializable;
 
 public class UMCarroJaController implements Serializable {
@@ -10,12 +6,15 @@ public class UMCarroJaController implements Serializable {
     private UMCarroJaModel model;
 
     public UMCarroJaController() {
-        // Faz nada
+        view = null;
+        model = null;
     }
 
     public void startController() {
-        while (true) {
+        if(view != null){
             view.menuPrincipal();
+            view.menuProprietario();
+            view.menuCliente();
         }
     }
 

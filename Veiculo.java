@@ -1,9 +1,3 @@
-package UMCarroJa.Model.Veiculos;
-
-import UMCarroJa.Model.Aluguer.HistoricoAluguer;
-import UMCarroJa.Model.Interfaces.Classificavel;
-import UMCarroJa.Model.lib.Localizacao;
-
 import java.io.Serializable;
 
 public abstract class Veiculo implements Classificavel, Serializable {

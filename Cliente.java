@@ -1,7 +1,3 @@
-package UMCarroJa.Model.Users;
-
-import UMCarroJa.Model.lib.Localizacao;
-
 import java.io.Serializable;
 
 public class Cliente extends Pessoa implements Serializable {
