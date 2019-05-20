@@ -42,7 +42,7 @@ public class Localizacao implements Serializable {
         this.y = y;
     }
 
-    public double getDistance(Localizacao outraLoc) {
+    public double getDistancia(Localizacao outraLoc) {
         return Math.sqrt(Math.pow(this.x - outraLoc.getX(), 2) + Math.pow(this.y - outraLoc.getY(), 2));
     }
 

@@ -22,10 +22,13 @@ public class Proprietario extends Pessoa implements Serializable {
     }
 
     public Set<String> getVeiculos() {
-    	return new HashSet(veiculos);
+        return new HashSet(veiculos);
     }
 
-
+    public boolean temVeiculo(String matricula) {
+        return veiculos.contains(matricula);
+    }
+    
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Proprietario{");

@@ -52,7 +52,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
         autonomia = veiculo.getAutonomia();
         nClassificacoes = veiculo.getnClassificacoes();
         classificacao = veiculo.getClassificacao();
-        localizao = veiculo.getLocalizao();
+        localizao = veiculo.getLocalizacao();
         historico = veiculo.getHistorico();
     }
 
@@ -75,6 +75,10 @@ public abstract class Veiculo implements Classificavel, Serializable {
     public double getPrecoPorKm() {
         return precoPorKm;
     }
+    
+    public void setPrecoPorKm(double precoPorKm) {
+        this.precoPorKm = precoPorKm;
+    }
 
     public double getConsumoPorKm() {
         return consumoPorKm;
@@ -92,7 +96,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
         return classificacao;
     }
 
-    public Localizacao getLocalizao() {
+    public Localizacao getLocalizacao() {
         return localizao.clone();
     }
 
@@ -121,7 +125,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
                 Double.compare(autonomia, veiculo.getAutonomia()) == 0 &&
                 nClassificacoes == veiculo.getnClassificacoes() &&
                 Double.compare(classificacao, veiculo.getClassificacao()) == 0 &&
-                localizao.equals(veiculo.getLocalizao()) &&
+                localizao.equals(veiculo.getLocalizacao()) &&
                 historico.equals(veiculo.getHistorico());
     }
 

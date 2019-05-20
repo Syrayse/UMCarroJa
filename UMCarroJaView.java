@@ -38,6 +38,7 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("5: Login como Cliente");
         imprimeLinha("6: Registar como Proprietário");
         imprimeLinha("7: Registar como Cliente");
+        imprimeLinha("8: Obter o top 10 clientes que mais utilizaram o sistema");
         imprimeLinha("0: Sair");
         printFooter();
     }
@@ -45,10 +46,11 @@ public class UMCarroJaView implements Serializable {
     public static void menuCliente() {
         printHeader("Menu Cliente");
         imprimeLinha("1: Solicitar aluguer");
-        imprimeLinha("2: Verificar histórico de alugueres");
+        imprimeLinha("2: Verificar histórico de alugueres(entre datas)");
         imprimeLinha("3: Verificar estatísticas");
         imprimeLinha("4: Alterar password");
         imprimeLinha("5: Alterar morada");
+        imprimeLinha("6: Indicar classificacao");
         imprimeLinha("0: Logout");
         printFooter();
     }
@@ -61,11 +63,24 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("4: Alterar o preço/KM de veículo");
         imprimeLinha("5: Adicionar veículo");
         imprimeLinha("6: Remover veículo");
-        imprimeLinha("7: Verificar histórico de alugueres");
+        imprimeLinha("7: Verificar histórico de alugueres(entre datas)");
         imprimeLinha("8: Verificar estatísticas");
         imprimeLinha("9: Alterar password");
         imprimeLinha("10: Alterar morada");
+        imprimeLinha("11: Indicar classificacao");
+        imprimeLinha("12: Indicar classificacao da viatura");
         imprimeLinha("0: Logout");
+        printFooter();
+    }
+    
+    public static void menuSolAluguer() {
+        printHeader("Solicitar Veiculo");
+        imprimeLinha("1: Veiculo mais proximo");
+        imprimeLinha("2: Veiculo mais barato");
+        imprimeLinha("3: Veiculo mais barato num raio de X");
+        imprimeLinha("4: Veiculo especifico");
+        imprimeLinha("5: Veiculo com autonomia minima de X");
+        imprimeLinha("0: Retroceder");
         printFooter();
     }
 
