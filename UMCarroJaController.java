@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.file.*;
+import java.util.List;
 
 public class UMCarroJaController implements Serializable {
 
@@ -93,7 +95,23 @@ public class UMCarroJaController implements Serializable {
     }
     
     private void carregaLogMenu() {
-        // fazer isto
+        List<String> linhas;
+        view.imprimeLinha("De qual ficheiro CSV pretende carregar a info?:");
+        String file = Input.leString();
+        
+        try {
+            linhas = Files.readAllLines(Paths.get(file));
+            
+            linhas.forEach(s -> this.parseLine(s));            
+        } catch (IOException exc) {
+            view.imprimeLinha(exc.getMessage());
+            Input.leString();
+            return;
+        }
+        
+        view.imprimeLinha("Ficheiro CSV carregado com sucesso!");
+        Input.leString();
+        
     }
 
     private void loginProprietario() {
@@ -358,6 +376,27 @@ public class UMCarroJaController implements Serializable {
                         Input.leString();
                         break;
             }
+        }
+    }
+    
+    
+    private void parseLine(String line) {
+        String[] arr = line.split("[: ]+");
+        
+        switch(line) {
+            case "NovoProp": if(arr.length == 5) {
+                                
+                            }
+                            break;
+            case "NovoCliente":
+                            break;
+            case "NovoCarro":
+                            break;
+            case "Aluguer":
+                            break;
+            case "Classificar":
+                            break;
+            default: break;
         }
     }
 }
