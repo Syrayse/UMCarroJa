@@ -9,7 +9,7 @@ public class Cliente extends Pessoa implements Serializable {
         this.localizacao = new Localizacao();
     }
 
-    public Cliente (long nif, String email, String nome, String password, String morada, double x, double y, double totalKm){
+    public Cliente (String nif, String email, String nome, String password, String morada, double x, double y){
         super(nif, email, nome, password, morada);
         this.localizacao = new Localizacao(x,y);
     }

@@ -100,7 +100,7 @@ public class UMCarroJaController implements Serializable {
         int i;
         boolean login = true;
         String username, password;
-        view.imprime("Username:");
+        view.imprime("Nif:");
         username = Input.leString();
         view.imprime("Password:");
         password = Input.leString();
@@ -108,10 +108,13 @@ public class UMCarroJaController implements Serializable {
         try {
             this.model.loginProprietario(username, password);
         } catch(PessoaInvalidException exc) {
-            view.imprimeLinha("O username ou password estao errados");
+            view.imprimeLinha(exc.getMessage());
             Input.leString();
             return;
         }
+        
+        view.imprimeLinha("Login efetuado com sucesso");
+        Input.leString();
         
         while(login) {
             view.clearScreen();
@@ -155,7 +158,7 @@ public class UMCarroJaController implements Serializable {
         int i;
         boolean login = true;
         String username, password;
-        view.imprime("Username:");
+        view.imprime("Nif:");
         username = Input.leString();
         view.imprime("Password:");
         password = Input.leString();
@@ -167,6 +170,9 @@ public class UMCarroJaController implements Serializable {
             Input.leString();
             return;
         }
+        
+        view.imprimeLinha("Login efetuado com sucesso");
+        Input.leString();
         
         while(login) {
             view.clearScreen();
@@ -196,10 +202,59 @@ public class UMCarroJaController implements Serializable {
     }
 
     private void registarProprietario() {
-    
+        String nome, nif, email, morada, password;
+        view.imprimeLinha("Insira os dados com os quais se pretende registar:");
+        view.imprime("Nome:");
+        nome = Input.leString();
+        view.imprime("Nif:");
+        nif = Input.leString();
+        view.imprime("Email:");
+        email = Input.leString();
+        view.imprime("Morada:");
+        morada = Input.leString();
+        view.imprime("Password:");
+        password = Input.leString();
+        
+        try {
+            model.registarProprietario(nome, nif, email, morada, password);
+        } catch (PessoaInvalidException exc) {
+            view.imprimeLinha(exc.getMessage());
+            Input.leString();
+            return;
+        }
+        
+        view.imprimeLinha("Proprietario registado com sucesso");
+        Input.leString();
     }
     
     private void registarCliente() {
-    
+        double x, y;
+        String nome, nif, email, morada, password;
+        view.imprimeLinha("Insira os dados com os quais se pretende registar:");
+        view.imprime("Nome:");
+        nome = Input.leString();
+        view.imprime("Nif:");
+        nif = Input.leString();
+        view.imprime("Email:");
+        email = Input.leString();
+        view.imprime("Morada:");
+        morada = Input.leString();
+        view.imprime("Posicao X:");
+        x = Input.leDouble();
+        view.imprime("Posicao Y:");
+        y = Input.leDouble();
+        view.imprime("Password:");
+        password = Input.leString();
+        
+        try {
+            model.registarCliente(nome, nif, email, morada, x, y, password);
+        } catch (PessoaInvalidException exc) {
+            view.imprimeLinha(exc.getMessage());
+            Input.leString();
+            return;
+        }
+        
+        view.imprimeLinha("Cliente registado com sucesso");
+        Input.leString();
     }
 }

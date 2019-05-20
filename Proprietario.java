@@ -11,7 +11,7 @@ public class Proprietario extends Pessoa implements Serializable {
         veiculos = new HashSet<>();
     }
 
-    public Proprietario(long nif, String email, String nome, String password, String morada){
+    public Proprietario(String nif, String email, String nome, String password, String morada){
         super(nif, email, nome, password, morada);
         veiculos = new HashSet<>();
     }

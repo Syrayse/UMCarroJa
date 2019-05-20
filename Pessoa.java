@@ -2,7 +2,7 @@ import java.io.Serializable;
 
 public abstract class Pessoa implements Classificavel, Serializable {
 
-    private long nif;
+    private String nif;
     private String email;
     private String nome;
     private String password;
@@ -12,7 +12,7 @@ public abstract class Pessoa implements Classificavel, Serializable {
     private double classificacao;
 
     public Pessoa() {
-        nif = -1;
+        nif = "";
         email = "";
         nome = "";
         password = "";
@@ -22,7 +22,7 @@ public abstract class Pessoa implements Classificavel, Serializable {
         classificacao = -1;
     }
 
-    public Pessoa(long nif, String email, String nome, String password, String morada) {
+    public Pessoa(String nif, String email, String nome, String password, String morada) {
         this.nif = nif;
         this.email = email;
         this.nome = nome;
@@ -42,7 +42,7 @@ public abstract class Pessoa implements Classificavel, Serializable {
         historico = p.getHistorico();
     }
 
-    public long getNif() {
+    public String getNif() {
         return nif;
     }
 
@@ -90,7 +90,7 @@ public abstract class Pessoa implements Classificavel, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pessoa pessoa = (Pessoa) o;
-        return nif == pessoa.getNif() &&
+        return nif.equals(pessoa.getNif()) &&
                 email.equals(pessoa.getNif()) &&
                 password.equals(pessoa.getPassword()) &&
                 morada.equals(pessoa.getMorada()) &&
