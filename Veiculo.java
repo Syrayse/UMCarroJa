@@ -1,5 +1,10 @@
 import java.io.Serializable;
-
+/**
+ * Classe Veiculo
+ *
+ * @author (Rui Reis (A84930), Filipe Fernandes (A83996), António Guerra (A81032))
+ * @version (2019-05-21)
+ */
 public abstract class Veiculo implements Classificavel, Serializable {
 
     private String tipo;
@@ -13,7 +18,9 @@ public abstract class Veiculo implements Classificavel, Serializable {
     private double classificacao;
     private Localizacao localizao;
     private HistoricoAluguer historico;
-
+    /**
+     * Construtor vazio para objetos da classe Veiculo
+     */
     public Veiculo() {
         tipo = "";
         marca = "";
@@ -27,7 +34,9 @@ public abstract class Veiculo implements Classificavel, Serializable {
         localizao = new Localizacao();
         historico = new HistoricoAluguer();
     }
-
+    /**
+     * Construtor parametrizado para objetos da classe Veiculo
+     */
     public Veiculo(String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double consumoPorKm, double autonomia, double x, double y) {
         this.tipo = tipo;
         this.marca = marca;
@@ -41,7 +50,9 @@ public abstract class Veiculo implements Classificavel, Serializable {
         localizao = new Localizacao(x, y);
         historico = new HistoricoAluguer();
     }
-
+    /**
+     * Construtor de cópia para objetos da classe Veiculo
+     */
     public Veiculo(Veiculo veiculo) {
         tipo = veiculo.getTipo();
         marca = veiculo.getMarca();
@@ -110,7 +121,11 @@ public abstract class Veiculo implements Classificavel, Serializable {
         this.classificacao = ((nAtual*clAtual + classificacao) / (nAtual + 1));
         this.nClassificacoes++;
     }
-
+    /**
+     * Implementação do método equals de um Veiculo
+     *
+     * @return Boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -133,7 +148,11 @@ public abstract class Veiculo implements Classificavel, Serializable {
     public int hashCode() {
         return matricula.hashCode();
     }
-
+    /**
+     * Implementação do método toString de um Veiculo.
+     *
+     * @return String.
+     */
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Veiculo{");

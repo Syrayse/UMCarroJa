@@ -1,19 +1,31 @@
 import java.io.Serializable;
 
+/**
+ * Classe Cliente (Sub-Classe da Classe Pessoa).
+ *
+ * @author (Rui Reis (A84930), Filipe Fernandes (A83996), António Guerra (A81032))
+ * @version (2019-05-21)
+ */
 public class Cliente extends Pessoa implements Serializable {
 
     private Localizacao localizacao;
-
+    /**
+     * Construtor vazio para objetos da classe Cliente
+     */
     public Cliente (){
         super();
         this.localizacao = new Localizacao();
     }
-
+    /**
+     * Construtor Parametrizado para objetos da classe Cliente
+     */
     public Cliente (String nif, String email, String nome, String password, String morada, double x, double y){
         super(nif, email, nome, password, morada);
         this.localizacao = new Localizacao(x,y);
     }
-
+    /**
+     * Construtor de cópia para objetos da classe Cliente
+     */
     public Cliente (Cliente cliente){
         super(cliente);
         this.localizacao= cliente.getLocalizacao();
@@ -21,6 +33,11 @@ public class Cliente extends Pessoa implements Serializable {
 
     public Localizacao getLocalizacao(){ return localizacao.clone(); }
 
+    /**
+     * Implementação do método toString de um Cliente.
+     *
+     * @return String.
+     */
     @Override
     public String toString() {
        StringBuilder sb = new StringBuilder();
@@ -30,7 +47,11 @@ public class Cliente extends Pessoa implements Serializable {
        sb.append("}");
        return sb.toString();
     }
-
+    /**
+     * Implementação do método equals de um Cliente.
+     *
+     * @return Boolean
+     */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -38,7 +59,11 @@ public class Cliente extends Pessoa implements Serializable {
         return super.equals(cliente) &&
                 localizacao.equals(cliente.getLocalizacao());
     }
-
+    /**
+     * Implementação do método Clone de um Cliente.
+     *
+     * @return Objecto do tipo Cliente.
+     */
     public Cliente clone(){
         return new Cliente(this);
     }

@@ -1,5 +1,11 @@
 import java.io.Serializable;
 
+/**
+ * Classe abstracta Pessoa
+ *
+ * @author (Rui Reis (A84930), Filipe Fernandes (A83996), António Guerra (A81032))
+ * @version (2019-05-21)
+ */
 public abstract class Pessoa implements Classificavel, Serializable {
 
     private String nif;
@@ -10,7 +16,9 @@ public abstract class Pessoa implements Classificavel, Serializable {
     private HistoricoAluguer historico;
     private long nClassificacoes;
     private double classificacao;
-
+    /**
+     * Construtor vazio para objetos da classe Pessoa
+     */
     public Pessoa() {
         nif = "";
         email = "";
@@ -21,7 +29,9 @@ public abstract class Pessoa implements Classificavel, Serializable {
         nClassificacoes = -1;
         classificacao = -1;
     }
-
+    /**
+     * Construtor parametrizado para objetos da classe Pessoa
+     */
     public Pessoa(String nif, String email, String nome, String password, String morada) {
         this.nif = nif;
         this.email = email;
@@ -32,7 +42,9 @@ public abstract class Pessoa implements Classificavel, Serializable {
         nClassificacoes = 0;
         classificacao = 100;
     }
-
+    /**
+     * Construtor de cópia para objetos da classe Pessoa
+     */
     public Pessoa(Pessoa p){
         nif = p.getNif();
         email = p.getEmail();
@@ -85,7 +97,11 @@ public abstract class Pessoa implements Classificavel, Serializable {
     public void addAluguer(Aluguer aluguer) {
         historico.addAluguer(aluguer);
     }
-
+    /**
+     * Implementação do método equals de uma Pessoa.
+     *
+     * @return Boolean
+     */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -107,7 +123,11 @@ public abstract class Pessoa implements Classificavel, Serializable {
         this.classificacao = ((nAtual*clAtual + classificacao) / (nAtual + 1));
         this.nClassificacoes++;
     }
-
+    /**
+     * Implementação do método toString de uma Pessoa.
+     *
+     * @return String.
+     */
     public String toString() {
         final StringBuffer sb = new StringBuffer("Pessoa{");
         sb.append("nif=").append(nif);
@@ -120,6 +140,10 @@ public abstract class Pessoa implements Classificavel, Serializable {
         sb.append('}');
         return sb.toString();
     }
-
+    /**
+     * Implementação do método Clone de uma Pessoa.
+     *
+     * @return Objecto do tipo Pessoa.
+     */
     public abstract Pessoa clone();
 }

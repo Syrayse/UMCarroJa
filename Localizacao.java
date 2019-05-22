@@ -1,21 +1,33 @@
 import java.io.Serializable;
 
+/**
+ * Classe Localizacao
+ *
+ * @author (Rui Reis (A84930), Filipe Fernandes (A83996), António Guerra (A81032))
+ * @version (2019-05-21)
+ */
 public class Localizacao implements Serializable {
 
     private double x;
     private double y;
 
-
+    /**
+     * Construtor vazio para objetos da classe Localizacao
+     */
     public Localizacao(){
         this.x = 0;
         this.y = 0;
     }
-
+    /**
+     * Construtor parametrizado para objetos da classe Localizacao
+     */
     public Localizacao(double x, double y) {
         this.x = x;
         this.y = y;
     }
-
+    /**
+     * Construtor de cópia para objetos da classe Localizacao
+     */
     public Localizacao(Localizacao outraLoc){
         this.x = outraLoc.getX();
         this.y = outraLoc.getY();
@@ -41,11 +53,19 @@ public class Localizacao implements Serializable {
         this.x = x;
         this.y = y;
     }
-
+    /**
+     * Implementação do método getDistancia entre duas Localizacoes.
+     *
+     * @return double.
+     */
     public double getDistancia(Localizacao outraLoc) {
         return Math.sqrt(Math.pow(this.x - outraLoc.getX(), 2) + Math.pow(this.y - outraLoc.getY(), 2));
     }
-
+    /**
+     * Implementação do método equals de uma Localizacao.
+     *
+     * @return Boolean
+     */
     @Override
     public boolean equals(Object o){
         if (o==this) return true;
@@ -53,7 +73,11 @@ public class Localizacao implements Serializable {
         Localizacao k = (Localizacao) o;
         return (k.getX()==this.x && k.getY()==this.y);
     }
-
+    /**
+     * Implementação do método toString de uma Localizacao.
+     *
+     * @return String.
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -63,7 +87,11 @@ public class Localizacao implements Serializable {
         sb.append("}");
         return sb.toString();
     }
-
+    /**
+     * Implementação do método Clone de uma Localizacao.
+     *
+     * @return Objecto do tipo Localizacao.
+     */
     public Localizacao clone(){
         return new Localizacao(this);
     }

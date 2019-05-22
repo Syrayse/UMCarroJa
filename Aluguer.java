@@ -1,5 +1,11 @@
 import java.time.LocalDateTime;
 
+/**
+ * Classe Aluguer.
+ *
+ * @author (Rui Reis (A84930), Filipe Fernandes (A83996), António Guerra (A81032))
+ * @version (2019-05-21)
+ */
 public class Aluguer implements Comparable<Aluguer> {
 
     private long idCliente;
@@ -8,7 +14,9 @@ public class Aluguer implements Comparable<Aluguer> {
     private double distanciaPercorrida;
     private double totalPago;
     private LocalDateTime data;
-
+    /**
+     * Construtor vazio para objetos da classe Aluguer
+     */
     public Aluguer() {
         idCliente = -1;
         idProprietario = -1;
@@ -17,7 +25,9 @@ public class Aluguer implements Comparable<Aluguer> {
         totalPago = 0.0;
         data = LocalDateTime.now();
     }
-
+    /**
+     * Construtor de Parametro data para objetos da classe Aluguer
+     */
     public Aluguer(LocalDateTime data) {
         idCliente = -1;
         idProprietario = -1;
@@ -26,7 +36,9 @@ public class Aluguer implements Comparable<Aluguer> {
         totalPago = 0.0;
         this.data = data;
     }
-
+    /**
+     * Construtor Parametrizado para objetos da classe Aluguer
+     */
     public Aluguer(long idCliente, long idProprietario, long idVeiculo,
                 double distanciaPercorrida, double totalPago, LocalDateTime data) {
         this.idCliente = idCliente;
@@ -60,7 +72,11 @@ public class Aluguer implements Comparable<Aluguer> {
     public LocalDateTime getData() {
         return data;
     }
-
+    /**
+     * Implementação do método toString de um Aluguer.
+     *
+     * @return String.
+     */
     public String toString() {
         final StringBuffer sb = new StringBuffer("Aluguer{");
         sb.append("idCliente='").append(idCliente).append('\'');
@@ -72,6 +88,12 @@ public class Aluguer implements Comparable<Aluguer> {
         sb.append('}');
         return sb.toString();
     }
+
+    /**
+     * Implementação do método equals de um Aluguer.
+     *
+     * @return Boolean
+     */
 
     @Override
     public boolean equals(Object o) {
