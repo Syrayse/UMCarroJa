@@ -1,8 +1,15 @@
 import java.util.Comparator;
+
+/**
+ * Classe CompVeiculoProx.
+ *
+ * @author (Rui Reis (A84930), Filipe Fernandes (A83996), António Guerra (A81032))
+ * @version (2019-05-21)
+ */
 public class CompVeiculoProx implements Comparator<Veiculo> {
 
     private Localizacao spot;
-    
+
     public CompVeiculoProx() {
         super();
         spot = new Localizacao();
