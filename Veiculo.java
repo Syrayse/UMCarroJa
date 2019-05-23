@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Random;
 /**
  * Classe Veiculo
  *
@@ -7,13 +8,13 @@ import java.io.Serializable;
  */
 public abstract class Veiculo implements Classificavel, Serializable {
 
+    private static final double PROB_DE_ACIDENTE = 0.01;
+    
     private String tipo;
     private String marca;
     private String matricula;
     private double velocidadeAv;
     private double precoPorKm;
-    private double consumoPorKm;
-    private double autonomia;
     private long nClassificacoes;
     private double classificacao;
     private Localizacao localizao;
@@ -27,8 +28,6 @@ public abstract class Veiculo implements Classificavel, Serializable {
         matricula = "";
         velocidadeAv = -1.0;
         precoPorKm = -1.0;
-        consumoPorKm = -1.0;
-        autonomia = -1.0;
         nClassificacoes = -1;
         classificacao = -1.0;
         localizao = new Localizacao();
@@ -37,14 +36,12 @@ public abstract class Veiculo implements Classificavel, Serializable {
     /**
      * Construtor parametrizado para objetos da classe Veiculo
      */
-    public Veiculo(String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double consumoPorKm, double autonomia, double x, double y) {
+    public Veiculo(String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double x, double y) {
         this.tipo = tipo;
         this.marca = marca;
         this.matricula = matricula;
         this.velocidadeAv = velocidadeAv;
         this.precoPorKm = precoPorKm;
-        this.consumoPorKm = consumoPorKm;
-        this.autonomia = autonomia;
         nClassificacoes = 0;
         classificacao = 100;
         localizao = new Localizacao(x, y);
@@ -59,8 +56,6 @@ public abstract class Veiculo implements Classificavel, Serializable {
         matricula = veiculo.getMatricula();
         velocidadeAv = veiculo.getVelocidadeAv();
         precoPorKm = veiculo.getPrecoPorKm();
-        consumoPorKm = veiculo.getPrecoPorKm();
-        autonomia = veiculo.getAutonomia();
         nClassificacoes = veiculo.getnClassificacoes();
         classificacao = veiculo.getClassificacao();
         localizao = veiculo.getLocalizacao();
@@ -91,14 +86,6 @@ public abstract class Veiculo implements Classificavel, Serializable {
         this.precoPorKm = precoPorKm;
     }
 
-    public double getConsumoPorKm() {
-        return consumoPorKm;
-    }
-
-    public double getAutonomia() {
-        return autonomia;
-    }
-
     public long getnClassificacoes() {
         return nClassificacoes;
     }
@@ -111,6 +98,10 @@ public abstract class Veiculo implements Classificavel, Serializable {
         return localizao.clone();
     }
 
+    public void setLocalizacao(Localizacao l) {
+        this.localizao = l.clone();
+    }
+    
     public HistoricoAluguer getHistorico() {
         return historico.clone();
     }
@@ -136,8 +127,6 @@ public abstract class Veiculo implements Classificavel, Serializable {
                 matricula.equals(veiculo.getMatricula()) &&
                 Double.compare(velocidadeAv, veiculo.getVelocidadeAv()) == 0 &&
                 Double.compare(precoPorKm, veiculo.getPrecoPorKm()) == 0 &&
-                Double.compare(consumoPorKm, veiculo.getConsumoPorKm()) == 0 &&
-                Double.compare(autonomia, veiculo.getAutonomia()) == 0 &&
                 nClassificacoes == veiculo.getnClassificacoes() &&
                 Double.compare(classificacao, veiculo.getClassificacao()) == 0 &&
                 localizao.equals(veiculo.getLocalizacao()) &&
@@ -155,14 +144,13 @@ public abstract class Veiculo implements Classificavel, Serializable {
      */
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Veiculo{");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Veiculo{");
         sb.append("tipo=").append(tipo);
         sb.append(", marca=").append(marca);
         sb.append(", matricula=").append(matricula);
         sb.append(", velocidadeAv=").append(velocidadeAv);
         sb.append(", precoPorKm=").append(precoPorKm);
-        sb.append(", consumoPorKm=").append(consumoPorKm);
-        sb.append(", autonomia=").append(autonomia);
         sb.append(", nClassificacoes=").append(nClassificacoes);
         sb.append(", classificacao=").append(classificacao);
         sb.append(", ").append(localizao.toString());
@@ -170,4 +158,18 @@ public abstract class Veiculo implements Classificavel, Serializable {
         sb.append('}');
         return sb.toString();
     }
+    
+    public double viagem(Localizacao newLoc) throws AcidenteOcorreuException, AutonomiaInsuficienteException {
+        double dist = localizao.getDistancia(newLoc);
+        double prob = Veiculo.PROB_DE_ACIDENTE;
+        
+        if(new Random().nextInt(101) *  prob >= prob*100)
+            throw new AcidenteOcorreuException("Um acidente ocorreu ao viajar no carro com a matricula " +  matricula);
+        
+        this.setLocalizacao(newLoc);
+        
+        return dist;
+    }
+    
+    public abstract Veiculo clone();
 }
