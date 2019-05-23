@@ -1,4 +1,4 @@
-import java.io.Serializable;
+ import java.io.Serializable;
 import java.util.Random;
 /**
  * Classe Veiculo
@@ -106,7 +106,10 @@ public abstract class Veiculo implements Classificavel, Serializable {
         return historico.clone();
     }
 
-    public void classifica(double classificacao) {
+    public void classifica(double classificacao) throws ClassificacaoInvalidException {
+        if(classificacao < 0.0 || classificacao > 100.0)
+            throw new ClassificacaoInvalidException("Intervalo de classificaçoes e [0.0;100.0], foi dado classificacao de " + classificacao);
+        
         long nAtual = this.nClassificacoes;
         double clAtual = this.classificacao;
         this.classificacao = ((nAtual*clAtual + classificacao) / (nAtual + 1));

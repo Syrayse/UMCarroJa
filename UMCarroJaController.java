@@ -166,7 +166,7 @@ public class UMCarroJaController implements Serializable {
                          model.alteraMoradaP(Input.leString());
                          view.imprimeLinha("Morada alterada com sucesso");
                         break;
-                case 11: this.obtemClassificacao();
+                case 11: this.obtemClassificacao(model.indicaClassificacaoC());
                         break;
                 case 12: this.obtemClassVeiculo();
                         break;
@@ -221,7 +221,7 @@ public class UMCarroJaController implements Serializable {
                         model.alteraMoradaC(Input.leString());
                         view.imprimeLinha("Morada alterada com sucesso");
                         break;
-                case 6: this.obtemClassificacao();
+                case 6: this.obtemClassificacao(model.indicaClassificacaoC());
                         break;
                 default: view.imprimeLinha("Opçao invalida!");
                          Input.leString();
@@ -329,8 +329,8 @@ public class UMCarroJaController implements Serializable {
         Input.leString();
     }
 
-    private void obtemClassificacao() {
-        view.imprimeLinha("A sua classificacao atual e: " + model.indicaClassificacao());
+    private void obtemClassificacao(double classif) {
+        view.imprimeLinha("A sua classificacao atual e: " + classif);
         Input.leString();
     }
 
@@ -381,22 +381,33 @@ public class UMCarroJaController implements Serializable {
     
     
     private void parseLine(String line) {
-        String[] arr = line.split("[: ]+");
+        String[] arr = line.split("[:,]+");
         
-        switch(line) {
+        try {
+            switch(arr[0]) {
             case "NovoProp": if(arr.length == 5) {
-                                
+                                model.registarProprietario(arr[1],arr[2],arr[3],arr[4],arr[2]);
                             }
                             break;
-            case "NovoCliente":
+            case "NovoCliente": if(arr.length == 7) {
+                                model.registarCliente(arr[1], arr[2], arr[3], arr[4], Double.parseDouble(arr[5]), Double.parseDouble(arr[6]), arr[2]);
+                            }
                             break;
             case "NovoCarro":
                             break;
             case "Aluguer":
                             break;
-            case "Classificar":
+            case "Classificar": if(arr.length == 3) {
+                                model.classifica(arr[1], Double.parseDouble(arr[2]));
+                            }
                             break;
             default: break;
         }
+        }catch(Exception exc) {
+            // Mistakes happen, print error.
+            view.imprimeLinha("Em " + arr[0] + ", " + exc.getMessage());
+        }
+        
+        
     }
 }

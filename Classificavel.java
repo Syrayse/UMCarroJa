@@ -1,5 +1,5 @@
 @FunctionalInterface
 public interface Classificavel
 {
-    void classifica(double classificacao);
+    void classifica(double classificacao) throws ClassificacaoInvalidException;
 }

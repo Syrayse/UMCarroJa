@@ -81,13 +81,40 @@ public class UMCarroJaModel implements Serializable {
         this.veiculos.remove(matricula);
     }
     
-    public double indicaClassificacao() {
+    public double indicaClassificacaoP() {
         return getP().getClassificacao();
+    }
+    
+    public double indicaClassificacaoC() {
+        return this.clientes.get(login).getClassificacao();
     }
     
     public double indicaClassificacao(String matricula) throws VeiculoInvalidoException {
         this.safeGuardVeiculo(matricula);
         return veiculos.get(matricula).getClassificacao();
+    }
+    
+    public void classifica(String id, double classificacao) throws ClassificacaoInvalidException, EntidadeInexistenteException {
+        Veiculo v;
+        Proprietario p;
+        Cliente c;
+        
+        if((v = this.veiculos.get(id)) != null){
+            v.classifica(classificacao);
+            return;
+        }
+            
+        if((p = this.proprietarios.get(id)) != null){
+            p.classifica(classificacao);
+            return;
+        }
+
+        if((c = this.clientes.get(id)) != null){
+            c.classifica(classificacao);
+            return;
+        }        
+        
+        throw new EntidadeInexistenteException("Nao foi encontrada nenhuma entidade com o id: " + id);
     }
     
     private Proprietario getP() {
@@ -97,6 +124,5 @@ public class UMCarroJaModel implements Serializable {
     private void safeGuardVeiculo(String matricula) throws VeiculoInvalidoException {
         if(!getP().temVeiculo(matricula))
             throw new VeiculoInvalidoException("O veiculo com a matricula " + matricula + " ao qual pretende aceder nao lhe esta associado");
-    }
-    
+    }    
 }
