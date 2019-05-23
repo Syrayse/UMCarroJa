@@ -78,7 +78,9 @@ public class UMCarroJaModel implements Serializable {
     
     public void removeVeiculo(String matricula) throws VeiculoInvalidoException {
         this.safeGuardVeiculo(matricula);
+        this.getP().removeVeiculo(matricula);
         this.veiculos.remove(matricula);
+        
     }
     
     public double indicaClassificacaoP() {
@@ -115,6 +117,26 @@ public class UMCarroJaModel implements Serializable {
         }        
         
         throw new EntidadeInexistenteException("Nao foi encontrada nenhuma entidade com o id: " + id);
+    }
+    
+    public void addVeiculo(String tipo, String marca, String matricula, String nif, double vMedia,
+        double precoPorKm, double consumoPorKm, double autonomia, double x, double y) 
+                        throws VeiculoInvalidoException, PessoaInvalidException {
+        if(veiculos.containsKey(matricula))
+            throw new VeiculoInvalidoException("Ja existe um veiculo com a matricula " + matricula);
+        
+        if(!proprietarios.containsKey(nif))
+            throw new PessoaInvalidException("Nao existe proprietario com NIF " + nif);
+            
+        Veiculo v;
+            
+        if(tipo.equals("Hibrido"))
+            v = new CarroHibrido(tipo, marca, matricula, vMedia, precoPorKm, consumoPorKm, autonomia, x, y);
+        else
+            v = new CarroSimplex(tipo, marca, matricula, vMedia, precoPorKm, consumoPorKm, autonomia, x, y);
+            
+        veiculos.put(matricula, v);
+        proprietarios.get(nif).addVeiculo(matricula);
     }
     
     private Proprietario getP() {

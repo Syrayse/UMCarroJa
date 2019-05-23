@@ -1,9 +1,7 @@
 import java.time.LocalDateTime;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
+
 /**
  * Classe HistoricoAluguer.
  *
@@ -12,7 +10,7 @@ import java.util.TreeSet;
  */
 public class HistoricoAluguer implements Serializable {
 
-    private Set<Aluguer> historico;
+    private TreeSet<Aluguer> historico;
     /**
      * Construtor vazio para objetos da classe HistoricoAluguer
      */
@@ -22,7 +20,7 @@ public class HistoricoAluguer implements Serializable {
     /**
      * Construtor Parametrizado para objetos da classe HistoricoAluguer
      */
-    public HistoricoAluguer(Set<Aluguer> historico) {
+    public HistoricoAluguer(Collection<Aluguer> historico) {
         this.historico = new TreeSet<>(historico);
     }
     /**
@@ -32,16 +30,20 @@ public class HistoricoAluguer implements Serializable {
         this.historico = historico.getHistorico();
     }
 
-    public Set<Aluguer> getHistorico() {
+    public TreeSet<Aluguer> getHistorico() {
         return new TreeSet<>(this.historico);
     }
 
     public List<Aluguer> getSubSet(LocalDateTime from, LocalDateTime to) {
         Aluguer fromAluguer = new Aluguer(from);
         Aluguer toAluguer = new Aluguer(to);
-        return new ArrayList<Aluguer>(((TreeSet<Aluguer>) this.historico).subSet(fromAluguer, toAluguer));
+        return new ArrayList<Aluguer>(this.historico.subSet(fromAluguer, toAluguer));
     }
 
+    public double getNumKms() {
+        return historico.stream().mapToDouble(Aluguer::getDistanciaPercorrida).sum();
+    }
+    
     public void addAluguer(Aluguer aluguer) {
         this.historico.add(aluguer);
     }

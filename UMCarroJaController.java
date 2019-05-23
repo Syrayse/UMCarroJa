@@ -342,7 +342,7 @@ public class UMCarroJaController implements Serializable {
         
         try {
             double c = model.indicaClassificacao(matricula);
-            view.imprimeLinha("A matricula do seu veiculo e: " + c);
+            view.imprimeLinha("A classificacao do seu veiculo e: " + c);
             Input.leString();
         } catch(VeiculoInvalidoException exc) {
             view.imprimeLinha(exc.getMessage());
@@ -393,7 +393,10 @@ public class UMCarroJaController implements Serializable {
                                 model.registarCliente(arr[1], arr[2], arr[3], arr[4], Double.parseDouble(arr[5]), Double.parseDouble(arr[6]), arr[2]);
                             }
                             break;
-            case "NovoCarro":
+            case "NovoCarro": if(arr.length == 11) {
+                                model.addVeiculo(arr[1],arr[2],arr[3],arr[4],Double.parseDouble(arr[5]),Double.parseDouble(arr[6]),
+                                        Double.parseDouble(arr[7]),Double.parseDouble(arr[8]),Double.parseDouble(arr[9]),Double.parseDouble(arr[10]));
+                            }
                             break;
             case "Aluguer":
                             break;

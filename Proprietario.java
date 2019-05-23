@@ -35,6 +35,14 @@ public class Proprietario extends Pessoa implements Serializable {
     public Set<String> getVeiculos() {
         return new HashSet(veiculos);
     }
+    
+    public void addVeiculo(String veiculo) {
+        veiculos.add(veiculo);
+    }
+    
+    public void removeVeiculo(String veiculo) {
+        veiculos.remove(veiculo);
+    }
 
     public boolean temVeiculo(String matricula) {
         return veiculos.contains(matricula);
