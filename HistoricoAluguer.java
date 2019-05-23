@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.TreeSet;
  * @author (Rui Reis (A84930), Filipe Fernandes (A83996), António Guerra (A81032))
  * @version (2019-05-21)
  */
-public class HistoricoAluguer {
+public class HistoricoAluguer implements Serializable {
 
     private Set<Aluguer> historico;
     /**

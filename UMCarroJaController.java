@@ -65,11 +65,11 @@ public class UMCarroJaController implements Serializable {
             view.imprimeLinha("A informaçao foi deserializar com sucesso do ficheiro " + file);
             Input.leString();
         } catch(IOException exc) {
-            view.imprimeLinha("Erro de escrita ocorreu!");
+            view.imprimeLinha("Erro inesperado ocorreu!");
             Input.leString();
             return;
         } catch(ClassNotFoundException exc) {
-            view.imprimeLinha("Erro inesperado ocorreu!");
+            view.imprimeLinha("Classe nao se encontra definida neste modelo!");
             Input.leString();
             return;
         }
@@ -83,8 +83,8 @@ public class UMCarroJaController implements Serializable {
             FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(this.model);
+            out.flush();
             out.close();
-            fileOut.close();
             view.imprimeLinha("A informaçao foi serializada com sucesso no ficheiro " + file);
             Input.leString();
         } catch(IOException exc) {
