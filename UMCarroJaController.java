@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.nio.file.*;
 import java.util.List;
@@ -150,13 +149,13 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 1: 
                         break;
-                case 2: 
+                case 2: this.dispoMenu();
                         break;
                 case 3:
                         break;
                 case 4: this.altPrecoMenu();
                         break;
-                case 5:
+                case 5: this.addVeiculoMenu();
                         break;
                 case 6: this.removVeiculoMenu();
                         break;
@@ -428,60 +427,34 @@ public class UMCarroJaController implements Serializable {
     }
 
     private void alugueresEntreDatas() {
-        Boolean ok = false;
-        String inicio, fim, format = "dd/MM/yyyy";
-        inicio = fim = null;
         LocalDate init, end;
-        init = end = null;
         NavControl<Aluguer> inbetween;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         
-        view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: " + format);
+        view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: dd/MM/yyyy");
         
-        while(!ok) {
-            try {
-                view.imprime("Data inicial: ");
-                inicio = Input.leString();
-                init = LocalDate.parse(inicio, formatter);
+        view.imprime("Data inicial: ");
+        init = Input.leData();
 
-                view.imprime("Data final: ");
-                fim = Input.leString();
-                end = LocalDate.parse(fim, formatter);
-            } catch (DateTimeParseException exc){
-                view.imprimeLinha("Alguma das datas esta mal formatada, repita!");
-            }
-        }
+        view.imprime("Data final: ");
+        end = Input.leData();
         
-        navControlMenu(new NavControl<>("Alugueres entre " +  inicio + " e " + fim, model.getActAlugueres(init, end),
+        navControlMenu(new NavControl<>("Alugueres entre " +  init.toString() + " e " + end.toString(), model.getActAlugueres(init, end),
                     a -> view.imprimeLinha(a.toString())));
     }
     
     private void aluguerEntreDatasVec() {
-        Boolean ok = false;
-        String matricula, inicio, fim, format = "dd/MM/yyyy";
-        inicio = fim = null;
+        String matricula;
         LocalDate init, end;
-        init = end = null;
         NavControl<Aluguer> inbetween;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         List<Aluguer> list;
         
-        view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: " + format);
-        while(!ok) {
-            try {
-                view.imprime("Data inicial: ");
-                inicio = Input.leString();
-                init = LocalDate.parse(inicio, formatter);
+        view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: dd/MM/yyyy");
         
-                view.imprime("Data final: ");
-                fim = Input.leString();
-                end = LocalDate.parse(fim, formatter);
-                ok = true;
-            } catch (DateTimeParseException exc){
-                view.imprimeLinha("Alguma das datas esta mal formatada, repita!");
-            }
-        }
-        
+        view.imprime("Data inicial: ");
+        init = Input.leData();
+
+        view.imprime("Data final: ");
+        end = Input.leData();
         
         view.imprime("Matricula: ");
         matricula = Input.leString();
@@ -493,7 +466,7 @@ public class UMCarroJaController implements Serializable {
             return;
         }
         
-        navControlMenu(new NavControl<>("Alugueres entre " +  inicio + " e " + fim, list,
+        navControlMenu(new NavControl<>("Alugueres entre " +  init.toString() + " e " + end.toString(), list,
                     a -> view.imprimeLinha(a.toString())));
     }
     
@@ -542,7 +515,71 @@ public class UMCarroJaController implements Serializable {
     
     private void showStats() {
         view.clearScreen();
+        view.printHeader("Informçao estatistica", UMCarroJaView.BLUE);
         view.imprime(model.statsAsText());
+        view.printFooter();
+        Input.leString();
+    }
+
+    
+    private void addVeiculoMenu() {
+        String tipo, marca, matricula;
+        double vMedia, pPkm, cPkm, auto, x, y;
+        
+        view.clearScreen();
+        view.printHeader("Adicionar novo Veiculo", UMCarroJaView.BLUE);
+        
+        try {
+            view.imprime("Tipo: ");
+            tipo = Input.leString();
+            
+            view.imprime("Marca: ");
+            marca = Input.leString();
+            
+            view.imprime("Matricula: ");
+            matricula = Input.leString();
+            
+            view.imprime("Velocidade media: ");
+            vMedia = Input.leDouble();
+
+            view.imprime("Preco por KM: ");
+            pPkm = Input.leDouble();
+            
+            view.imprime("Custo por KM: ");
+            cPkm = Input.leDouble();
+
+            view.imprime("Autonomia: ");
+            auto = Input.leDouble(); 
+            
+            view.imprime("Posicao x: ");
+            x = Input.leDouble();
+
+            view.imprime("Posicao y: ");
+            y = Input.leDouble(); 
+            
+            model.addVeiculo(tipo, marca, matricula, vMedia, pPkm, cPkm, auto, x, y);
+            
+            view.imprimeLinha("Veiculo com matricula " + matricula + " adicionado com sucesso!");
+        } catch(Exception exc) {
+            view.imprimeLinha(exc.getMessage());
+        }
+        
+        
+        Input.leString();
+        
+    }
+    
+    private void dispoMenu() {
+        view.imprimeLinha("Insira a matricula do veiculo que pretende sinalizar");
+        String matricula = Input.leString();
+        
+        try {
+            model.tornaDisponivel(matricula);
+            view.imprimeLinha("Veiculo " + matricula + " sinalizado com sucesso");
+        } catch(VeiculoInvalidoException vie) {
+            view.imprimeLinha(vie.getMessage());
+        }
+        
         Input.leString();
     }
     

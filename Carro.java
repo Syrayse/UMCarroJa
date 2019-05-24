@@ -48,5 +48,11 @@ public abstract class Carro extends Veiculo implements Serializable {
         return sb.toString();
     }
     
-    
+    @Override
+    public double viagem(Localizacao newLoc) throws AcidenteOcorreuException, AutonomiaInsuficienteException {
+        double dist = this.getLocalizacao().getDistancia(newLoc);
+        
+        if(dist > this.getAutonomia())
+            throw new AutonomiaInsuficienteException("Impossivel realizar viagem, possui
+    }
 }

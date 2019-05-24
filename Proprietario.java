@@ -1,6 +1,5 @@
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Classe Proprietario (Sub-Classe da Classe Pessoa).
@@ -11,12 +10,15 @@ import java.util.Set;
 public class Proprietario extends Pessoa implements Serializable {
 
     private Set<String> veiculos;
+    private List<PedidoAluguer> pedidos;
+    
     /**
      * Construtor vazio para objetos da classe Proprietario
      */
     public Proprietario(){
         super();
         veiculos = new HashSet<>();
+        pedidos = new ArrayList<>();
     }
     /**
      * Construtor parametrizado para objetos da classe Proprietario
@@ -24,6 +26,7 @@ public class Proprietario extends Pessoa implements Serializable {
     public Proprietario(String nif, String email, String nome, String password, String morada){
         super(nif, email, nome, password, morada);
         veiculos = new HashSet<>();
+        pedidos = new ArrayList<>();
     }
     /**
      * Construtor de cópia para objetos da classe Proprietario
@@ -31,8 +34,29 @@ public class Proprietario extends Pessoa implements Serializable {
     public Proprietario(Proprietario proprietario){
         super(proprietario);
         veiculos = proprietario.getVeiculos();
+        pedidos = proprietario.getPedidos();
+    }
+    
+    public void removePedido() throws PedidoInvalidoException {
+        if(pedidos.size() == 0)
+            throw new PedidoInvalidoException("Ja nao ha mais pedidos de aluguer!");
+        pedidos.remove(0);        
+    }
+    
+    public void recusaPedido(int i) throws PedidoInvalidoException {
+        if(i <= 0 || i > pedidos.size())
+            throw new PedidoInvalidoException("Nao possui nenhum pedido de aluguer com ID " + i + "!");
+        pedidos.remove(i - 1);
     }
 
+    public void addPedido(PedidoAluguer pa) {
+        pedidos.add(pa);
+    }
+    
+    public List<PedidoAluguer> getPedidos() {
+        return new ArrayList<>(pedidos);
+    }
+    
     public Set<String> getVeiculos() {
         return new HashSet(veiculos);
     }

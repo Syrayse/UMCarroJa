@@ -113,6 +113,12 @@ public class UMCarroJaModel implements Serializable {
         throw new EntidadeInexistenteException("Nao foi encontrada nenhuma entidade com o id: " + id);
     }
     
+    public void addVeiculo(String tipo, String marca, String matricula, double vMedia,
+        double precoPorKm, double consumoPorKm, double autonomia, double x, double y) 
+                        throws VeiculoInvalidoException, PessoaInvalidException {
+        this.addVeiculo(tipo, marca, matricula, login.getNif(), vMedia, precoPorKm, consumoPorKm, autonomia, x, y);
+    }
+    
     public void addVeiculo(String tipo, String marca, String matricula, String nif, double vMedia,
         double precoPorKm, double consumoPorKm, double autonomia, double x, double y) 
                         throws VeiculoInvalidoException, PessoaInvalidException {
@@ -158,6 +164,11 @@ public class UMCarroJaModel implements Serializable {
             throw new SemPermissaoException("Nao possui permissao para aceder ao veiculo com matricula " + matricula);
         
         return veiculos.get(matricula).getHistorico().getSubSet(inicio,fim);
+    }
+    
+    public void tornaDisponivel(String matricula) throws VeiculoInvalidoException {
+        safeGuardVeiculo(matricula);
+        veiculos.get(matricula).disponivel();
     }
     
     public String statsAsText() {

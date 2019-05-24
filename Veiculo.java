@@ -10,6 +10,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
 
     private static final double PROB_DE_ACIDENTE = 0.01;
     
+    private boolean disponivel;
     private String tipo;
     private String marca;
     private String matricula;
@@ -23,6 +24,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
      * Construtor vazio para objetos da classe Veiculo
      */
     public Veiculo() {
+        disponivel = false;
         tipo = "";
         marca = "";
         matricula = "";
@@ -37,6 +39,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
      * Construtor parametrizado para objetos da classe Veiculo
      */
     public Veiculo(String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double x, double y) {
+        disponivel = true;
         this.tipo = tipo;
         this.marca = marca;
         this.matricula = matricula;
@@ -51,6 +54,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
      * Construtor de cópia para objetos da classe Veiculo
      */
     public Veiculo(Veiculo veiculo) {
+        disponivel = veiculo.estaDisponivel();
         tipo = veiculo.getTipo();
         marca = veiculo.getMarca();
         matricula = veiculo.getMatricula();
@@ -60,6 +64,14 @@ public abstract class Veiculo implements Classificavel, Serializable {
         classificacao = veiculo.getClassificacao();
         localizao = veiculo.getLocalizacao();
         historico = veiculo.getHistorico();
+    }
+    
+    public boolean estaDisponivel() {
+        return disponivel;
+    }
+    
+    public void disponivel() {
+        disponivel = true;
     }
 
     public String getTipo() {

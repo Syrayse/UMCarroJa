@@ -81,10 +81,9 @@ public class Localizacao implements Serializable {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("localizacao{");
-        sb.append("x=").append(this.x);
+        sb.append("(x=").append(this.x);
         sb.append(",y=").append(this.y);
-        sb.append("}");
+        sb.append(")");
         return sb.toString();
     }
     /**

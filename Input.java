@@ -1,6 +1,8 @@
 import static java.lang.System.in;
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.time.LocalDate;
+import java.time.format.*;
 
 public class Input
 {
@@ -56,5 +58,25 @@ public class Input
         }
 
         return d;
+    }
+    
+    public static LocalDate leData() {
+        Scanner input = new Scanner(in);
+        boolean ok = false;
+        String line = "";
+        LocalDate data = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        
+        while(!ok) {
+            try {
+                line = input.nextLine();
+                data = LocalDate.parse(line, formatter);
+                ok = true;
+            } catch (DateTimeParseException exc) {
+                input.nextLine();
+            }
+        }
+        
+        return data;
     }
 }

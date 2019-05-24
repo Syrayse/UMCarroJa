@@ -6,8 +6,8 @@ import java.io.Serializable;
  * @version (2019-05-21)
  */
 public class PedidoAluguer implements Serializable {
-    private long nifCliente;
-    private long idVeiculo;
+    private String nifCliente;
+    private String idVeiculo;
     private Localizacao origem;
     private Localizacao destino;
     private Localizacao localizaoCliente;
@@ -15,8 +15,8 @@ public class PedidoAluguer implements Serializable {
      * Construtor vazio para objetos da classe PedidoAluguer
      */
     public PedidoAluguer() {
-        nifCliente = -1;
-        idVeiculo = -1;
+        nifCliente = "";
+        idVeiculo = "";
         origem = new Localizacao();
         destino = new Localizacao();
         localizaoCliente = new Localizacao();
@@ -24,7 +24,7 @@ public class PedidoAluguer implements Serializable {
     /**
      * Construtor parametrizado para objetos da classe PedidoAluguer
      */
-    public PedidoAluguer(long nifCliente, long idVeiculo, Localizacao origem, Localizacao destino, Localizacao localizaoCliente) {
+    public PedidoAluguer(String nifCliente, String idVeiculo, Localizacao origem, Localizacao destino, Localizacao localizaoCliente) {
         this.nifCliente = nifCliente;
         this.idVeiculo = idVeiculo;
         this.origem = origem.clone();
@@ -42,11 +42,11 @@ public class PedidoAluguer implements Serializable {
         localizaoCliente = pedido.getLocalizaoCliente();
     }
 
-    public long getNifCliente() {
+    public String getNifCliente() {
         return nifCliente;
     }
 
-    public long getIdVeiculo() {
+    public String getIdVeiculo() {
         return idVeiculo;
     }
 
@@ -61,29 +61,22 @@ public class PedidoAluguer implements Serializable {
     public Localizacao getLocalizaoCliente() {
         return localizaoCliente.clone();
     }
+    
     /**
      * Implementação do método toString de um PedidoAluguer.
      *
      * @return String.
      */
     public String toString() {
-        final StringBuffer sb = new StringBuffer("PedidoAluguer{");
+        final StringBuffer sb = new StringBuffer();
         sb.append("nifCliente=").append(nifCliente);
         sb.append(", idVeiculo=").append(idVeiculo);
         sb.append(", origem=").append(origem.toString());
         sb.append(", destino=").append(destino.toString());
         sb.append(", localizaoCliente=").append(localizaoCliente.toString());
-        sb.append('}');
         return sb.toString();
     }
-    /**
-     * Implementação do método Clone de um PedidoAluguer.
-     *
-     * @return Objecto do tipo PedidoAluguer.
-     */
-    public PedidoAluguer clone() {
-        return new PedidoAluguer(this);
-    }
+    
     /**
      * Implementação do método equals de um PedidoAluguer.
      *
@@ -93,8 +86,8 @@ public class PedidoAluguer implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PedidoAluguer that = (PedidoAluguer) o;
-        return idVeiculo == that.getIdVeiculo() &&
-                nifCliente == that.getNifCliente() &&
+        return idVeiculo.equals(that.getIdVeiculo()) &&
+                nifCliente.equals(that.getNifCliente()) &&
                 origem.equals(that.getOrigem()) &&
                 destino.equals(that.getDestino()) &&
                 localizaoCliente.equals(that.getLocalizaoCliente());
