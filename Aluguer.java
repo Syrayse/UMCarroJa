@@ -8,56 +8,60 @@ import java.time.LocalDateTime;
  */
 public class Aluguer implements Comparable<Aluguer> {
 
-    private long idCliente;
-    private long idProprietario;
-    private long idVeiculo;
+    private String idCliente;
+    private String idProprietario;
+    private String idVeiculo;
     private double distanciaPercorrida;
     private double totalPago;
+    private double tempoUtilizado;
     private LocalDateTime data;
     /**
      * Construtor vazio para objetos da classe Aluguer
      */
     public Aluguer() {
-        idCliente = -1;
-        idProprietario = -1;
-        idVeiculo = -1;
+        idCliente = "";
+        idProprietario = "";
+        idVeiculo = "";
         distanciaPercorrida = 0.0;
         totalPago = 0.0;
+        tempoUtilizado = 0.0;
         data = LocalDateTime.now();
     }
     /**
      * Construtor de Parametro data para objetos da classe Aluguer
      */
     public Aluguer(LocalDate data) {
-        idCliente = -1;
-        idProprietario = -1;
-        idVeiculo = -1;
+        idCliente = "";
+        idProprietario = "";
+        idVeiculo = "";
         distanciaPercorrida = 0.0;
         totalPago = 0.0;
+        tempoUtilizado = 0.0;
         this.data = data.atStartOfDay();
     }
     /**
      * Construtor Parametrizado para objetos da classe Aluguer
      */
-    public Aluguer(long idCliente, long idProprietario, long idVeiculo,
-                double distanciaPercorrida, double totalPago, LocalDateTime data) {
+    public Aluguer(String idCliente, String idProprietario, String idVeiculo,
+                double distanciaPercorrida, double totalPago, double tempoUtilizado) {
         this.idCliente = idCliente;
         this.idProprietario = idProprietario;
         this.idVeiculo = idVeiculo;
         this.distanciaPercorrida = distanciaPercorrida;
         this.totalPago = totalPago;
-        this.data = data;
+        this.tempoUtilizado = tempoUtilizado;
+        this.data = LocalDateTime.now();
     }
 
-    public long getIdCliente() {
+    public String getIdCliente() {
         return idCliente;
     }
 
-    public long getIdProprietario() {
+    public String getIdProprietario() {
         return idProprietario;
     }
 
-    public long getIdVeiculo() {
+    public String getIdVeiculo() {
         return idVeiculo;
     }
 
@@ -67,6 +71,10 @@ public class Aluguer implements Comparable<Aluguer> {
 
     public double getTotalPago() {
         return totalPago;
+    }
+    
+    public double getTempoUtilizado() {
+        return tempoUtilizado;
     }
 
     public LocalDateTime getData() {

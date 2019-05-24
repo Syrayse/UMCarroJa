@@ -2,6 +2,9 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.*;
+import java.util.function.ToDoubleFunction;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Classe HistoricoAluguer.
@@ -42,11 +45,31 @@ public class HistoricoAluguer implements Serializable {
     }
 
     public double getNumKms() {
-        return historico.stream().mapToDouble(Aluguer::getDistanciaPercorrida).sum();
+        return sumTotal(Aluguer::getDistanciaPercorrida);
+    }
+    
+    public double getTotalGasto() {
+        return sumTotal(Aluguer::getTotalPago);
+    }
+    
+    public double getTotalTempo() {
+        return sumTotal(Aluguer::getTempoUtilizado);
     }
     
     public void addAluguer(Aluguer aluguer) {
         this.historico.add(aluguer);
+    }
+    
+    public int getNumClientes() {
+        return countTotal(Aluguer::getIdCliente);
+    }
+    
+    public int getNumVeiculos() {
+        return countTotal(Aluguer::getIdVeiculo);
+    }
+    
+    public int getNumProprietarios() {
+        return countTotal(Aluguer::getIdProprietario);
     }
 
     public int size() {
@@ -82,5 +105,18 @@ public class HistoricoAluguer implements Serializable {
         sb.append(historico.toString());
         sb.append('}');
         return sb.toString();
+    }
+    
+    private double sumTotal(ToDoubleFunction<Aluguer> mapper) {
+        return historico.stream()
+                        .mapToDouble(mapper)
+                        .sum();
+    }
+    
+    private int countTotal(Function<Aluguer, String> mapper) {
+        return historico.stream()
+                        .map(mapper)
+                        .collect(Collectors.toSet())
+                        .size();
     }
 }

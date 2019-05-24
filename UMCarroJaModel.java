@@ -160,6 +160,24 @@ public class UMCarroJaModel implements Serializable {
         return veiculos.get(matricula).getHistorico().getSubSet(inicio,fim);
     }
     
+    public String statsAsText() {
+        HistoricoAluguer h = login.getHistorico();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Kilometros: ").append(h.getNumKms());
+        sb.append("\nCash flow total: ").append(h.getTotalGasto());
+        sb.append("\nTempo total: ").append(h.getTotalTempo());
+        if(login instanceof Proprietario) {
+            Proprietario p = (Proprietario)login;
+            sb.append("\nNumero veiculos: ").append(p.getNumVeiculos());
+            sb.append("\nNumero clientes distintos: ").append(h.getNumClientes());
+        } else {
+            sb.append("\nNumero proprietarios distintos: ").append(h.getNumProprietarios());
+        }
+        sb.append("\nNumero veiculos distintos alugados: ").append(h.getNumVeiculos());
+        sb.append("\n");
+        return sb.toString();
+    }
+    
     private void safeGuardVeiculo(String matricula) throws VeiculoInvalidoException {
         if(!((Proprietario)login).temVeiculo(matricula))
             throw new VeiculoInvalidoException("O veiculo com a matricula " + matricula + " ao qual pretende aceder nao lhe esta associado");

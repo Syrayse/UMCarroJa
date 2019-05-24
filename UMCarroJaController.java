@@ -4,7 +4,7 @@ import java.nio.file.*;
 import java.util.List;
 import java.util.function.Consumer;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.format.*;
 
 public class UMCarroJaController implements Serializable {
 
@@ -162,7 +162,7 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 7: this.alugueresEntreDatas();
                         break;
-                case 8:
+                case 8: this.showStats();
                         break;
                 case 9: this.alteraPassMenu();
                         break;
@@ -217,7 +217,7 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 2: this.alugueresEntreDatas();
                         break;
-                case 3:
+                case 3: this.showStats();
                         break;
                 case 4: this.alteraPassMenu();
                         break;
@@ -428,37 +428,61 @@ public class UMCarroJaController implements Serializable {
     }
 
     private void alugueresEntreDatas() {
+        Boolean ok = false;
         String inicio, fim, format = "dd/MM/yyyy";
+        inicio = fim = null;
         LocalDate init, end;
+        init = end = null;
         NavControl<Aluguer> inbetween;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         
         view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: " + format);
-        view.imprime("Data inicial: ");
-        inicio = Input.leString();
-        init = LocalDate.parse(inicio, formatter);
-        view.imprime("Data inicial: ");
-        fim = Input.leString();
-        end = LocalDate.parse(fim, formatter);
+        
+        while(!ok) {
+            try {
+                view.imprime("Data inicial: ");
+                inicio = Input.leString();
+                init = LocalDate.parse(inicio, formatter);
+
+                view.imprime("Data final: ");
+                fim = Input.leString();
+                end = LocalDate.parse(fim, formatter);
+            } catch (DateTimeParseException exc){
+                view.imprimeLinha("Alguma das datas esta mal formatada, repita!");
+            }
+        }
         
         navControlMenu(new NavControl<>("Alugueres entre " +  inicio + " e " + fim, model.getActAlugueres(init, end),
                     a -> view.imprimeLinha(a.toString())));
     }
     
     private void aluguerEntreDatasVec() {
+        Boolean ok = false;
         String matricula, inicio, fim, format = "dd/MM/yyyy";
+        inicio = fim = null;
         LocalDate init, end;
+        init = end = null;
         NavControl<Aluguer> inbetween;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         List<Aluguer> list;
         
         view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: " + format);
-        view.imprime("Data inicial: ");
-        inicio = Input.leString();
-        init = LocalDate.parse(inicio, formatter);
-        view.imprime("Data inicial: ");
-        fim = Input.leString();
-        end = LocalDate.parse(fim, formatter);
+        while(!ok) {
+            try {
+                view.imprime("Data inicial: ");
+                inicio = Input.leString();
+                init = LocalDate.parse(inicio, formatter);
+        
+                view.imprime("Data final: ");
+                fim = Input.leString();
+                end = LocalDate.parse(fim, formatter);
+                ok = true;
+            } catch (DateTimeParseException exc){
+                view.imprimeLinha("Alguma das datas esta mal formatada, repita!");
+            }
+        }
+        
+        
         view.imprime("Matricula: ");
         matricula = Input.leString();
         
@@ -490,6 +514,7 @@ public class UMCarroJaController implements Serializable {
                             model.getVeiculos(),
                             v -> view.imprimeLinha(v.toString())));
     }
+    
     private void navControlMenu(NavControl<? extends Object> inbetween) {
         boolean in = true;
         int i;
@@ -513,6 +538,12 @@ public class UMCarroJaController implements Serializable {
             }
         }
         
+    }
+    
+    private void showStats() {
+        view.clearScreen();
+        view.imprime(model.statsAsText());
+        Input.leString();
     }
     
 }

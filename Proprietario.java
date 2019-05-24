@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
 /**
  * Classe Proprietario (Sub-Classe da Classe Pessoa).
  *
@@ -36,6 +37,10 @@ public class Proprietario extends Pessoa implements Serializable {
         return new HashSet(veiculos);
     }
     
+    public int getNumVeiculos() {
+        return veiculos.size();
+    }
+    
     public void addVeiculo(String veiculo) {
         veiculos.add(veiculo);
     }
@@ -47,6 +52,7 @@ public class Proprietario extends Pessoa implements Serializable {
     public boolean temVeiculo(String matricula) {
         return veiculos.contains(matricula);
     }
+    
     /**
      * Implementação do método toString de um Proprietário.
      *
