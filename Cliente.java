@@ -33,6 +33,10 @@ public class Cliente extends Pessoa implements Serializable {
 
     public Localizacao getLocalizacao(){ return localizacao.clone(); }
 
+    public void move(double x, double y) {
+        localizacao.move(x,y);
+    }
+    
     /**
      * Implementação do método toString de um Cliente.
      *

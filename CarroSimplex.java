@@ -60,8 +60,8 @@ public class CarroSimplex extends Carro implements MonoAbastecivel, Serializable
     
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("CarroSimplex{").append(super.toString());
-        sb.append(", totalDep=").append(total_dep).append("}"); 
+        sb.append(super.toString());
+        sb.append(", totalDep=").append(total_dep);
         return sb.toString();
     }
 }

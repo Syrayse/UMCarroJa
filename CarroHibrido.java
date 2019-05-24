@@ -83,9 +83,9 @@ public class CarroHibrido extends Carro implements BiAbastecivel, Serializable {
     
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("CarroSimplex{").append(super.toString());
+        sb.append(super.toString());
         sb.append(", totalKwh=").append(totalKwh); 
-        sb.append(", totalGas=").append(totalGas).append("}");
+        sb.append(", totalGas=").append(totalGas);
         return sb.toString();
     }
 }

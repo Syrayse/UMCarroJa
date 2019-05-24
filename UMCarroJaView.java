@@ -69,6 +69,8 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("10: Alterar morada");
         imprimeLinha("11: Indicar classificacao");
         imprimeLinha("12: Indicar classificacao da viatura");
+        imprimeLinha("13: Verificar historico de aluguer em veiculo(entre datas)");
+        imprimeLinha("14: Verificar os meus veiculos");
         imprimeLinha("0: Logout");
         printFooter();
     }
@@ -84,6 +86,29 @@ public class UMCarroJaView implements Serializable {
         printFooter();
     }
 
+    public static void menuSolAdvanced() {
+        printHeader("Solicitar Veiculo - ADVANCED", UMCarroJaView.BLUE);
+        imprimeLinha("1: Proxima pagina");
+        imprimeLinha("2: Retroceder pagina");
+        imprimeLinha("3: Mostrar so eletricos");
+        imprimeLinha("4: Mostrar so hibridos");
+        imprimeLinha("5: Mostrar so gasolina");
+        imprimeLinha("6: Mostrar so gasoleo");
+        imprimeLinha("7: Ordenar por maior proximidade");
+        imprimeLinha("8: Ordenar por preço crescente");
+        imprimeLinha("9: Fixar autonomia minima");
+        imprimeLinha("10: Fixar distancia maxima");
+        imprimeLinha("0: Cancelar");
+        printFooter();
+    }
+    
+    public static void listOptions() {
+        imprimeLinha("1: Proxima pagina");
+        imprimeLinha("2: Retroceder pagina");
+        imprimeLinha("0: Cancelar");
+        printFooter();
+    }
+    
     public static void imprime(String text) {
         out.print(text);
     }

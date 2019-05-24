@@ -1,5 +1,5 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 /**
  * Classe Aluguer.
  *
@@ -28,13 +28,13 @@ public class Aluguer implements Comparable<Aluguer> {
     /**
      * Construtor de Parametro data para objetos da classe Aluguer
      */
-    public Aluguer(LocalDateTime data) {
+    public Aluguer(LocalDate data) {
         idCliente = -1;
         idProprietario = -1;
         idVeiculo = -1;
         distanciaPercorrida = 0.0;
         totalPago = 0.0;
-        this.data = data;
+        this.data = data.atStartOfDay();
     }
     /**
      * Construtor Parametrizado para objetos da classe Aluguer

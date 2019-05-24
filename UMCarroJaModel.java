@@ -1,9 +1,11 @@
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 public class UMCarroJaModel implements Serializable {
 
-    private String login;
+    private Pessoa login;
     private Map<String, Cliente> clientes;
     private Map<String, Proprietario> proprietarios;
     private Map<String, Veiculo> veiculos;
@@ -13,7 +15,7 @@ public class UMCarroJaModel implements Serializable {
     }
     
     public UMCarroJaModel() {
-        login = "";
+        login = null;
         clientes = new HashMap<>();
         proprietarios = new HashMap<>();
         veiculos = new HashMap<>();
@@ -23,8 +25,10 @@ public class UMCarroJaModel implements Serializable {
         if(!this.proprietarios.containsKey(nif))
             throw new PessoaInvalidException("Nao existe nenhum proprietario com o nif " + nif);
         
-        if(this.proprietarios.get(nif).getPassword().equals(password))
-            this.login = nif;
+        Proprietario prop = this.proprietarios.get(nif);
+            
+        if(prop.getPassword().equals(password))
+            this.login = prop;
         else
             throw new PessoaInvalidException("A password que inseriu para o proprietario " + nif + " esta errada");
     }
@@ -33,8 +37,10 @@ public class UMCarroJaModel implements Serializable {
         if(!this.clientes.containsKey(nif))
             throw new PessoaInvalidException("Nao existe nenhum cliente com o nif " + nif);
         
-        if(this.clientes.get(nif).getPassword().equals(password))
-            this.login = nif;
+        Cliente cliente = this.clientes.get(nif);
+            
+        if(cliente.getPassword().equals(password))
+            this.login = cliente;
         else
             throw new PessoaInvalidException("A password que inseriu para o cliente " + nif + " esta errada");
     }
@@ -51,24 +57,16 @@ public class UMCarroJaModel implements Serializable {
         clientes.put(nif, new Cliente(nif, email, nome, password, morada, x, y));                
     }
     
-    public void alteraPasswordP(String novaPass) {
-        getP().setPassword(novaPass);
+    public void alteraPassword(String novaPass) {
+        login.setPassword(novaPass);
     }
 
-    public void alteraPasswordC(String novaPass) {
-        this.clientes.get(login).setPassword(novaPass);
-    }    
-    
-    public void alteraMoradaP(String novaMorada) {
-        getP().setMorada(novaMorada);
-    }
-    
-    public void alteraMoradaC(String novaMorada) {
-        this.clientes.get(login).setMorada(novaMorada);
+    public void alteraMorada(String novaMorada) {
+        login.setMorada(novaMorada);
     }
     
     public void logoff() {
-        this.login = "";
+        this.login = null;
     }
     
     public void alteraPrecoPorKm(String matricula, double preco) throws VeiculoInvalidoException {
@@ -78,17 +76,13 @@ public class UMCarroJaModel implements Serializable {
     
     public void removeVeiculo(String matricula) throws VeiculoInvalidoException {
         this.safeGuardVeiculo(matricula);
-        this.getP().removeVeiculo(matricula);
+        ((Proprietario)login).removeVeiculo(matricula);
         this.veiculos.remove(matricula);
         
     }
     
-    public double indicaClassificacaoP() {
-        return getP().getClassificacao();
-    }
-    
-    public double indicaClassificacaoC() {
-        return this.clientes.get(login).getClassificacao();
+    public double indicaClassificacao() {
+        return login.getClassificacao();
     }
     
     public double indicaClassificacao(String matricula) throws VeiculoInvalidoException {
@@ -139,12 +133,35 @@ public class UMCarroJaModel implements Serializable {
         proprietarios.get(nif).addVeiculo(matricula);
     }
     
-    private Proprietario getP() {
-        return this.proprietarios.get(login);
+    public List<Cliente> getTop10Clientes() {
+        return clientes.values()
+                       .stream()
+                       .sorted(new CompMelhorPessoa())
+                       .limit(10)
+                       .map(Cliente::clone)
+                       .collect(Collectors.toList());                      
+    }
+    
+    public List<Veiculo> getVeiculos() {
+        return ((Proprietario)login).getVeiculos()
+                                    .stream()
+                                    .map(s -> veiculos.get(s).clone())
+                                    .collect(Collectors.toList());
+    }
+    
+    public List<Aluguer> getActAlugueres(LocalDate inicio, LocalDate fim) {
+        return login.getHistorico().getSubSet(inicio, fim);
+    }
+    
+    public List<Aluguer> getActAlugueres(LocalDate inicio, LocalDate fim, String matricula) throws SemPermissaoException {
+        if(!((Proprietario)login).temVeiculo(matricula))
+            throw new SemPermissaoException("Nao possui permissao para aceder ao veiculo com matricula " + matricula);
+        
+        return veiculos.get(matricula).getHistorico().getSubSet(inicio,fim);
     }
     
     private void safeGuardVeiculo(String matricula) throws VeiculoInvalidoException {
-        if(!getP().temVeiculo(matricula))
+        if(!((Proprietario)login).temVeiculo(matricula))
             throw new VeiculoInvalidoException("O veiculo com a matricula " + matricula + " ao qual pretende aceder nao lhe esta associado");
     }    
 }

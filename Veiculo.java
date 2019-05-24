@@ -106,6 +106,10 @@ public abstract class Veiculo implements Classificavel, Serializable {
         return historico.clone();
     }
 
+    public void addAluguer(Aluguer al) {
+        historico.addAluguer(al);
+    }
+    
     public void classifica(double classificacao) throws ClassificacaoInvalidException {
         if(classificacao < 0.0 || classificacao > 100.0)
             throw new ClassificacaoInvalidException("Intervalo de classificaçoes e [0.0;100.0], foi dado classificacao de " + classificacao);
@@ -148,7 +152,6 @@ public abstract class Veiculo implements Classificavel, Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Veiculo{");
         sb.append("tipo=").append(tipo);
         sb.append(", marca=").append(marca);
         sb.append(", matricula=").append(matricula);
@@ -157,8 +160,6 @@ public abstract class Veiculo implements Classificavel, Serializable {
         sb.append(", nClassificacoes=").append(nClassificacoes);
         sb.append(", classificacao=").append(classificacao);
         sb.append(", ").append(localizao.toString());
-        sb.append(", ").append(historico.toString());
-        sb.append('}');
         return sb.toString();
     }
     

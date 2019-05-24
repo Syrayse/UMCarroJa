@@ -42,10 +42,9 @@ public abstract class Carro extends Veiculo implements Serializable {
     
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Carro{").append(super.toString());
+        sb.append(super.toString());
         sb.append(", consumoPorKm=").append(consumoPorKm);
-        sb.append(", autonomia=").append(autonomia);
-        sb.append("}");
+        sb.append(", autonomia=").append(this.getAutonomia());
         return sb.toString();
     }
     

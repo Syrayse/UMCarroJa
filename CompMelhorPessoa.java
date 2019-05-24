@@ -8,10 +8,10 @@ public class CompMelhorPessoa implements Comparator<Pessoa>
         h1 = p1.getHistorico();
         h2 = p2.getHistorico();
         
-        r = Integer.compare(h1.size(), h2.size());
+        r = (-1) * Integer.compare(h1.size(), h2.size());
         
         if(r == 0)
-            r = Double.compare(h1.getNumKms(), h2.getNumKms());
+            r = (-1) * Double.compare(h1.getNumKms(), h2.getNumKms());
             
         return r;
     }

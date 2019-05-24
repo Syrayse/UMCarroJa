@@ -1,6 +1,10 @@
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.List;
+import java.util.function.Consumer;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class UMCarroJaController implements Serializable {
 
@@ -36,6 +40,8 @@ public class UMCarroJaController implements Serializable {
                 case 6: this.registarProprietario();
                         break;
                 case 7: this.registarCliente();
+                        break;
+                case 8: this.showTop10();
                         break;
                 default: view.imprimeLinha("Opçao invalida!");
                         Input.leString();
@@ -154,21 +160,21 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 6: this.removVeiculoMenu();
                         break;
-                case 7:
+                case 7: this.alugueresEntreDatas();
                         break;
                 case 8:
                         break;
-                case 9: view.imprimeLinha("Insira a sua nova password:");
-                        model.alteraPasswordP(Input.leString());
-                        view.imprimeLinha("Password alterada com sucesso");
+                case 9: this.alteraPassMenu();
                         break;
-                case 10: view.imprimeLinha("Insira a sua nova morada:");
-                         model.alteraMoradaP(Input.leString());
-                         view.imprimeLinha("Morada alterada com sucesso");
+                case 10: this.alteraMoradaMenu();
                         break;
-                case 11: this.obtemClassificacao(model.indicaClassificacaoC());
+                case 11: this.obtemClassificacao(model.indicaClassificacao());
                         break;
                 case 12: this.obtemClassVeiculo();
+                        break;
+                case 13: this.aluguerEntreDatasVec();
+                        break;
+                case 14: this.verificarVecMenu();
                         break;
                 default: view.imprimeLinha("Opçao invalida!");
                          Input.leString();
@@ -209,19 +215,15 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 1: this.showMenuAluguer();
                         break;
-                case 2:
+                case 2: this.alugueresEntreDatas();
                         break;
                 case 3:
                         break;
-                case 4: view.imprimeLinha("Insira a sua nova password:");
-                        model.alteraPasswordC(Input.leString());
-                        view.imprimeLinha("Password alterada com sucesso");
+                case 4: this.alteraPassMenu();
                         break;
-                case 5: view.imprimeLinha("Insira a sua nova morada:");
-                        model.alteraMoradaC(Input.leString());
-                        view.imprimeLinha("Morada alterada com sucesso");
+                case 5: this.alteraMoradaMenu();
                         break;
-                case 6: this.obtemClassificacao(model.indicaClassificacaoC());
+                case 6: this.obtemClassificacao(model.indicaClassificacao());
                         break;
                 default: view.imprimeLinha("Opçao invalida!");
                          Input.leString();
@@ -410,7 +412,107 @@ public class UMCarroJaController implements Serializable {
             // Mistakes happen, print error.
             view.imprimeLinha("Em " + arr[0] + ", " + exc.getMessage());
         }
+    }
+    
+    private void showTop10() {
+        view.clearScreen();
+        new NavControl<Cliente>("Top 10 Clientes", model.getTop10Clientes(), this.imprimeCliente()).showPage();
+        Input.leString();
+    }
+    
+    private Consumer<Cliente> imprimeCliente() {
+        return c -> {
+            HistoricoAluguer h = c.getHistorico();
+            view.imprimeLinha(String.format("NIF='%s', NºAlugueres=%5d, NºKms=%6.2f", c.getNif(), h.size(), h.getNumKms()));
+        };
+    }
+
+    private void alugueresEntreDatas() {
+        String inicio, fim, format = "dd/MM/yyyy";
+        LocalDate init, end;
+        NavControl<Aluguer> inbetween;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         
+        view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: " + format);
+        view.imprime("Data inicial: ");
+        inicio = Input.leString();
+        init = LocalDate.parse(inicio, formatter);
+        view.imprime("Data inicial: ");
+        fim = Input.leString();
+        end = LocalDate.parse(fim, formatter);
+        
+        navControlMenu(new NavControl<>("Alugueres entre " +  inicio + " e " + fim, model.getActAlugueres(init, end),
+                    a -> view.imprimeLinha(a.toString())));
+    }
+    
+    private void aluguerEntreDatasVec() {
+        String matricula, inicio, fim, format = "dd/MM/yyyy";
+        LocalDate init, end;
+        NavControl<Aluguer> inbetween;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        List<Aluguer> list;
+        
+        view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: " + format);
+        view.imprime("Data inicial: ");
+        inicio = Input.leString();
+        init = LocalDate.parse(inicio, formatter);
+        view.imprime("Data inicial: ");
+        fim = Input.leString();
+        end = LocalDate.parse(fim, formatter);
+        view.imprime("Matricula: ");
+        matricula = Input.leString();
+        
+        try {
+            list = model.getActAlugueres(init, end, matricula);
+        } catch(SemPermissaoException exc) {
+            view.imprimeLinha(exc.getMessage());
+            return;
+        }
+        
+        navControlMenu(new NavControl<>("Alugueres entre " +  inicio + " e " + fim, list,
+                    a -> view.imprimeLinha(a.toString())));
+    }
+    
+    private void alteraPassMenu() {
+        view.imprimeLinha("Insira a sua nova password:");
+        model.alteraPassword(Input.leString());
+        view.imprimeLinha("Password alterada com sucesso");
+    }
+    
+    private void alteraMoradaMenu() {
+        view.imprimeLinha("Insira a sua nova morada:");
+        model.alteraMorada(Input.leString());
+        view.imprimeLinha("Morada alterada com sucesso");
+    }
+    
+    private void verificarVecMenu() {
+        this.navControlMenu(new NavControl<>("Veiculos Atuais",
+                            model.getVeiculos(),
+                            v -> view.imprimeLinha(v.toString())));
+    }
+    private void navControlMenu(NavControl<? extends Object> inbetween) {
+        boolean in = true;
+        int i;
+        
+        while(in){
+            view.clearScreen();
+            inbetween.showPage();
+            view.listOptions();
+            view.imprime("Insira a opçao que deseja: ");
+            i = Input.leInt();
+            switch(i) {
+                case 0: in = false;
+                        break;
+                case 1: inbetween.proximaPagina();
+                        break;
+                case 2: inbetween.retrocePagina();
+                        break;
+                default: view.imprimeLinha("Opçao invalida!");
+                        Input.leString();
+                        break;
+            }
+        }
         
     }
+    
 }

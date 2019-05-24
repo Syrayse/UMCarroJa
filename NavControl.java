@@ -1,0 +1,103 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.function.Consumer;
+
+public class NavControl<E>
+{
+    private static final int N_PER_PAGE = 25;
+    
+    private List<E> dict;
+    private Consumer<E> print_function;
+    private String title;
+    private int init;
+    private int end;
+    private int size;
+    private int page;
+    private int maxPage;
+    
+    public NavControl(Collection<E> list, Consumer<E> print_function) {
+        title = "Listagem";
+        dict = new ArrayList<>(list);
+        size = list.size();
+        page = size == 0 ? 0: 1;
+        init = 0;
+        end = NavControl.N_PER_PAGE;
+        maxPage = (int) Math.ceil((double) size / NavControl.N_PER_PAGE);
+        this.setPrintFunction(print_function);
+    }
+    
+    public NavControl(String title, List<E> list, Consumer<E> print_function) {
+        this(list, print_function);
+        this.title = title;
+    }
+    
+    public NavControl setPrintFunction(Consumer<E> print_function) {
+        this.print_function = print_function;
+        return this;
+    }
+    
+    public NavControl proximaPagina() {
+        if(dict == null)
+            return null;
+        int perPage = NavControl.N_PER_PAGE;
+
+        if(end > size) {
+            page = 1;
+        
+            init = 0;
+        
+            end = perPage;
+        } else {
+            page++;
+        
+            init = end;
+        
+            end += perPage;
+        }
+            
+        return this;
+    }
+    
+    public NavControl retrocePagina() {
+        if(dict == null)
+            return null;
+            
+        int perPage = NavControl.N_PER_PAGE;
+        
+        if(init < perPage) {
+            page = (size / perPage) + 1;
+            
+            end = page * perPage;
+            
+            init = end - perPage;
+        } else {
+            page--;
+            
+            end = init;
+            
+            init -= perPage;
+        }
+        
+        return this;
+    }
+    
+    public void showPage() {
+        if(print_function == null || dict == null)
+            return;
+        UMCarroJaView.printHeader(title, UMCarroJaView.BLUE);
+
+        for(int i = init; i < end && i < size; i++) {
+            UMCarroJaView.imprime(String.format("%5d: ", i + 1));
+            print_function.accept(dict.get(i));
+        }
+        
+        this.showFooter();
+    }
+    
+    private void showFooter() {
+        UMCarroJaView.printFooter();
+        UMCarroJaView.imprimeLinha("\tResultados de " + (size == 0 ? 0 : init + 1) + " ate " + Math.min(end, size) + " de um total de " + size + "\tPagina " + page + " de " + maxPage);
+        UMCarroJaView.printFooter();
+    }
+}

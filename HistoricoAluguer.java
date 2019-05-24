@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.*;
 
@@ -34,7 +35,7 @@ public class HistoricoAluguer implements Serializable {
         return new TreeSet<>(this.historico);
     }
 
-    public List<Aluguer> getSubSet(LocalDateTime from, LocalDateTime to) {
+    public List<Aluguer> getSubSet(LocalDate from, LocalDate to) {
         Aluguer fromAluguer = new Aluguer(from);
         Aluguer toAluguer = new Aluguer(to);
         return new ArrayList<Aluguer>(this.historico.subSet(fromAluguer, toAluguer));
