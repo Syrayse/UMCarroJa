@@ -45,7 +45,10 @@ public class CarroHibrido extends Carro implements BiAbastecivel, Serializable {
     
     @Override
     public double getAutonomia() {
-        return totalKwh / CarroHibrido.KWH_IMP;
+        double c = this.getConsumoPorKm();
+        double cKwh = CarroHibrido.KWH_IMP*(totalKwh / c);
+        double cGas = CarroHibrido.GAS_IMP*(totalGas / c);
+        return cKwh + cGas;
     }
     
     

@@ -32,6 +32,19 @@ public class NavControl<E>
         this.title = title;
     }
     
+    public NavControl changeDict(Collection<E> list) {
+        if(list == null)
+            return null;
+        
+        dict = new ArrayList<>(list);
+        size = list.size();
+        page = 1;
+        init = 0;
+        end = NavControl.N_PER_PAGE;
+        maxPage = (int) Math.ceil((double) size / NavControl.N_PER_PAGE);
+        return this;
+    }
+    
     public NavControl setPrintFunction(Consumer<E> print_function) {
         this.print_function = print_function;
         return this;

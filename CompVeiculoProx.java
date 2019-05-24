@@ -17,7 +17,7 @@ public class CompVeiculoProx implements Comparator<Veiculo> {
     
     public CompVeiculoProx(Localizacao l) {
         super();
-        spot = l;
+        spot = l.clone();
     }
     
     public int compare(Veiculo v1, Veiculo v2) {

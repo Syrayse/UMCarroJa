@@ -21,6 +21,10 @@ public class UMCarroJaModel implements Serializable {
         veiculos = new HashMap<>();
     }
     
+    public Localizacao getLocalizacao() {
+        return ((Cliente)login).getLocalizacao();
+    }
+    
     public void loginProprietario(String nif, String password) throws PessoaInvalidException {
         if(!this.proprietarios.containsKey(nif))
             throw new PessoaInvalidException("Nao existe nenhum proprietario com o nif " + nif);
@@ -153,6 +157,12 @@ public class UMCarroJaModel implements Serializable {
                                     .stream()
                                     .map(s -> veiculos.get(s).clone())
                                     .collect(Collectors.toList());
+    }
+    
+    public List<Veiculo> getAllVeiculos() {
+        return veiculos.values().stream()
+                                .map(Veiculo::clone)
+                                .collect(Collectors.toList());
     }
     
     public List<Aluguer> getActAlugueres(LocalDate inicio, LocalDate fim) {

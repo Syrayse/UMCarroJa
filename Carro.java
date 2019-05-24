@@ -53,6 +53,8 @@ public abstract class Carro extends Veiculo implements Serializable {
         double dist = this.getLocalizacao().getDistancia(newLoc);
         
         if(dist > this.getAutonomia())
-            throw new AutonomiaInsuficienteException("Impossivel realizar viagem, possui
+            throw new AutonomiaInsuficienteException("Impossivel realizar viagem, autonomia necessaria " + dist + ", mas so possui autonomia de " + this.getAutonomia());
+    
+        return super.viagem(newLoc);
     }
 }

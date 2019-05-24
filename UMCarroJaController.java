@@ -224,6 +224,8 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 6: this.obtemClassificacao(model.indicaClassificacao());
                         break;
+                case 7: this.showAdvancedAluguer();
+                        break;
                 default: view.imprimeLinha("Opçao invalida!");
                          Input.leString();
                          break;
@@ -583,4 +585,64 @@ public class UMCarroJaController implements Serializable {
         Input.leString();
     }
     
+    private void showAdvancedAluguer() {
+        boolean in = true;
+        int i;
+        double tmp;
+        List<Veiculo> veic = model.getAllVeiculos();
+        NavControl<Veiculo> nc = new NavControl<>("Solicitar Veiculo - ADVANCED", model.getAllVeiculos(), v -> view.imprimeLinha(v.toString()));
+        
+        while(in){
+            view.clearScreen();
+            nc.showPage();
+            view.menuSolAdvanced();
+            view.imprime("Insira a opçao que deseja: ");
+            i = Input.leInt();
+            switch(i) {
+                case 0: in = false;
+                        break;
+                case 1: nc.proximaPagina();
+                        break;
+                case 2: nc.retrocePagina();
+                        break;
+                case 3: veic.removeIf(PredVeiculos.doTipo("Electrico").negate());
+                        nc.changeDict(veic);
+                        break;
+                case 4: veic.removeIf(PredVeiculos.doTipo("Hibrido").negate());
+                        nc.changeDict(veic);
+                        break;
+                case 5: veic.removeIf(PredVeiculos.doTipo("Gasolina").negate());
+                        nc.changeDict(veic);
+                        break;
+                case 6: veic.removeIf(PredVeiculos.doTipo("Gasoleo").negate());
+                        nc.changeDict(veic);
+                        break;
+                case 7: veic.sort(new CompVeiculoProx(model.getLocalizacao()));
+                        nc.changeDict(veic);
+                        break;
+                case 8: veic.sort(new CompMaisBarato());
+                        nc.changeDict(veic);
+                        break;
+                case 9: veic.sort(new CompAutonomiaDec());
+                        nc.changeDict(veic);
+                        break;
+                case 10: view.imprime("Insira a autonomia minima: ");
+                        tmp = Input.leDouble();
+                        veic.removeIf(PredVeiculos.autonomiaDe(tmp).negate());
+                        nc.changeDict(veic);
+                        break;
+                case 11: view.imprime("Insira a distancia maxima: ");
+                        tmp = Input.leDouble();
+                        veic.removeIf(PredVeiculos.noRaioDe(model.getLocalizacao(), tmp).negate());
+                        nc.changeDict(veic);
+                        break;
+                case 12: veic = model.getAllVeiculos();
+                        nc.changeDict(veic);
+                        break;
+                default: view.imprimeLinha("Opçao invalida!");
+                        Input.leString();
+                        break;
+            }
+        }
+    }
 }
