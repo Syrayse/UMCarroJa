@@ -8,7 +8,6 @@ import Exceptions.*;
 import Comparators.*;
 import Misc.*;
 
-
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Predicate;
@@ -224,7 +223,7 @@ public class UMCarroJaModel implements Serializable {
 
         v.viagem(new Localizacao(x, y));
         this.formalizeAluguer(login.getNif(), v, x, y);
-        v.indisponivel();
+        v.indisonivpel();
     }
     */
 
@@ -240,29 +239,95 @@ public class UMCarroJaModel implements Serializable {
         this.formalizeAluguer(nifCliente, chosen, x, y);
         chosen.move(x,y);
     }
-
-    public void addPedido(String matricula, double x, double y)
+    
+    public List<PedidoAluguer> getPedidos() {
+        return ((Proprietario)login).getPedidos();
+    }
+    
+    public PedidoAluguer addPedido(String matricula, double x, double y)
             throws VeiculoInvalidoException, AutonomiaInsuficienteException {
         if (!veiculos.containsKey(matricula))
             throw new VeiculoInvalidoException("Nao existe nenhum veiculo com a matricula " + matricula);
 
         Localizacao loc = ((Cliente)login).getLocalizacao();
         Veiculo v = veiculos.get(matricula);
-        double dist = loc.getDistancia(x, y);
-        if(!v.estaDisponivel() || (v instanceof Carro && dist > ((Carro)v).getAutonomia()))
+        double dist = v.getLocalizacao().getDistancia(x, y);
+        if(!v.estaDisponivel())
             throw new VeiculoInvalidoException("O veiculo " + matricula + " que pretende alugar, nao se encontra disponivel");
+            
+        if(v instanceof Carro && dist > ((Carro)v).getAutonomia())
+            throw new VeiculoInvalidoException("O veiculo que pretende alugar possui uma autonomia de " + ((Carro)v).getAutonomia() + " insuficiente para a sua viagem que requer " + dist);
 
-        PedidoAluguer pa = new PedidoAluguer(login.getNif(), matricula, loc, new Localizacao(x, y) ,loc);
+        PedidoAluguer pa = new PedidoAluguer(login.getNif(), matricula, v.getLocalizacao(), new Localizacao(x, y) ,loc,
+                                dist * v.getPrecoPorKm(), loc.getDistancia(v.getLocalizacao()) / 4, v.getVelocidadeAv());
         proprietarios.get(v.getNifDono()).addPedido(pa);
+        
+        return pa;
     }
 
-    public String addPedido (double x, double y, String preferencia, double val)
+    public PedidoAluguer addPedido (double x, double y, String preferencia, double val)
             throws VeiculoInvalidoException, PrefInvalidaException, AutonomiaInsuficienteException {
         String matricula = this.selectFromPreference(login.getNif(), "", preferencia, val).getMatricula();
-        this.addPedido(matricula, x, y);
-        return matricula;
+        return this.addPedido(matricula, x, y);
     }
 
+    public String getTipoVeiculo(String matricula) throws SemPermissaoException {
+        if(!((Proprietario)login).temVeiculo(matricula))
+            throw new SemPermissaoException("O veiculo com a matricula " + matricula + " nao lhe esta associado");
+            
+        return veiculos.get(matricula).getTipo();
+    }
+    
+    // 0 se nao for nem mono nem bi, 1 se for mono, 2 se for bi
+    public int getInterVeiculo(String matricula) throws SemPermissaoException {
+        if(!((Proprietario)login).temVeiculo(matricula))
+            throw new SemPermissaoException("O veiculo com a matricula " + matricula + " nao lhe esta associado");
+        
+        Veiculo v = veiculos.get(matricula);
+        int r = 0;
+        
+        if(v instanceof MonoAbastecivel)
+            r = 1;
+        else if(v instanceof BiAbastecivel)
+            r = 2;
+        
+        return r;       
+    }
+    
+    public void abastecerBi(String matricula, double kwh, double gas) throws DepositoCheioException {
+        BiAbastecivel ba = ((BiAbastecivel)veiculos.get(matricula));
+        ba.abastecerGas(gas);
+        ba.abastecerKwh(kwh);
+    }
+    
+    public void abastecerMono(String matricula, double quant) throws DepositoCheioException {
+        MonoAbastecivel ma = (MonoAbastecivel)veiculos.get(matricula);
+        ma.abastecer(quant);
+    }
+    
+    public List<PedidoAluguer> recusaPedido() throws PedidoInvalidoException {
+        Proprietario p = (Proprietario)login;
+        p.removePedido();
+        return p.getPedidos();
+    }
+    
+    public List<PedidoAluguer> aceitaPedido() 
+    throws PedidoInvalidoException, AcidenteOcorreuException, AutonomiaInsuficienteException {
+        Proprietario p = (Proprietario)login;
+        Aluguer a = p.aceitaPedido();
+        Cliente c = clientes.get(a.getIdCliente());
+        Veiculo chosen = veiculos.get(a.getIdVeiculo());
+        Localizacao loc = a.getDestino();
+        
+        chosen.viagem(loc);
+        
+        c.addAluguer(a);
+        c.move(loc.getX(), loc.getY());
+        chosen.addAluguer(a);
+        p.addAluguer(a);
+        return p.getPedidos();
+    }
+    
     private void safeGuardVeiculo(String matricula) throws VeiculoInvalidoException {
         if (!((Proprietario) login).temVeiculo(matricula))
             throw new VeiculoInvalidoException("O veiculo com a matricula " + matricula + " ao qual pretende aceder nao lhe esta associado");
@@ -272,10 +337,11 @@ public class UMCarroJaModel implements Serializable {
         double dist;
         Aluguer one;
         Cliente c = clientes.get(nifCliente);
-        dist = chosen.getLocalizacao().getDistancia(new Localizacao(x, y)) / 1000;
+        Localizacao destin = new Localizacao(x, y);
+        dist = chosen.getLocalizacao().getDistancia(destin);
 
         one = new Aluguer(nifCliente, chosen.getNifDono(), chosen.getMatricula(),
-                dist, dist * chosen.getPrecoPorKm(), dist / chosen.getVelocidadeAv());
+                dist, dist * chosen.getPrecoPorKm(), dist / chosen.getVelocidadeAv(), destin);
 
         c.addAluguer(one);
         c.move(x, y);

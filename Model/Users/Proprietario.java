@@ -42,16 +42,22 @@ public class Proprietario extends Pessoa implements Serializable {
         pedidos = proprietario.getPedidos();
     }
     
+    public Aluguer aceitaPedido() throws PedidoInvalidoException {
+        if(pedidos.size() == 0)
+            throw new PedidoInvalidoException("Ja nao ha mais pedidos de aluguer!");
+        PedidoAluguer pa = pedidos.remove(0);
+        double dist = pa.getOrigem().getDistancia(pa.getDestino());
+        double tempoViagem = dist / pa.getVelocidade();
+        double tempoChegar = pa.getTempoChegar();
+        return new Aluguer(pa.getNifCliente(), this.getNif(), pa.getIdVeiculo(),
+                            dist, pa.getCustoEstimado() + tempoChegar*100, tempoChegar + tempoViagem, pa.getDestino());
+        
+    }
+
     public void removePedido() throws PedidoInvalidoException {
         if(pedidos.size() == 0)
             throw new PedidoInvalidoException("Ja nao ha mais pedidos de aluguer!");
         pedidos.remove(0);        
-    }
-    
-    public void recusaPedido(int i) throws PedidoInvalidoException {
-        if(i <= 0 || i > pedidos.size())
-            throw new PedidoInvalidoException("Nao possui nenhum pedido de aluguer com ID " + i + "!");
-        pedidos.remove(i - 1);
     }
 
     public void addPedido(PedidoAluguer pa) {

@@ -8,6 +8,9 @@ import java.io.Serializable;
 
 public class CarroHibrido extends Carro implements BiAbastecivel, Serializable {
 
+    private static final double MAX_KWH = 300;
+    private static final double MAX_GAS = 300;
+    
     private static final double KWH_IMP = 0.4;
     private static final double GAS_IMP = 0.6;
     
@@ -33,11 +36,15 @@ public class CarroHibrido extends Carro implements BiAbastecivel, Serializable {
         totalGas = ch.getTotalGas();
     }
     
-    public void abastecerKwh(double quant) {
+    public void abastecerKwh(double quant) throws DepositoCheioException {
+        if(totalKwh + quant > CarroHibrido.MAX_KWH)
+            throw new DepositoCheioException("A quantidade de KWH que pretende abastecer ultrapassa a capacidade maxima do veiculo que e " + CarroHibrido.MAX_KWH);
         totalKwh += quant;
     }
     
-    public void abastecerGas(double quant) {
+    public void abastecerGas(double quant) throws DepositoCheioException {
+        if(totalGas + quant > CarroHibrido.MAX_GAS)
+            throw new DepositoCheioException("A quantidade de GAS que pretende abastecer ultrapassa a capacidade maxima do veiculo que e " + CarroHibrido.MAX_GAS);
         totalGas += quant;
     }
 
@@ -57,23 +64,14 @@ public class CarroHibrido extends Carro implements BiAbastecivel, Serializable {
         return cKwh + cGas;
     }
     
-    
-    @Override
-    public double viagem(Localizacao newLoc) throws AcidenteOcorreuException, AutonomiaInsuficienteException {
-        double total, dist = this.getLocalizacao().getDistancia(newLoc);
-        
-        if(dist < this.getAutonomia())
-            throw new AutonomiaInsuficienteException("Autonomia atual:" + this.getAutonomia() + ", necessaria: " + dist);
-        
-        super.viagem(newLoc);
+    public void gasta(Localizacao loc) {
+        double total, dist = this.getLocalizacao().getDistancia(loc);
         
         total = dist * this.getConsumoPorKm();
         
         totalKwh -= CarroHibrido.KWH_IMP * total;
         
         totalGas -= CarroHibrido.GAS_IMP * total;
-        
-        return dist;
     }
     
     @Override

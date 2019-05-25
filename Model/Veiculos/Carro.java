@@ -28,6 +28,11 @@ public abstract class Carro extends Veiculo implements Serializable {
         this.autonomia = c.getAutonomia();
     }
     
+    public void move(double x, double y) {
+        this.gasta(new Localizacao(x, y));
+        super.move(x, y);
+    }
+    
     public double getConsumoPorKm() {
         return consumoPorKm;
     }
@@ -60,6 +65,10 @@ public abstract class Carro extends Veiculo implements Serializable {
         if(dist > this.getAutonomia())
             throw new AutonomiaInsuficienteException("Impossivel realizar viagem, autonomia necessaria " + dist + ", mas so possui autonomia de " + this.getAutonomia());
     
+        this.gasta(newLoc);
+            
         return super.viagem(newLoc);
     }
+    
+    public abstract void gasta(Localizacao loc);
 }

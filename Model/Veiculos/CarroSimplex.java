@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 public class CarroSimplex extends Carro implements MonoAbastecivel, Serializable {
     
+    private static final double MAX_DEP = 600;
+    
     private double total_dep;
     
     public CarroSimplex() {
@@ -25,7 +27,9 @@ public class CarroSimplex extends Carro implements MonoAbastecivel, Serializable
         total_dep = ce.getTotalDep();
     }
     
-    public void abastecer(double quant) {
+    public void abastecer(double quant) throws DepositoCheioException {
+        if(total_dep + quant > CarroSimplex.MAX_DEP)
+            throw new DepositoCheioException("A quantidade de combutivel que pretende abastecer ultrapassa a capacidade maxima do veiculo que e " + CarroSimplex.MAX_DEP);
         total_dep += quant;
     }
     
@@ -37,19 +41,10 @@ public class CarroSimplex extends Carro implements MonoAbastecivel, Serializable
     public double getTotalDep() {
         return total_dep;
     }
-
-    @Override
-    public double viagem(Localizacao newLoc) throws AcidenteOcorreuException, AutonomiaInsuficienteException {
-        double dist = this.getLocalizacao().getDistancia(newLoc);
-        
-        if(dist < this.getAutonomia())
-            throw new AutonomiaInsuficienteException("Autonomia atual:" + this.getAutonomia() + ", necessaria: " + dist);
-        
-        super.viagem(newLoc);
-        
+    
+    public void gasta(Localizacao loc) {
+        double dist = this.getLocalizacao().getDistancia(loc);
         total_dep -= dist * this.getConsumoPorKm();
-        
-        return dist;
     }
     
     public CarroSimplex clone() {

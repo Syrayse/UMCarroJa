@@ -1,5 +1,7 @@
 package Model.Alugueres;
 
+import Model.Localizacao;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -19,6 +21,8 @@ public class Aluguer implements Comparable<Aluguer>, Serializable {
     private double totalPago;
     private double tempoUtilizado;
     private LocalDateTime data;
+    private Localizacao destino;
+    
     /**
      * Construtor vazio para objetos da classe Aluguer
      */
@@ -47,7 +51,7 @@ public class Aluguer implements Comparable<Aluguer>, Serializable {
      * Construtor Parametrizado para objetos da classe Aluguer
      */
     public Aluguer(String idCliente, String idProprietario, String idVeiculo,
-                double distanciaPercorrida, double totalPago, double tempoUtilizado) {
+                double distanciaPercorrida, double totalPago, double tempoUtilizado, Localizacao destino) {
         this.idCliente = idCliente;
         this.idProprietario = idProprietario;
         this.idVeiculo = idVeiculo;
@@ -55,6 +59,7 @@ public class Aluguer implements Comparable<Aluguer>, Serializable {
         this.totalPago = totalPago;
         this.tempoUtilizado = tempoUtilizado;
         this.data = LocalDateTime.now();
+        this.destino = destino.clone();
     }
 
     public String getIdCliente() {
@@ -84,6 +89,10 @@ public class Aluguer implements Comparable<Aluguer>, Serializable {
     public LocalDateTime getData() {
         return data;
     }
+    
+    public Localizacao getDestino() {
+        return destino.clone();
+    }
     /**
      * Implementação do método toString de um Aluguer.
      *
@@ -97,6 +106,7 @@ public class Aluguer implements Comparable<Aluguer>, Serializable {
         sb.append(", distanciaPercorrida=").append(distanciaPercorrida);
         sb.append(", totalPago=").append(totalPago);
         sb.append(", data=").append(data.toString());
+        sb.append(", destino=").append(destino.toString());
         sb.append('}');
         return sb.toString();
     }
@@ -117,7 +127,8 @@ public class Aluguer implements Comparable<Aluguer>, Serializable {
                 this.idVeiculo == aluguer.getIdVeiculo() &&
                 Double.compare(aluguer.getDistanciaPercorrida(), this.distanciaPercorrida) == 0 &&
                 Double.compare(aluguer.getTotalPago(), this.totalPago) == 0 &&
-                this.data.equals(aluguer.getData());
+                this.data.equals(aluguer.getData()) &&
+                destino.equals(aluguer.getDestino());
     }
 
     public int compareTo(Aluguer outroAluguer) {

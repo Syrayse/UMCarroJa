@@ -113,6 +113,15 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("0: Cancelar");
         printFooter();
     }
+    
+    public static void menuPedidos() {
+        imprimeLinha("1: Proxima pagina");
+        imprimeLinha("2: Retroceder pagina");
+        imprimeLinha("3: Aceitar primeiro");
+        imprimeLinha("4: Recusar primeiro");
+        imprimeLinha("0: Cancelar");
+        printFooter();
+    }
 
     public static void imprime(String text) {
         out.print(text);

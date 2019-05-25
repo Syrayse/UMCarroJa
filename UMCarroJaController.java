@@ -164,12 +164,14 @@ public class UMCarroJaController implements Serializable {
                 case 0:
                     login = false;
                     break;
-                case 1:
+                case 1: 
+                    this.pedidosMenu();
                     break;
                 case 2:
                     this.dispoMenu();
                     break;
                 case 3:
+                    this.abastecerCarro();
                     break;
                 case 4:
                     this.altPrecoMenu();
@@ -431,6 +433,9 @@ public class UMCarroJaController implements Serializable {
                         Input.leString();
                         break;
                 }
+                
+                if(i>0 && i<=5)
+                    Input.leString();
             } catch(Exception exc) {
                 UMCarroJaView.imprimeLinha(exc.getMessage());
             }
@@ -495,6 +500,7 @@ public class UMCarroJaController implements Serializable {
     private void alugueresEntreDatas() {
         LocalDate init, end;
         NavControl<Aluguer> inbetween;
+        List<Aluguer> la;
 
         UMCarroJaView.imprimeLinha("Por favor, insira as datas na seguinte formataçao: dd/MM/yyyy");
 
@@ -504,8 +510,10 @@ public class UMCarroJaController implements Serializable {
         UMCarroJaView.imprime("Data final: ");
         end = Input.leData();
 
-        navControlMenu(new NavControl<>("Alugueres entre " + init.toString() + " e " + end.toString(), model.getActAlugueres(init, end),
-                a -> UMCarroJaView.imprimeLinha(a.toString())));
+        la = model.getActAlugueres(init, end);
+        
+        navControlMenu(new NavControl<>("Alugueres entre " + init.toString() + " e " + end.toString(), la,
+                a -> UMCarroJaView.imprimeLinha(a.toString())), la.stream().mapToDouble(Aluguer::getTotalPago).sum());
     }
 
     private void aluguerEntreDatasVec() {
@@ -532,8 +540,8 @@ public class UMCarroJaController implements Serializable {
             return;
         }
 
-        navControlMenu(new NavControl<>("Alugueres entre " + init.toString() + " e " + end.toString(), list,
-                a -> UMCarroJaView.imprimeLinha(a.toString())));
+        navControlMenu(new NavControl<Aluguer>("Alugueres entre " + init.toString() + " e " + end.toString(), list,
+                a -> UMCarroJaView.imprimeLinha(a.toString())), list.stream().mapToDouble(Aluguer::getTotalPago).sum());
     }
 
     private void alteraPassMenu() {
@@ -551,16 +559,22 @@ public class UMCarroJaController implements Serializable {
     private void verificarVecMenu() {
         this.navControlMenu(new NavControl<>("Veiculos Atuais",
                 model.getVeiculos(),
-                v -> UMCarroJaView.imprimeLinha(v.toString())));
+                v -> UMCarroJaView.imprimeLinha(v.toString())), 0.0);
     }
 
-    private void navControlMenu(NavControl<? extends Object> inbetween) {
+    private void navControlMenu(NavControl<? extends Object> inbetween, double val) {
         boolean in = true;
         int i;
 
         while (in) {
             UMCarroJaView.clearScreen();
             inbetween.showPage();
+            
+            if(val != 0.0) {
+                UMCarroJaView.imprimeLinha("Cash flow total entre as duas datas: " + val);
+                UMCarroJaView.printFooter();
+            }
+            
             UMCarroJaView.listOptions();
             UMCarroJaView.imprime("Insira a opçao que deseja: ");
             i = Input.leInt();
@@ -726,12 +740,14 @@ public class UMCarroJaController implements Serializable {
                     break;
                 case 14:
                     this.alugarEspecifico();
+                    Input.leString();
                     break;
                 case 15:
                     if(veic.size() > 0)
                         this.askForCoord(veic.remove(0).getMatricula());
                     else
                         UMCarroJaView.imprimeLinha("Nao ha veiculos disponiveis com as definiçoes selecionadas!");
+                    Input.leString();
                     break;
                 default:
                     UMCarroJaView.imprimeLinha("Opçao invalida!");
@@ -774,7 +790,7 @@ public class UMCarroJaController implements Serializable {
 
     private void askForCoordPref(String preferencia, double val) {
         double x, y;
-        String matricula;
+        PedidoAluguer pa;
         UMCarroJaView.imprimeLinha("Insira as coodernadas do destino:");
         UMCarroJaView.imprime("x: ");
         x = Input.leDouble();
@@ -782,10 +798,99 @@ public class UMCarroJaController implements Serializable {
         y = Input.leDouble();
 
         try {
-            matricula = model.addPedido(x, y, preferencia, val);
-            UMCarroJaView.imprimeLinha("Pedido de viagem realizado com sucesso no veiculo " + matricula);
+            pa = model.addPedido(x, y, preferencia, val);
+            UMCarroJaView.imprimeLinha("Pedido de viagem realizado com sucesso no veiculo " + pa.getIdVeiculo() + " com custo estimado de: " + pa.getCustoEstimado());
         } catch (Exception exc) {
             UMCarroJaView.imprimeLinha(exc.getMessage());
         }
+    }
+    
+    private void pedidosMenu() {
+        int i;
+        boolean in = true;
+        List<PedidoAluguer> la = model.getPedidos();
+        NavControl<PedidoAluguer> nc= new NavControl<>("Pedidos de Aluguer Atuais", la, pa -> view.imprimeLinha(pa.toString()));
+        
+        while(in) {
+            UMCarroJaView.clearScreen();
+            nc.showPage();
+            UMCarroJaView.menuPedidos();
+            UMCarroJaView.imprime("Insira a opçao que deseja: ");
+            i = Input.leInt();
+            switch(i) {
+                case 0:
+                    in = false;
+                    break;
+                case 1:
+                    nc.proximaPagina();
+                    break;
+                case 2:
+                    nc.retrocePagina();
+                    break;
+                case 3:
+                    try {
+                        nc.changeDict(model.aceitaPedido());
+                        view.imprimeLinha("Aluguer realizado com sucesso!");
+                    } catch(Exception exc) {
+                        view.imprimeLinha(exc.getMessage());
+                    }
+                    Input.leString();
+                    break;
+                case 4:
+                    try {
+                        nc.changeDict(model.recusaPedido());
+                        view.imprimeLinha("Recusado com sucesso!");
+                    } catch(Exception exc) {
+                        view.imprimeLinha(exc.getMessage());
+                    }
+                    Input.leString();                    
+                    break;
+                default:
+                    UMCarroJaView.imprimeLinha("Opçao invalida!");
+                    Input.leString();
+                    break;
+            }
+        }
+        
+    }
+    
+    private void abastecerCarro() {
+        int bi;
+        double tmp1, tmp2;
+        String matricula, tipo;
+        UMCarroJaView.imprime("Insira a matricula do carro que pretende abastecer: ");
+        matricula = Input.leString();
+        
+        try {
+            tipo = model.getTipoVeiculo(matricula);
+            bi = model.getInterVeiculo(matricula);
+        
+        switch(bi) {
+            case 1:
+                view.imprimeLinha("Possui um veiculo do tipo " + tipo + " com um motor simples");
+                view.imprime("Com quanto pretende abastecer o seu veiculo: ");
+                tmp1 = Input.leDouble();
+                model.abastecerMono(matricula, tmp1);
+                view.imprimeLinha("Veiculo abastecido com sucesso!");
+                break;
+            case 2:
+                view.imprimeLinha("Possui um veiculo do tipo " + tipo + " com uma motor com dois tipos de combutivel");
+                view.imprime("Quantos Kwh pretende carregar: ");
+                tmp1 = Input.leDouble();
+                view.imprime("Quantos combutivel pretende abastecer: ");
+                tmp2 = Input.leDouble();
+                model.abastecerBi(matricula, tmp1, tmp2);
+                view.imprimeLinha("Veiculo abastecido com sucesso!");
+                break;
+            default:
+                view.imprimeLinha("O veiculo que pretende abastecer, nao e abastecivel");
+                break;
+                
+        }
+        } catch(Exception spe) {
+            UMCarroJaView.imprimeLinha(spe.getMessage());
+            return;
+        }
+        
     }
 }

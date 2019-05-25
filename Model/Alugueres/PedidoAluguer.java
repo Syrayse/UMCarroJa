@@ -15,6 +15,10 @@ public class PedidoAluguer implements Serializable {
     private Localizacao origem;
     private Localizacao destino;
     private Localizacao localizaoCliente;
+    private double custoEstimado;
+    private double tempoChegar;
+    private double velocidade;
+    
     /**
      * Construtor vazio para objetos da classe PedidoAluguer
      */
@@ -24,26 +28,22 @@ public class PedidoAluguer implements Serializable {
         origem = new Localizacao();
         destino = new Localizacao();
         localizaoCliente = new Localizacao();
+        custoEstimado = 0.0;
+        tempoChegar = 0.0;
+        velocidade = 0.0;
     }
     /**
      * Construtor parametrizado para objetos da classe PedidoAluguer
      */
-    public PedidoAluguer(String nifCliente, String idVeiculo, Localizacao origem, Localizacao destino, Localizacao localizaoCliente) {
+    public PedidoAluguer(String nifCliente, String idVeiculo, Localizacao origem, Localizacao destino, Localizacao localizaoCliente, double custoEstimado, double tempoChegar, double velocidade) {
         this.nifCliente = nifCliente;
         this.idVeiculo = idVeiculo;
         this.origem = origem.clone();
         this.destino = destino.clone();
         this.localizaoCliente = localizaoCliente.clone();
-    }
-    /**
-     * Construtor de cópia para objetos da classe PedidoAluguer
-     */
-    public PedidoAluguer(PedidoAluguer pedido) {
-        nifCliente = pedido.getNifCliente();
-        idVeiculo = pedido.getIdVeiculo();
-        origem = pedido.getOrigem();
-        destino = pedido.getDestino();
-        localizaoCliente = pedido.getLocalizaoCliente();
+        this.custoEstimado = custoEstimado;
+        this.tempoChegar = tempoChegar;
+        this.velocidade = velocidade;
     }
 
     public String getNifCliente() {
@@ -66,6 +66,18 @@ public class PedidoAluguer implements Serializable {
         return localizaoCliente.clone();
     }
     
+    public double getCustoEstimado() {
+        return custoEstimado;
+    }
+    
+    public double getTempoChegar() {
+        return tempoChegar;
+    }
+    
+    public double getVelocidade() {
+        return velocidade;
+    }
+    
     /**
      * Implementação do método toString de um PedidoAluguer.
      *
@@ -78,6 +90,9 @@ public class PedidoAluguer implements Serializable {
         sb.append(", origem=").append(origem.toString());
         sb.append(", destino=").append(destino.toString());
         sb.append(", localizaoCliente=").append(localizaoCliente.toString());
+        sb.append(", custoEstimado=").append(custoEstimado);
+        sb.append(", tempoChegar=").append(tempoChegar);
+        sb.append(", velocidade=").append(velocidade);
         return sb.toString();
     }
     
@@ -94,7 +109,10 @@ public class PedidoAluguer implements Serializable {
                 nifCliente.equals(that.getNifCliente()) &&
                 origem.equals(that.getOrigem()) &&
                 destino.equals(that.getDestino()) &&
-                localizaoCliente.equals(that.getLocalizaoCliente());
+                localizaoCliente.equals(that.getLocalizaoCliente()) &&
+                custoEstimado == that.getCustoEstimado() &&
+                tempoChegar == that.getTempoChegar() &&
+                velocidade == that.getVelocidade();
     }
 
 }
