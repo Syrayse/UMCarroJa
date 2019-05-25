@@ -14,8 +14,8 @@ public class CarroHibrido extends Carro implements BiAbastecivel, Serializable {
         totalGas = -1.0;
     }
     
-    public CarroHibrido(String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double consumoPorKm, double autonomia, double x, double y) {
-        super(tipo, marca, matricula, velocidadeAv, precoPorKm, consumoPorKm, autonomia, x, y);
+    public CarroHibrido(String nif, String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double consumoPorKm, double autonomia, double x, double y) {
+        super(nif, tipo, marca, matricula, velocidadeAv, precoPorKm, consumoPorKm, autonomia, x, y);
         double total = autonomia * consumoPorKm;
         this.totalKwh = CarroHibrido.KWH_IMP * total;
         this.totalGas = CarroHibrido.GAS_IMP * total;

@@ -9,8 +9,8 @@ public class CarroSimplex extends Carro implements MonoAbastecivel, Serializable
         total_dep = -1.0;
     }
     
-    public CarroSimplex(String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double consumoPorKm, double autonomia, double x, double y) {
-        super(tipo, marca, matricula, velocidadeAv, precoPorKm, consumoPorKm, autonomia, x, y);
+    public CarroSimplex(String nif, String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double consumoPorKm, double autonomia, double x, double y) {
+        super(nif, tipo, marca, matricula, velocidadeAv, precoPorKm, consumoPorKm, autonomia, x, y);
         total_dep = autonomia * consumoPorKm;
     }
     

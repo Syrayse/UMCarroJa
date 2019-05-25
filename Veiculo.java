@@ -10,6 +10,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
 
     private static final double PROB_DE_ACIDENTE = 0.01;
     
+    private String nifDono;
     private boolean disponivel;
     private String tipo;
     private String marca;
@@ -24,6 +25,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
      * Construtor vazio para objetos da classe Veiculo
      */
     public Veiculo() {
+        nifDono = "";
         disponivel = false;
         tipo = "";
         marca = "";
@@ -38,7 +40,8 @@ public abstract class Veiculo implements Classificavel, Serializable {
     /**
      * Construtor parametrizado para objetos da classe Veiculo
      */
-    public Veiculo(String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double x, double y) {
+    public Veiculo(String nif, String tipo, String marca, String matricula, double velocidadeAv, double precoPorKm, double x, double y) {
+        this.nifDono = nif;
         disponivel = true;
         this.tipo = tipo;
         this.marca = marca;
@@ -54,6 +57,7 @@ public abstract class Veiculo implements Classificavel, Serializable {
      * Construtor de cópia para objetos da classe Veiculo
      */
     public Veiculo(Veiculo veiculo) {
+        nifDono = veiculo.getNifDono();
         disponivel = veiculo.estaDisponivel();
         tipo = veiculo.getTipo();
         marca = veiculo.getMarca();
@@ -64,6 +68,10 @@ public abstract class Veiculo implements Classificavel, Serializable {
         classificacao = veiculo.getClassificacao();
         localizao = veiculo.getLocalizacao();
         historico = veiculo.getHistorico();
+    }
+    
+    public String getNifDono() {
+        return nifDono;
     }
     
     public boolean estaDisponivel() {
@@ -141,7 +149,8 @@ public abstract class Veiculo implements Classificavel, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Veiculo veiculo = (Veiculo) o;
-        return tipo.equals(veiculo.getTipo()) &&
+        return  nifDono.equals(veiculo.getNifDono()) &&
+                tipo.equals(veiculo.getTipo()) &&
                 marca.equals(veiculo.getMarca()) &&
                 matricula.equals(veiculo.getMatricula()) &&
                 Double.compare(velocidadeAv, veiculo.getVelocidadeAv()) == 0 &&

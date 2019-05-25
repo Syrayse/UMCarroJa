@@ -401,7 +401,9 @@ public class UMCarroJaController implements Serializable {
                                         Double.parseDouble(arr[7]),Double.parseDouble(arr[8]),Double.parseDouble(arr[9]),Double.parseDouble(arr[10]));
                             }
                             break;
-            case "Aluguer":
+            case "Aluguer": if(arr.length == 6) {
+                                model.addAluguer(arr[1],Double.parseDouble(arr[2]),Double.parseDouble(arr[3]),arr[4],arr[5]);
+                            }
                             break;
             case "Classificar": if(arr.length == 3) {
                                 model.classifica(arr[1], Double.parseDouble(arr[2]));

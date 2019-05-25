@@ -1,12 +1,14 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.io.Serializable;
+
 /**
  * Classe Aluguer.
  *
  * @author (Rui Reis (A84930), Filipe Fernandes (A83996), António Guerra (A81032))
  * @version (2019-05-21)
  */
-public class Aluguer implements Comparable<Aluguer> {
+public class Aluguer implements Comparable<Aluguer>, Serializable {
 
     private String idCliente;
     private String idProprietario;

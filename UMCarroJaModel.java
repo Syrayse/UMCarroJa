@@ -135,9 +135,9 @@ public class UMCarroJaModel implements Serializable {
         Veiculo v;
             
         if(tipo.equals("Hibrido"))
-            v = new CarroHibrido(tipo, marca, matricula, vMedia, precoPorKm, consumoPorKm, autonomia, x, y);
+            v = new CarroHibrido(nif, tipo, marca, matricula, vMedia, precoPorKm, consumoPorKm, autonomia, x, y);
         else
-            v = new CarroSimplex(tipo, marca, matricula, vMedia, precoPorKm, consumoPorKm, autonomia, x, y);
+            v = new CarroSimplex(nif, tipo, marca, matricula, vMedia, precoPorKm, consumoPorKm, autonomia, x, y);
             
         veiculos.put(matricula, v);
         proprietarios.get(nif).addVeiculo(matricula);
@@ -186,7 +186,7 @@ public class UMCarroJaModel implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("Kilometros: ").append(h.getNumKms());
         sb.append("\nCash flow total: ").append(h.getTotalGasto());
-        sb.append("\nTempo total: ").append(h.getTotalTempo());
+        sb.append("\nTempo total: ").append(h.getTotalTempo()).append(" horas");
         if(login instanceof Proprietario) {
             Proprietario p = (Proprietario)login;
             sb.append("\nNumero veiculos: ").append(p.getNumVeiculos());
@@ -199,6 +199,45 @@ public class UMCarroJaModel implements Serializable {
         return sb.toString();
     }
     
+    public void addAluguer(String nifCliente, double x, double y, String tipo, String preferencia) 
+        throws PessoaInvalidException, VeiculoInvalidoException, PrefInvalidaException {
+        Cliente c = clientes.get(nifCliente);
+        Aluguer one;
+        Veiculo chosen;
+        double dist;
+
+        if(c == null)
+            throw new PessoaInvalidException("Nao existe cliente com Nif " + nifCliente);
+        Comparator<Veiculo> inuse = null;
+
+        switch(preferencia) {
+            case "MaisPerto": inuse = new CompMaisProximo(c.getLocalizacao());
+                            break;
+            case "MaisBarato": inuse = new CompMaisBarato();
+                            break;
+            default: throw new PrefInvalidaException("Preferencia " + preferencia + " nao e uma preferencia valida");
+        }
+
+        Optional<Veiculo> op = veiculos.values()
+                                       .stream()
+                                       .filter(PredVeiculos.doTipo(tipo).negate())
+                                       .sorted(inuse)
+                                       .findFirst();
+
+        if(!op.isPresent())
+            throw new VeiculoInvalidoException("Nao ha nenhum veiculo que de momento satisfaça o seu pedido");
+            
+        chosen = op.get();
+        dist = chosen.getLocalizacao().getDistancia(new Localizacao(x,y)) / 1000;
+        
+        one = new Aluguer(nifCliente, chosen.getNifDono(), chosen.getMatricula(), 
+                    dist, dist*chosen.getPrecoPorKm(), dist / chosen.getVelocidadeAv());
+        
+        c.addAluguer(one);
+        chosen.addAluguer(one);
+        proprietarios.get(chosen.getNifDono()).addAluguer(one);
+    }
+
     private void safeGuardVeiculo(String matricula) throws VeiculoInvalidoException {
         if(!((Proprietario)login).temVeiculo(matricula))
             throw new VeiculoInvalidoException("O veiculo com a matricula " + matricula + " ao qual pretende aceder nao lhe esta associado");

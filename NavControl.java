@@ -2,8 +2,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.io.Serializable;
 
-public class NavControl<E>
+public class NavControl<E> implements Serializable
 {
     private static final int N_PER_PAGE = 25;
     
