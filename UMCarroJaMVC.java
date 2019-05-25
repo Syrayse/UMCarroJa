@@ -1,5 +1,7 @@
 import java.io.Serializable;
 
+import Model.UMCarroJaModel;
+
 import static java.lang.System.out;
 
 public class UMCarroJaMVC implements Serializable {

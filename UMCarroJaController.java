@@ -1,3 +1,12 @@
+import Model.UMCarroJaModel;
+import Model.Veiculos.*;
+import Model.Users.*;
+import Model.Interfaces.*;
+import Model.Alugueres.*;
+import Exceptions.*;
+import Misc.*;
+import Comparators.*;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.List;
