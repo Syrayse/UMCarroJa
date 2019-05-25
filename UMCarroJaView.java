@@ -25,10 +25,10 @@ public class UMCarroJaView implements Serializable {
     }
 
     public static void clearScreen() {
-        out.print("\033[H\033[2J");  
-        out.flush();  
+        out.print("\033[H\033[2J");
+        out.flush();
     }
-    
+
     public static void menuPrincipal() {
         printHeader("UMCarroJa");
         imprimeLinha("1: Carregar ficheiro em formato binário");
@@ -75,7 +75,7 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("0: Logout");
         printFooter();
     }
-    
+
     public static void menuSolAluguer() {
         printHeader("Solicitar Veiculo");
         imprimeLinha("1: Veiculo mais proximo");
@@ -101,17 +101,19 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("11: Fixar autonomia minima");
         imprimeLinha("12: Fixar distancia maxima");
         imprimeLinha("13: Reset");
+        imprimeLinha("14: Alugar por matricula");
+        imprimeLinha("15: Alugar primeiro");
         imprimeLinha("0: Cancelar");
         printFooter();
     }
-    
+
     public static void listOptions() {
         imprimeLinha("1: Proxima pagina");
         imprimeLinha("2: Retroceder pagina");
         imprimeLinha("0: Cancelar");
         printFooter();
     }
-    
+
     public static void imprime(String text) {
         out.print(text);
     }

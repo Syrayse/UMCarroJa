@@ -55,13 +55,18 @@ public class Localizacao implements Serializable {
         this.x = x;
         this.y = y;
     }
+
+    public double getDistancia(double x, double y) {
+        return Math.sqrt(Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2));
+    }
+
     /**
      * Implementação do método getDistancia entre duas Localizacoes.
      *
      * @return double.
      */
     public double getDistancia(Localizacao outraLoc) {
-        return Math.sqrt(Math.pow(this.x - outraLoc.getX(), 2) + Math.pow(this.y - outraLoc.getY(), 2));
+        return this.getDistancia(outraLoc.getX(), outraLoc.getY());
     }
     /**
      * Implementação do método equals de uma Localizacao.

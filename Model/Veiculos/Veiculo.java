@@ -84,7 +84,11 @@ public abstract class Veiculo implements Classificavel, Serializable {
     public boolean estaDisponivel() {
         return disponivel;
     }
-    
+
+    public void indisponivel() {
+        disponivel = false;
+    }
+
     public void disponivel() {
         disponivel = true;
     }
@@ -202,6 +206,10 @@ public abstract class Veiculo implements Classificavel, Serializable {
         
         return dist;
     }
-    
+
+    public void move(double x, double y) {
+        localizao.move(x,y);
+    }
+
     public abstract Veiculo clone();
 }
