@@ -38,7 +38,7 @@ public class NavControl<E>
         
         dict = new ArrayList<>(list);
         size = list.size();
-        page = 1;
+        page = size == 0 ? 0: 1;
         init = 0;
         end = NavControl.N_PER_PAGE;
         maxPage = (int) Math.ceil((double) size / NavControl.N_PER_PAGE);

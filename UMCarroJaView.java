@@ -97,9 +97,10 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("7: Ordenar por maior proximidade");
         imprimeLinha("8: Ordenar por preço crescente");
         imprimeLinha("9: Ordenar por autonomia decrescente");
-        imprimeLinha("10: Fixar autonomia minima");
-        imprimeLinha("11: Fixar distancia maxima");
-        imprimeLinha("12: Reset");
+        imprimeLinha("10: Ordenar por classificacao decrescente");
+        imprimeLinha("11: Fixar autonomia minima");
+        imprimeLinha("12: Fixar distancia maxima");
+        imprimeLinha("13: Reset");
         imprimeLinha("0: Cancelar");
         printFooter();
     }
