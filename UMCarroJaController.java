@@ -28,9 +28,9 @@ public class UMCarroJaController implements Serializable {
         int i;
         boolean in = true;
         while(in){
-            view.clearScreen();
-            view.menuPrincipal();
-            view.imprime("Insira a opçao que deseja: ");
+            UMCarroJaView.clearScreen();
+            UMCarroJaView.menuPrincipal();
+            UMCarroJaView.imprime("Insira a opçao que deseja: ");
             i = Input.leInt();
             switch(i) {
                 case 0: in = false;
@@ -51,7 +51,7 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 8: this.showTop10();
                         break;
-                default: view.imprimeLinha("Opçao invalida!");
+                default: UMCarroJaView.imprimeLinha("Opçao invalida!");
                         Input.leString();
                         break;
             }
@@ -67,7 +67,7 @@ public class UMCarroJaController implements Serializable {
     }
     
     private void carregaModelBinaryMenu() {
-        view.imprimeLinha("Indique o nome do ficheiro do qual pretende carregar o modelo:");
+        UMCarroJaView.imprimeLinha("Indique o nome do ficheiro do qual pretende carregar o modelo:");
         String file = Input.leString();
         
         try {
@@ -76,21 +76,19 @@ public class UMCarroJaController implements Serializable {
             this.model = (UMCarroJaModel)in.readObject();
             in.close();
             fileIn.close();
-            view.imprimeLinha("A informaçao foi deserializar com sucesso do ficheiro " + file);
+            UMCarroJaView.imprimeLinha("A informaçao foi deserializar com sucesso do ficheiro " + file);
             Input.leString();
         } catch(IOException exc) {
-            view.imprimeLinha("Erro inesperado ocorreu!");
+            UMCarroJaView.imprimeLinha("Erro inesperado ocorreu!");
             Input.leString();
-            return;
         } catch(ClassNotFoundException exc) {
-            view.imprimeLinha("Classe nao se encontra definida neste modelo!");
+            UMCarroJaView.imprimeLinha("Classe nao se encontra definida neste modelo!");
             Input.leString();
-            return;
         }
     }
     
     private void guardaModelBinaryMenu() {
-        view.imprimeLinha("Indique o nome do ficheiro onde pretende serializar o modelo atual:");
+        UMCarroJaView.imprimeLinha("Indique o nome do ficheiro onde pretende serializar o modelo atual:");
         String file = Input.leString();
         
         try {
@@ -99,31 +97,30 @@ public class UMCarroJaController implements Serializable {
             out.writeObject(this.model);
             out.flush();
             out.close();
-            view.imprimeLinha("A informaçao foi serializada com sucesso no ficheiro " + file);
+            UMCarroJaView.imprimeLinha("A informaçao foi serializada com sucesso no ficheiro " + file);
             Input.leString();
         } catch(IOException exc) {
-            view.imprimeLinha("Um erro ocorreu ao tentar serializar o modelo atual, tente mais tarde!");
+            UMCarroJaView.imprimeLinha("Um erro ocorreu ao tentar serializar o modelo atual, tente mais tarde!");
             Input.leString();
-            return;
         }
     }
     
     private void carregaLogMenu() {
         List<String> linhas;
-        view.imprimeLinha("De qual ficheiro CSV pretende carregar a info?:");
+        UMCarroJaView.imprimeLinha("De qual ficheiro CSV pretende carregar a info?:");
         String file = Input.leString();
         
         try {
             linhas = Files.readAllLines(Paths.get(file));
             
-            linhas.forEach(s -> this.parseLine(s));            
+            linhas.forEach(this::parseLine);
         } catch (IOException exc) {
-            view.imprimeLinha(exc.getMessage());
+            UMCarroJaView.imprimeLinha(exc.getMessage());
             Input.leString();
             return;
         }
         
-        view.imprimeLinha("Ficheiro CSV carregado com sucesso!");
+        UMCarroJaView.imprimeLinha("Ficheiro CSV carregado com sucesso!");
         Input.leString();
         
     }
@@ -132,26 +129,26 @@ public class UMCarroJaController implements Serializable {
         int i;
         boolean login = true;
         String username, password;
-        view.imprime("Nif:");
+        UMCarroJaView.imprime("Nif:");
         username = Input.leString();
-        view.imprime("Password:");
+        UMCarroJaView.imprime("Password:");
         password = Input.leString();
         
         try {
             this.model.loginProprietario(username, password);
         } catch(PessoaInvalidException exc) {
-            view.imprimeLinha(exc.getMessage());
+            UMCarroJaView.imprimeLinha(exc.getMessage());
             Input.leString();
             return;
         }
         
-        view.imprimeLinha("Login efetuado com sucesso");
+        UMCarroJaView.imprimeLinha("Login efetuado com sucesso");
         Input.leString();
         
         while(login) {
-            view.clearScreen();
-            view.menuProprietario();
-            view.imprime("Insira a opçao que deseja: ");
+            UMCarroJaView.clearScreen();
+            UMCarroJaView.menuProprietario();
+            UMCarroJaView.imprime("Insira a opçao que deseja: ");
             i = Input.leInt();
             switch(i) {
                 case 0: login = false;
@@ -184,7 +181,7 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 14: this.verificarVecMenu();
                         break;
-                default: view.imprimeLinha("Opçao invalida!");
+                default: UMCarroJaView.imprimeLinha("Opçao invalida!");
                          Input.leString();
                          break;
             }
@@ -198,25 +195,25 @@ public class UMCarroJaController implements Serializable {
         int i;
         boolean login = true;
         String username, password;
-        view.imprime("Nif:");
+        UMCarroJaView.imprime("Nif:");
         username = Input.leString();
-        view.imprime("Password:");
+        UMCarroJaView.imprime("Password:");
         password = Input.leString();
         
         try {
             this.model.loginCliente(username, password);
         } catch(PessoaInvalidException exc) {
-            view.imprimeLinha("O username ou password estao errados");
+            UMCarroJaView.imprimeLinha("O username ou password estao errados");
             Input.leString();
             return;
         }
         
-        view.imprimeLinha("Login efetuado com sucesso");
+        UMCarroJaView.imprimeLinha("Login efetuado com sucesso");
         Input.leString();
         
         while(login) {
-            view.clearScreen();
-            view.menuCliente();
+            UMCarroJaView.clearScreen();
+            UMCarroJaView.menuCliente();
             i = Input.leInt();
             switch(i) {
                 case 0: login = false;
@@ -235,7 +232,7 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 7: this.showAdvancedAluguer();
                         break;
-                default: view.imprimeLinha("Opçao invalida!");
+                default: UMCarroJaView.imprimeLinha("Opçao invalida!");
                          Input.leString();
                          break;
             }
@@ -247,58 +244,58 @@ public class UMCarroJaController implements Serializable {
 
     private void registarProprietario() {
         String nome, nif, email, morada, password;
-        view.imprimeLinha("Insira os dados com os quais se pretende registar:");
-        view.imprime("Nome:");
+        UMCarroJaView.imprimeLinha("Insira os dados com os quais se pretende registar:");
+        UMCarroJaView.imprime("Nome:");
         nome = Input.leString();
-        view.imprime("Nif:");
+        UMCarroJaView.imprime("Nif:");
         nif = Input.leString();
-        view.imprime("Email:");
+        UMCarroJaView.imprime("Email:");
         email = Input.leString();
-        view.imprime("Morada:");
+        UMCarroJaView.imprime("Morada:");
         morada = Input.leString();
-        view.imprime("Password:");
+        UMCarroJaView.imprime("Password:");
         password = Input.leString();
         
         try {
             model.registarProprietario(nome, nif, email, morada, password);
         } catch (PessoaInvalidException exc) {
-            view.imprimeLinha(exc.getMessage());
+            UMCarroJaView.imprimeLinha(exc.getMessage());
             Input.leString();
             return;
         }
         
-        view.imprimeLinha("Proprietario registado com sucesso");
+        UMCarroJaView.imprimeLinha("Proprietario registado com sucesso");
         Input.leString();
     }
     
     private void registarCliente() {
         double x, y;
         String nome, nif, email, morada, password;
-        view.imprimeLinha("Insira os dados com os quais se pretende registar:");
-        view.imprime("Nome:");
+        UMCarroJaView.imprimeLinha("Insira os dados com os quais se pretende registar:");
+        UMCarroJaView.imprime("Nome:");
         nome = Input.leString();
-        view.imprime("Nif:");
+        UMCarroJaView.imprime("Nif:");
         nif = Input.leString();
-        view.imprime("Email:");
+        UMCarroJaView.imprime("Email:");
         email = Input.leString();
-        view.imprime("Morada:");
+        UMCarroJaView.imprime("Morada:");
         morada = Input.leString();
-        view.imprime("Posicao X:");
+        UMCarroJaView.imprime("Posicao X:");
         x = Input.leDouble();
-        view.imprime("Posicao Y:");
+        UMCarroJaView.imprime("Posicao Y:");
         y = Input.leDouble();
-        view.imprime("Password:");
+        UMCarroJaView.imprime("Password:");
         password = Input.leString();
         
         try {
             model.registarCliente(nome, nif, email, morada, x, y, password);
         } catch (PessoaInvalidException exc) {
-            view.imprimeLinha(exc.getMessage());
+            UMCarroJaView.imprimeLinha(exc.getMessage());
             Input.leString();
             return;
         }
         
-        view.imprimeLinha("Cliente registado com sucesso");
+        UMCarroJaView.imprimeLinha("Cliente registado com sucesso");
         Input.leString();
     }
     
@@ -306,58 +303,58 @@ public class UMCarroJaController implements Serializable {
         String matricula;
         double preco;
     
-        view.imprimeLinha("Insira a matricula do veiculo pretendido:");
+        UMCarroJaView.imprimeLinha("Insira a matricula do veiculo pretendido:");
         matricula = Input.leString();
-        view.imprimeLinha("Insira o novo preco");
+        UMCarroJaView.imprimeLinha("Insira o novo preco");
         preco = Input.leDouble();
         
         try {
             model.alteraPrecoPorKm(matricula, preco);
         } catch(VeiculoInvalidoException exc) {
-            view.imprimeLinha(exc.getMessage());
+            UMCarroJaView.imprimeLinha(exc.getMessage());
             Input.leString();
             return;
         }
         
-        view.imprimeLinha("Preco alterado com sucesso");
+        UMCarroJaView.imprimeLinha("Preco alterado com sucesso");
         Input.leString();
     }
     
     private void removVeiculoMenu() {
         String matricula;
         
-        view.imprimeLinha("Insira matricula do veiculo que pretende remover do seu catalogo:");
+        UMCarroJaView.imprimeLinha("Insira matricula do veiculo que pretende remover do seu catalogo:");
         matricula = Input.leString();
         
         try {
             model.removeVeiculo(matricula);
         } catch(VeiculoInvalidoException exc) {
-            view.imprimeLinha(exc.getMessage());
+            UMCarroJaView.imprimeLinha(exc.getMessage());
             Input.leString();
             return;
         }
         
-        view.imprimeLinha("Veiculo " + matricula + " removido do seu catalogo com sucesso!");
+        UMCarroJaView.imprimeLinha("Veiculo " + matricula + " removido do seu catalogo com sucesso!");
         Input.leString();
     }
 
     private void obtemClassificacao(double classif) {
-        view.imprimeLinha("A sua classificacao atual e: " + classif);
+        UMCarroJaView.imprimeLinha("A sua classificacao atual e: " + classif);
         Input.leString();
     }
 
     private void obtemClassVeiculo() {
         String matricula;
         
-        view.imprimeLinha("Insira a matricula do veiculo:");
+        UMCarroJaView.imprimeLinha("Insira a matricula do veiculo:");
         matricula = Input.leString();
         
         try {
             double c = model.indicaClassificacao(matricula);
-            view.imprimeLinha("A classificacao do seu veiculo e: " + c);
+            UMCarroJaView.imprimeLinha("A classificacao do seu veiculo e: " + c);
             Input.leString();
         } catch(VeiculoInvalidoException exc) {
-            view.imprimeLinha(exc.getMessage());
+            UMCarroJaView.imprimeLinha(exc.getMessage());
             Input.leString();
         }
         
@@ -367,9 +364,9 @@ public class UMCarroJaController implements Serializable {
         int i;
         boolean in = true;
         while(in){
-            view.clearScreen();
-            view.menuSolAluguer();
-            view.imprime("Insira a opçao que deseja: ");
+            UMCarroJaView.clearScreen();
+            UMCarroJaView.menuSolAluguer();
+            UMCarroJaView.imprime("Insira a opçao que deseja: ");
             i = Input.leInt();
             switch(i) {
                 case 0: in = false;
@@ -384,7 +381,7 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 5: // aluguer com autonomia x
                         break;
-                default: view.imprimeLinha("Opçao invalida!");
+                default: UMCarroJaView.imprimeLinha("Opçao invalida!");
                         Input.leString();
                         break;
             }
@@ -422,20 +419,20 @@ public class UMCarroJaController implements Serializable {
         }
         }catch(Exception exc) {
             // Mistakes happen, print error.
-            view.imprimeLinha("Em " + arr[0] + ", " + exc.getMessage());
+            UMCarroJaView.imprimeLinha("Em " + arr[0] + ", " + exc.getMessage());
         }
     }
     
     private void showTop10() {
-        view.clearScreen();
-        new NavControl<Cliente>("Top 10 Clientes", model.getTop10Clientes(), this.imprimeCliente()).showPage();
+        UMCarroJaView.clearScreen();
+        new NavControl<>("Top 10 Clientes", model.getTop10Clientes(), this.imprimeCliente()).showPage();
         Input.leString();
     }
     
     private Consumer<Cliente> imprimeCliente() {
         return c -> {
             HistoricoAluguer h = c.getHistorico();
-            view.imprimeLinha(String.format("NIF='%s', NºAlugueres=%5d, NºKms=%6.2f", c.getNif(), h.size(), h.getNumKms()));
+            UMCarroJaView.imprimeLinha(String.format("NIF='%s', NºAlugueres=%5d, NºKms=%6.2f", c.getNif(), h.size(), h.getNumKms()));
         };
     }
 
@@ -443,16 +440,16 @@ public class UMCarroJaController implements Serializable {
         LocalDate init, end;
         NavControl<Aluguer> inbetween;
         
-        view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: dd/MM/yyyy");
+        UMCarroJaView.imprimeLinha("Por favor, insira as datas na seguinte formataçao: dd/MM/yyyy");
         
-        view.imprime("Data inicial: ");
+        UMCarroJaView.imprime("Data inicial: ");
         init = Input.leData();
 
-        view.imprime("Data final: ");
+        UMCarroJaView.imprime("Data final: ");
         end = Input.leData();
         
         navControlMenu(new NavControl<>("Alugueres entre " +  init.toString() + " e " + end.toString(), model.getActAlugueres(init, end),
-                    a -> view.imprimeLinha(a.toString())));
+                    a -> UMCarroJaView.imprimeLinha(a.toString())));
     }
     
     private void aluguerEntreDatasVec() {
@@ -461,44 +458,44 @@ public class UMCarroJaController implements Serializable {
         NavControl<Aluguer> inbetween;
         List<Aluguer> list;
         
-        view.imprimeLinha("Por favor, insira as datas na seguinte formataçao: dd/MM/yyyy");
+        UMCarroJaView.imprimeLinha("Por favor, insira as datas na seguinte formataçao: dd/MM/yyyy");
         
-        view.imprime("Data inicial: ");
+        UMCarroJaView.imprime("Data inicial: ");
         init = Input.leData();
 
-        view.imprime("Data final: ");
+        UMCarroJaView.imprime("Data final: ");
         end = Input.leData();
         
-        view.imprime("Matricula: ");
+        UMCarroJaView.imprime("Matricula: ");
         matricula = Input.leString();
         
         try {
             list = model.getActAlugueres(init, end, matricula);
         } catch(SemPermissaoException exc) {
-            view.imprimeLinha(exc.getMessage());
+            UMCarroJaView.imprimeLinha(exc.getMessage());
             return;
         }
         
         navControlMenu(new NavControl<>("Alugueres entre " +  init.toString() + " e " + end.toString(), list,
-                    a -> view.imprimeLinha(a.toString())));
+                    a -> UMCarroJaView.imprimeLinha(a.toString())));
     }
     
     private void alteraPassMenu() {
-        view.imprimeLinha("Insira a sua nova password:");
+        UMCarroJaView.imprimeLinha("Insira a sua nova password:");
         model.alteraPassword(Input.leString());
-        view.imprimeLinha("Password alterada com sucesso");
+        UMCarroJaView.imprimeLinha("Password alterada com sucesso");
     }
     
     private void alteraMoradaMenu() {
-        view.imprimeLinha("Insira a sua nova morada:");
+        UMCarroJaView.imprimeLinha("Insira a sua nova morada:");
         model.alteraMorada(Input.leString());
-        view.imprimeLinha("Morada alterada com sucesso");
+        UMCarroJaView.imprimeLinha("Morada alterada com sucesso");
     }
     
     private void verificarVecMenu() {
         this.navControlMenu(new NavControl<>("Veiculos Atuais",
                             model.getVeiculos(),
-                            v -> view.imprimeLinha(v.toString())));
+                            v -> UMCarroJaView.imprimeLinha(v.toString())));
     }
     
     private void navControlMenu(NavControl<? extends Object> inbetween) {
@@ -506,10 +503,10 @@ public class UMCarroJaController implements Serializable {
         int i;
         
         while(in){
-            view.clearScreen();
+            UMCarroJaView.clearScreen();
             inbetween.showPage();
-            view.listOptions();
-            view.imprime("Insira a opçao que deseja: ");
+            UMCarroJaView.listOptions();
+            UMCarroJaView.imprime("Insira a opçao que deseja: ");
             i = Input.leInt();
             switch(i) {
                 case 0: in = false;
@@ -518,7 +515,7 @@ public class UMCarroJaController implements Serializable {
                         break;
                 case 2: inbetween.retrocePagina();
                         break;
-                default: view.imprimeLinha("Opçao invalida!");
+                default: UMCarroJaView.imprimeLinha("Opçao invalida!");
                         Input.leString();
                         break;
             }
@@ -527,10 +524,10 @@ public class UMCarroJaController implements Serializable {
     }
     
     private void showStats() {
-        view.clearScreen();
-        view.printHeader("Informçao estatistica", UMCarroJaView.BLUE);
-        view.imprime(model.statsAsText());
-        view.printFooter();
+        UMCarroJaView.clearScreen();
+        UMCarroJaView.printHeader("Informçao estatistica", UMCarroJaView.BLUE);
+        UMCarroJaView.imprime(model.statsAsText());
+        UMCarroJaView.printFooter();
         Input.leString();
     }
 
@@ -539,42 +536,42 @@ public class UMCarroJaController implements Serializable {
         String tipo, marca, matricula;
         double vMedia, pPkm, cPkm, auto, x, y;
         
-        view.clearScreen();
-        view.printHeader("Adicionar novo Veiculo", UMCarroJaView.BLUE);
+        UMCarroJaView.clearScreen();
+        UMCarroJaView.printHeader("Adicionar novo Veiculo", UMCarroJaView.BLUE);
         
         try {
-            view.imprime("Tipo: ");
+            UMCarroJaView.imprime("Tipo: ");
             tipo = Input.leString();
             
-            view.imprime("Marca: ");
+            UMCarroJaView.imprime("Marca: ");
             marca = Input.leString();
             
-            view.imprime("Matricula: ");
+            UMCarroJaView.imprime("Matricula: ");
             matricula = Input.leString();
             
-            view.imprime("Velocidade media: ");
+            UMCarroJaView.imprime("Velocidade media: ");
             vMedia = Input.leDouble();
 
-            view.imprime("Preco por KM: ");
+            UMCarroJaView.imprime("Preco por KM: ");
             pPkm = Input.leDouble();
             
-            view.imprime("Custo por KM: ");
+            UMCarroJaView.imprime("Custo por KM: ");
             cPkm = Input.leDouble();
 
-            view.imprime("Autonomia: ");
+            UMCarroJaView.imprime("Autonomia: ");
             auto = Input.leDouble(); 
             
-            view.imprime("Posicao x: ");
+            UMCarroJaView.imprime("Posicao x: ");
             x = Input.leDouble();
 
-            view.imprime("Posicao y: ");
+            UMCarroJaView.imprime("Posicao y: ");
             y = Input.leDouble(); 
             
             model.addVeiculo(tipo, marca, matricula, vMedia, pPkm, cPkm, auto, x, y);
             
-            view.imprimeLinha("Veiculo com matricula " + matricula + " adicionado com sucesso!");
+            UMCarroJaView.imprimeLinha("Veiculo com matricula " + matricula + " adicionado com sucesso!");
         } catch(Exception exc) {
-            view.imprimeLinha(exc.getMessage());
+            UMCarroJaView.imprimeLinha(exc.getMessage());
         }
         
         
@@ -583,14 +580,14 @@ public class UMCarroJaController implements Serializable {
     }
     
     private void dispoMenu() {
-        view.imprimeLinha("Insira a matricula do veiculo que pretende sinalizar");
+        UMCarroJaView.imprimeLinha("Insira a matricula do veiculo que pretende sinalizar");
         String matricula = Input.leString();
         
         try {
             model.tornaDisponivel(matricula);
-            view.imprimeLinha("Veiculo " + matricula + " sinalizado com sucesso");
+            UMCarroJaView.imprimeLinha("Veiculo " + matricula + " sinalizado com sucesso");
         } catch(VeiculoInvalidoException vie) {
-            view.imprimeLinha(vie.getMessage());
+            UMCarroJaView.imprimeLinha(vie.getMessage());
         }
         
         Input.leString();
@@ -601,13 +598,13 @@ public class UMCarroJaController implements Serializable {
         int i;
         double tmp;
         List<Veiculo> veic = model.getAllVeiculos();
-        NavControl<Veiculo> nc = new NavControl<>("Solicitar Veiculo - ADVANCED", model.getAllVeiculos(), v -> view.imprimeLinha(v.toString()));
+        NavControl<Veiculo> nc = new NavControl<>("Solicitar Veiculo - ADVANCED", model.getAllVeiculos(), v -> UMCarroJaView.imprimeLinha(v.toString()));
         
         while(in){
-            view.clearScreen();
+            UMCarroJaView.clearScreen();
             nc.showPage();
-            view.menuSolAdvanced();
-            view.imprime("Insira a opçao que deseja: ");
+            UMCarroJaView.menuSolAdvanced();
+            UMCarroJaView.imprime("Insira a opçao que deseja: ");
             i = Input.leInt();
             switch(i) {
                 case 0: in = false;
@@ -640,12 +637,12 @@ public class UMCarroJaController implements Serializable {
                 case 10: veic.sort(new CompClassDec());
                         nc.changeDict(veic);
                         break;
-                case 11: view.imprime("Insira a autonomia minima: ");
+                case 11: UMCarroJaView.imprime("Insira a autonomia minima: ");
                         tmp = Input.leDouble();
                         veic.removeIf(PredVeiculos.autonomiaDe(tmp).negate());
                         nc.changeDict(veic);
                         break;
-                case 12: view.imprime("Insira a distancia maxima: ");
+                case 12: UMCarroJaView.imprime("Insira a distancia maxima: ");
                         tmp = Input.leDouble();
                         veic.removeIf(PredVeiculos.noRaioDe(model.getLocalizacao(), tmp).negate());
                         nc.changeDict(veic);
@@ -653,7 +650,7 @@ public class UMCarroJaController implements Serializable {
                 case 13: veic = model.getAllVeiculos();
                         nc.changeDict(veic);
                         break;
-                default: view.imprimeLinha("Opçao invalida!");
+                default: UMCarroJaView.imprimeLinha("Opçao invalida!");
                         Input.leString();
                         break;
             }
