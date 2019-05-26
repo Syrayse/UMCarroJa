@@ -878,23 +878,27 @@ public class UMCarroJaController implements Serializable {
                 tmp1 = Input.leDouble();
                 model.abastecerMono(matricula, tmp1);
                 view.imprimeLinha("Veiculo abastecido com sucesso!");
+                Input.leString();
                 break;
             case 2:
-                view.imprimeLinha("Possui um veiculo do tipo " + tipo + " com uma motor com dois tipos de combutivel");
+                view.imprimeLinha("Possui um veiculo do tipo " + tipo + " com uma motor com dois tipos de combustivel");
                 view.imprime("Quantos Kwh pretende carregar: ");
                 tmp1 = Input.leDouble();
-                view.imprime("Quantos combutivel pretende abastecer: ");
+                view.imprime("Quanto combustivel pretende abastecer: ");
                 tmp2 = Input.leDouble();
                 model.abastecerBi(matricula, tmp1, tmp2);
                 view.imprimeLinha("Veiculo abastecido com sucesso!");
+                Input.leString();
                 break;
             default:
                 view.imprimeLinha("O veiculo que pretende abastecer, nao e abastecivel");
+                Input.leString();
                 break;
                 
         }
         } catch(Exception spe) {
             UMCarroJaView.imprimeLinha(spe.getMessage());
+            Input.leString();
             return;
         }
         

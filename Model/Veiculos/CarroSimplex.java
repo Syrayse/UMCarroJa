@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class CarroSimplex extends Carro implements MonoAbastecivel, Serializable {
     
-    private static final double MAX_DEP = 600;
+    private static final double MAX_DEP = 7000;
     
     private double total_dep;
     

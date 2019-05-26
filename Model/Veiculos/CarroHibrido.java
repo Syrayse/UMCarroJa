@@ -8,8 +8,8 @@ import java.io.Serializable;
 
 public class CarroHibrido extends Carro implements BiAbastecivel, Serializable {
 
-    private static final double MAX_KWH = 300;
-    private static final double MAX_GAS = 300;
+    private static final double MAX_KWH = 6000;
+    private static final double MAX_GAS = 6000;
     
     private static final double KWH_IMP = 0.4;
     private static final double GAS_IMP = 0.6;
