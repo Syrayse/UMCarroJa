@@ -234,7 +234,7 @@ public class UMCarroJaModel implements Serializable {
         if (!clientes.containsKey(nifCliente))
             throw new PessoaInvalidException("Nao existe cliente com Nif " + nifCliente);
 
-        chosen = this.selectFromPreference(nifCliente, tipo, preferencia, 0.0);
+        chosen = this.selectFromPreference(nifCliente, tipo, preferencia, 0.0, x, y);
 
         this.formalizeAluguer(nifCliente, chosen, x, y);
         chosen.move(x,y);
@@ -267,7 +267,7 @@ public class UMCarroJaModel implements Serializable {
 
     public PedidoAluguer addPedido (double x, double y, String preferencia, double val)
             throws VeiculoInvalidoException, PrefInvalidaException, AutonomiaInsuficienteException {
-        String matricula = this.selectFromPreference(login.getNif(), "", preferencia, val).getMatricula();
+        String matricula = this.selectFromPreference(login.getNif(), "", preferencia, val, x, y).getMatricula();
         return this.addPedido(matricula, x, y);
     }
 
@@ -374,7 +374,7 @@ public class UMCarroJaModel implements Serializable {
         proprietarios.get(chosen.getNifDono()).addAluguer(one);
     }
 
-    private Veiculo selectFromPreference(String nifCliente, String tipo, String preferencia, double val)
+    private Veiculo selectFromPreference(String nifCliente, String tipo, String preferencia, double val, double x, double y)
                     throws PrefInvalidaException, VeiculoInvalidoException{
         Comparator<Veiculo> inuse = null;
         Predicate<Veiculo> extraFilter = v -> true;
@@ -402,10 +402,11 @@ public class UMCarroJaModel implements Serializable {
         Optional<Veiculo> op = veiculos.values()
                 .stream()
                 .filter(Veiculo::estaDisponivel)
+                .filter(v -> !(v instanceof Carro) || (v instanceof Carro && ((Carro)v).getAutonomia() >= v.getLocalizacao().getDistancia(x, y)))
                 .filter(extraFilter)
                 .filter(PredVeiculos.doTipo(tipo).negate()).min(inuse);
 
-        if (!op.isPresent())
+        if (op.isEmpty())
             throw new VeiculoInvalidoException("Nao ha nenhum veiculo que de momento satisfaça o seu pedido");
 
         return op.get();
