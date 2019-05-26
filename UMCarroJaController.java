@@ -206,6 +206,9 @@ public class UMCarroJaController implements Serializable {
                 case 14:
                     this.verificarVecMenu();
                     break;
+                case 15:
+                    this.classificarMenu();
+                    break;
                 default:
                     UMCarroJaView.imprimeLinha("Opçao invalida!");
                     Input.leString();
@@ -265,6 +268,9 @@ public class UMCarroJaController implements Serializable {
                     break;
                 case 7:
                     this.showAdvancedAluguer();
+                    break;
+                case 8:
+                    this.classificarMenu();
                     break;
                 default:
                     UMCarroJaView.imprimeLinha("Opçao invalida!");
@@ -892,5 +898,73 @@ public class UMCarroJaController implements Serializable {
             return;
         }
         
+    }
+    
+    private void classificarMenu() {
+        int i;
+        double val;
+        boolean ok,in = true;
+        ok = false;
+        List<Aluguer> recentes = model.getRecentes();
+        NavControl<Aluguer> nc = new NavControl<>("Alugueres Recentemente Realizados", recentes, a -> view.imprimeLinha(a.toString()));
+    
+        while(in) {
+            UMCarroJaView.clearScreen();
+            nc.showPage();
+            UMCarroJaView.menuClassificar();
+            UMCarroJaView.imprime("Insira a opçao que deseja: ");
+            i = Input.leInt();
+            switch(i) {
+                case 0: 
+                    in = false;
+                    break;
+                case 1:
+                    nc.proximaPagina();
+                    break;
+                case 2:
+                    nc.retrocePagina();
+                    break;
+                case 3:
+                    while(!ok) {
+                        if(recentes.size() == 0) {
+                            UMCarroJaView.imprimeLinha("Nao ha mais alugueres recentes!");
+                            Input.leString();
+                            break;
+                        }
+                        try {
+                            UMCarroJaView.imprime("Classificacao: ");
+                            val = Input.leDouble();
+                            recentes = model.classificaRecente(val);
+                            nc.changeDict(recentes);
+                            UMCarroJaView.imprimeLinha("Classificao registada com sucesso!");
+                            ok = true;
+                            Input.leString();
+                        } catch(ClassificacaoInvalidException exc) {
+                            UMCarroJaView.imprimeLinha("Insira uma classificacao pertencente ao intervalo [0.0;100.0]");
+                            Input.leString();
+                        } catch(EntidadeInexistenteException ex) {
+                            UMCarroJaView.imprimeLinha(ex.getMessage());
+                            ok = true;
+                            Input.leString();
+                        }
+                    }
+                    break;
+                 case 4:
+                    try {
+                        recentes = model.removeRecente();
+                        nc.changeDict(recentes);
+                        UMCarroJaView.imprimeLinha("Entrada removida com sucesso!");
+                    } catch(EntidadeInexistenteException exc) {
+                        UMCarroJaView.imprimeLinha(exc.getMessage());
+                    }
+                    Input.leString();
+                    break;
+                 default:
+                    UMCarroJaView.imprimeLinha("Opçao invalida!");
+                    Input.leString();
+                    break;
+        
+            }
+        }
     }
 }

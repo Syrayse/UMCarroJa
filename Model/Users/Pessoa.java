@@ -3,8 +3,11 @@ package Model.Users;
 import Model.Interfaces.Classificavel;
 import Model.Alugueres.*;
 import Exceptions.ClassificacaoInvalidException;
+import Exceptions.EntidadeInexistenteException;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Classe abstracta Pessoa
@@ -22,6 +25,7 @@ public abstract class Pessoa implements Classificavel, Serializable {
     private HistoricoAluguer historico;
     private long nClassificacoes;
     private double classificacao;
+    private List<Aluguer> recentes;
     /**
      * Construtor vazio para objetos da classe Pessoa
      */
@@ -34,6 +38,7 @@ public abstract class Pessoa implements Classificavel, Serializable {
         historico = new HistoricoAluguer();
         nClassificacoes = -1;
         classificacao = -1;
+        recentes = new ArrayList<>();
     }
     /**
      * Construtor parametrizado para objetos da classe Pessoa
@@ -47,6 +52,7 @@ public abstract class Pessoa implements Classificavel, Serializable {
         historico = new HistoricoAluguer();
         nClassificacoes = 0;
         classificacao = 100;
+        recentes = new ArrayList<>();
     }
     /**
      * Construtor de cópia para objetos da classe Pessoa
@@ -58,6 +64,7 @@ public abstract class Pessoa implements Classificavel, Serializable {
         password = p.getPassword();
         morada = p.getMorada();
         historico = p.getHistorico();
+        recentes = p.getRecentes();
     }
 
     public String getNif() {
@@ -95,6 +102,10 @@ public abstract class Pessoa implements Classificavel, Serializable {
     public double getClassificacao() {
         return classificacao;
     }
+    
+    public List<Aluguer> getRecentes() {
+        return new ArrayList<>(recentes);
+    }
 
     public HistoricoAluguer getHistorico() {
         return historico.clone();
@@ -102,6 +113,17 @@ public abstract class Pessoa implements Classificavel, Serializable {
 
     public void addAluguer(Aluguer aluguer) {
         historico.addAluguer(aluguer);
+    }
+    
+    public void addAluguer(Aluguer aluguer, boolean flag) {
+        historico.addAluguer(aluguer);
+        recentes.add(aluguer);
+    }
+    
+    public Aluguer removeRecente() throws EntidadeInexistenteException {
+        if(recentes.size() == 0)
+            throw new EntidadeInexistenteException("Nao ha mais alugueres recentes!");
+        return recentes.remove(0);
     }
     /**
      * Implementação do método equals de uma Pessoa.

@@ -311,8 +311,33 @@ public class UMCarroJaModel implements Serializable {
         return p.getPedidos();
     }
     
+    public List<Aluguer> getRecentes() {
+        return login.getRecentes();
+    }
+    
+    public List<Aluguer> classificaRecente(double val) throws ClassificacaoInvalidException, EntidadeInexistenteException {
+        if(val < 0.0 || val > 100.0)
+            throw new ClassificacaoInvalidException("");
+        
+        Aluguer recente = login.removeRecente();
+        
+        if(login instanceof Cliente) {
+            proprietarios.get(recente.getIdProprietario()).classifica(val);
+            veiculos.get(recente.getIdVeiculo()).classifica(val);
+        } else {
+            clientes.get(recente.getIdCliente()).classifica(val);
+        }
+        
+        return login.getRecentes();
+    }
+    
+    public List<Aluguer> removeRecente() throws EntidadeInexistenteException {
+        login.removeRecente();
+        return login.getRecentes();
+    }
+    
     public List<PedidoAluguer> aceitaPedido() 
-    throws PedidoInvalidoException, AcidenteOcorreuException, AutonomiaInsuficienteException {
+        throws PedidoInvalidoException, AcidenteOcorreuException, AutonomiaInsuficienteException {
         Proprietario p = (Proprietario)login;
         Aluguer a = p.aceitaPedido();
         Cliente c = clientes.get(a.getIdCliente());
@@ -321,10 +346,10 @@ public class UMCarroJaModel implements Serializable {
         
         chosen.viagem(loc);
         
-        c.addAluguer(a);
+        c.addAluguer(a, true);
         c.move(loc.getX(), loc.getY());
         chosen.addAluguer(a);
-        p.addAluguer(a);
+        p.addAluguer(a, true);
         return p.getPedidos();
     }
     

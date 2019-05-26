@@ -52,6 +52,7 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("5: Alterar morada");
         imprimeLinha("6: Indicar classificacao");
         imprimeLinha("7: Solicitar aluguer - ADVANCED VERSION");
+        imprimeLinha("8: Alugueres recentes");
         imprimeLinha("0: Logout");
         printFooter();
     }
@@ -72,6 +73,7 @@ public class UMCarroJaView implements Serializable {
         imprimeLinha("12: Indicar classificacao da viatura");
         imprimeLinha("13: Verificar historico de aluguer em veiculo(entre datas)");
         imprimeLinha("14: Verificar os meus veiculos");
+        imprimeLinha("15: Alugueres recentes");        
         imprimeLinha("0: Logout");
         printFooter();
     }
@@ -123,6 +125,14 @@ public class UMCarroJaView implements Serializable {
         printFooter();
     }
 
+    public static void menuClassificar() {
+        imprimeLinha("1: Proxima pagina");
+        imprimeLinha("2: Retroceder pagina");
+        imprimeLinha("3: Classificar primeiro");
+        imprimeLinha("4: Ignorar primeiro");
+        imprimeLinha("0: Cancelar");
+    }
+    
     public static void imprime(String text) {
         out.print(text);
     }
