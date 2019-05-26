@@ -405,7 +405,7 @@ public class UMCarroJaModel implements Serializable {
                 .filter(extraFilter)
                 .filter(PredVeiculos.doTipo(tipo).negate()).min(inuse);
 
-        if (op.isEmpty())
+        if (!op.isPresent())
             throw new VeiculoInvalidoException("Nao ha nenhum veiculo que de momento satisfaça o seu pedido");
 
         return op.get();
